@@ -2311,9 +2311,9 @@ label {
 .deals-countdown .countdown-section {
   position: relative;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 10px;
   line-height: 1;
-  padding: 7.5px 2.5px 7.5px 2.5px;
+  padding: 4.5px 2.5px 4.5px 2.5px;
   margin-left: .8rem;
   margin-right: .8rem;
   background-color: #433f3f;
@@ -2328,10 +2328,10 @@ label {
   font-weight: 500;
   font-size: 15px;
   line-height: 1;
-  margin-bottom: 15px;
-  width: 35px;
-  height: 25px;
-  line-height: 25px;
+  margin-bottom: 10px;
+  width: 25px;
+  height: 15px;
+  line-height: 15px;
   text-align: center;
 }
 
@@ -2358,7 +2358,7 @@ label {
   content: ':';
   display: inline-block;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 10px;
   line-height: 1;
   position: absolute;
   left: 100%;

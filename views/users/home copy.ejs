@@ -20,11 +20,6 @@
     <link rel="stylesheet" href="assets/css/maind134.css?v=3.4">
 
 
-    <!-- toaster  -->
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
 </head>
 
 <body>
@@ -47,11 +42,10 @@
                         <div class="text-center">
                             <div id="news-flash" class="d-inline-block">
                                 <ul>
-                                    <li>Get great smart watches up to 30% off <a
-                                            href="/shop?categoryName=All Brands">View details</a></li>
+                                    <li>Get great smart watches up to 30% off <a href="/login">View details</a></li>
                                     <li>Supper Value Deals - Save more with coupons</li>
-                                    <li>Trendy apple smart watches, save up 35% off today<a
-                                            href="/shop?categoryName=Apple">Shop now</a></li>
+                                    <li>Trendy apple smart watches, save up 35% off today <a href="/login">Shop now</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -59,16 +53,9 @@
                     <div class="col-xl-3 col-lg-4">
                         <div class="header-info header-info-right">
                             <ul>
-                                <% if (username && typeof username !=='undefined' ) { %>
-                                    <li><a href="/accountPage"><i class="fi-rs-user"></i>
-                                            <%= username %>
-                                        </a></li>
-                                    <% } else { %>
-                                        <li><i class="fi-rs-user"></i><a href="/login">Log In</a></li>
-                                        <br>
-                                        <li><i class="fi-rs-user"></i><a href="/register">Sign Up</a></li>
-                                        <% } %>
-                            </ul>
+                                <li><i class="fi-rs-user"></i><a href="/login">Login</a></li>
+                                <li><i class="fi-rs-user"></i><a href="/referralAtRegistrarion">Signup</a></li>
+                             </ul>
                         </div>
                     </div>
                 </div>
@@ -82,18 +69,19 @@
                     </div>
                     <div class="header-right">
                         <div class="search-style-2">
-                            <form action="/loginHome" method="get">
+                            <form action="/" method="get">
 
-                                <input type="text" placeholder="Search for items..." name="loggedInHomePageSearch">
+                                <input type="text" placeholder="Search for items..." name="homePageSearch">
                                 <button class="btn">Search</button>
                             </form>
 
                         </div>
+
                         <div class="header-action-right">
                             <div class="header-action-2">
                                 <div class="header-action-icon-2">
                                     <div>
-                                        <a href="/wishlist">
+                                        <a href="/login">
                                             <img style="width: 25px;" class="svgInject" alt="Zigma Smartwatches"
                                                 src="assets/imgs/theme/icons/icon-heart.svg">
                                             <p style="margin-left: -10px ;">Wishlist
@@ -103,7 +91,7 @@
                                 </div>
                                 <div class="header-action-icon-2">
                                     <div>
-                                        <a class="mini-cart-icon" href="/cart">
+                                        <a class="mini-cart-icon" href="/login">
                                             <img style="width: 25px;" alt="Zigma Smartwatches"
                                                 src="assets/imgs/theme/icons/icon-cart.svg">
                                             <p>Cart</p>
@@ -136,14 +124,19 @@
                                     <li> </li>
                                     <li> </li>
                                     <li> </li>
+                                    <li> </li>
+                                    <li> </li>
+                                    <li> </li>
                                     <li><a class="active" href="/">Home </a></li>
-                                    <li><a href="/shop?categoryName=All Brands">All Products</a></li>
+                                    <li><a href="/login">All Products</a></li>
                                     <li><a href="/brands">All Brands</a></li>
                                     <li><a href="/aboutPage">About</a></li>
                                     <li><a href="/blogCategoryFullwidth">Blog</a></li>
                                     <li><a href="/blogPostFullwidth">Latest Buzz</a></li>
                                     <li><a href="/contactpage">Contact</a></li>
-                                    <li><a href="/accountpage">My Account</a></li>
+
+
+
                                 </ul>
                             </nav>
                         </div>
@@ -156,14 +149,14 @@
                     <div class="header-action-right d-block d-lg-none">
                         <div class="header-action-2">
                             <div class="header-action-icon-2">
-                                <a href="/wishlist">
+                                <a href="/login">
                                     <img style="width: 25px;" class="svgInject" alt="Zigma Smartwatches"
                                         src="assets/imgs/theme/icons/icon-heart.svg">
                                     <p style="margin-left: -10px ;">Wishlist</p>
                                 </a>
                             </div>
                             <div class="header-action-icon-2">
-                                <a class="mini-cart-icon" href="/cart">
+                                <a class="mini-cart-icon" href="/login">
                                     <img style="width: 25px;" alt="Zigma Smartwatches"
                                         src="assets/imgs/theme/icons/icon-cart.svg">
                                     <p>Cart</p>
@@ -210,9 +203,8 @@
             </div>
             <div class="mobile-header-content-area">
                 <div class="mobile-search search-style-3 mobile-header-border">
-                    <form action="/loginHome" method="get">
-
-                        <input type="text" placeholder="Search for items..." name="loggedInHomePageSearch">
+                    <form action="/" method="get">
+                        <input type="text" placeholder="Search for items..." name="homePageSearch">
                         <button class="btn">Search</button>
                     </form>
                 </div>
@@ -222,13 +214,12 @@
                     <nav>
                         <ul class="mobile-menu">
                             <li><a class="active" href="/">Home </a></li>
-                            <li><a href="/shop?categoryName=All Brands">All Products</a></li><!-- shop page link -->
+                            <li><a href="/login">All Products</a></li><!-- shop page link -->
                             <li><a href="/brands">All Brands</a></li>
                             <li><a href="/aboutPage">About</a></li>
                             <li><a href="/blogCategoryFullwidth">Blog</a></li>
                             <li><a href="/blogPostFullwidth">Latest Buzz</a></li>
                             <li><a href="/contactpage">Contact</a></li>
-                            <li><a href="/accountpage">My Account</a></li>
                         </ul>
                     </nav>
                     <!-- mobile menu end -->
@@ -237,17 +228,17 @@
                     <div class="single-mobile-header-info mt-30">
                         <a href="/contactPage"> Our location </a>
                     </div>
+                    <div class="single-mobile-header-info">
+                        <ul>
+                            <hr>
 
-                    <div>
-                        <% if (username && typeof username !=='undefined' ) { %>
-                            <a href="/accountPage"><i class="fi-rs-user"></i>
-                                <%= username %>
-                            </a>
-                            <% } else { %>
-                                <i class="fi-rs-user"></i><a href="/login">Log In</a>
-                                <br>
-                                <i class="fi-rs-user"></i><a href="/register">Sign Up</a>
-                                <% } %>
+                            <li> <a href="/login">Login</a></li>
+                            <hr>
+                            <li><a href="/referralAtRegistrarion">Signup</a></li>
+                            <hr>
+                            <li><a href="/admin/">Admin</a></li>
+                            <hr>
+                        </ul>
                     </div>
                     <div class="single-mobile-header-info">
                         <a href="">(+01) - 2345 - 6789 </a>
@@ -265,8 +256,10 @@
         </div>
     </div>
 
-    <main class="main" style="margin-top: 20px;">
+    <main class="main">
+        <!-- <main class="main" style="margin-top: 20px;"> -->
         <section class="home-slider position-relative">
+
             <% if (bannerLandscapeData && bannerLandscapeData.length> 0) { %>
                 <div class="hero-slider-1 style-2 dot-style-1 dot-style-1-position-1" style="height: 700px; ;">
                     <% for (let i=0; i < bannerLandscapeData.length; i++) { %>
@@ -282,15 +275,14 @@
                                         <h3 class="animated fw-900" style="color: white;">
                                             <%=bannerLandscapeData[i].bannerText1 %>
                                         </h3>
-                                        <p class="animated" style="color: rgb(255, 255, 255)">
-                                            <%=bannerLandscapeData[i].bannerText3 %>
-                                        </p>
                                         <h3 class="animated fw-900 " style="color: rgb(255, 0, 0)">
                                             <%=bannerLandscapeData[i].bannerText2 %>
                                         </h3>
-
+                                        <p class="animated" style="color: rgb(255, 255, 255)">
+                                            <%=bannerLandscapeData[i].bannerText3 %>
+                                        </p>
                                         <a class="animated btn btn-brush btn-brush-3" style="color: rgb(250, 242, 14)"
-                                            href="/shop?categoryName=All Brands"> Shop Now </a>
+                                            href="/login"> Shop Now </a>
                                     </div>
                                 </div>
                             </div>
@@ -298,11 +290,10 @@
                         <% } %>
                 </div>
                 <% } %>
-
-
-
                     <div class="slider-arrow hero-slider-1-arrow"></div>
         </section>
+
+
         <section class="banners mb-20">
             <div class="container">
                 <div class="row">
@@ -314,20 +305,16 @@
                                         style="border-radius: 20px;" alt="">
                                     <div class="banner-text">
                                         <span style="color: rgb(218, 204, 204);">Smart Offer</span>
-                                        <a href="/shop?categoryName=<%= categoriesOffersData[i].categoryName %>">
-                                            <h4 style="color: white;">Save <%=
-                                                    categoriesOffersData[i].categoryOfferPercentage %>% on <br>
-                                                    <%= categoriesOffersData[i].categoryName %> products </h4>
-                                        </a>
-                                        <a style="color: rgb(255, 255, 255);"
-                                            href="/shop?categoryName=<%= categoriesOffersData[i].categoryName %>">Shop
-                                            Now <i class="fi-rs-arrow-right"></i></a>
-                                        <br> <small style="color: white; font-size: 10px;">Offer ends in </small>
+                                        <h4 style="color: white;">Save <%=
+                                                categoriesOffersData[i].categoryOfferPercentage %>% on <br>
+                                                <%= categoriesOffersData[i].categoryName %> products </h4>
+                                        <a style="color: rgb(255, 255, 255);" href="/login">Shop Now <i
+                                                class="fi-rs-arrow-right"></i></a>
+                                        <br> <small style="color: white; font-size: 10px;">Offer ends soon </small>
 
                                         <p class="deals-countdown"
                                             data-countdown="<%= categoriesOffersData[i].categoryOfferExpiryDate.toLocaleString()  %>">
                                         </p>
-
 
                                     </div>
                                 </div>
@@ -335,6 +322,8 @@
                             <% } %>
 
                                 <% } %>
+
+
                 </div>
             </div>
         </section>
@@ -342,84 +331,69 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="widget-category mb-30 d-none d-lg-block">
+                        <div class="widget-category mb-30">
                             <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
                             <ul class="categories">
+
                                 <% if (categoriesData && typeof categoriesData !=='undefined' ) { %>
-                                    <li> <a href="/shop?categoryName=All Brands">All
-                                            Brands</a></li>
+                                    <li> <a href="/login">All Brands</a></li>
                                     <% for (let i=0; i < categoriesData.length; i++) { %>
-                                        <li> <a href="/shop?categoryName=<%= categoriesData[i].categoryName %>">
+                                        <li><a href="/login">
                                                 <%= categoriesData[i].categoryName %>
                                             </a></li>
                                         <% } %>
                                             <% } %>
+
                             </ul>
                         </div>
-                        <div class="widget-category mb-30 d-none d-lg-block">
+                        <div class="widget-category mb-30">
                             <h5 class="section-title style-1 mb-30 wow fadeIn animated">Sort
                                 by</h5>
                             <ul class="categories">
-                                <li><a href="/loginHome?sort=Newest">Newest
-                                        added</a></li>
-                                <li><a href="/loginHome?sort=InStock">In
+                                <li><a href="/?sort=Newest">Newest added</a></li>
+                                <li><a href="/?sort=InStock">In stock</a></li>
+                                <li><a href="/?sort=OutOfStock">Out of
                                         stock</a></li>
-                                <li><a href="/loginHome?sort=OutOfStock">Out
-                                        of stock</a></li>
-                                <li><a href="/loginHome?sort=LowToHigh">Price:
+                                <li><a href="/?sort=LowToHigh">Price:
                                         Low to High</a></li>
-                                <li><a href="/loginHome?sort=HighToLow">Price:
+                                <li><a href="/?sort=HighToLow">Price:
                                         High to Low</a></li>
                             </ul>
                         </div>
-                        <div class="widget-category mb-30 d-none d-lg-block">
+                        <div class="widget-category mb-30">
                             <h5 class="section-title style-1 mb-30 wow fadeIn animated">Price
                                 Range</h5>
                             <ul class="categories">
-                                <li><a href="/loginHome?range=1">&#8377;0-&#8377;500</a></li>
-                                <li><a href="/loginHome?range=2">&#8377;500-&#8377;1000</a></li>
-                                <li><a href="/loginHome?range=3">&#8377;1000-&#8377;2000</a></li>
-                                <li><a href="/loginHome?range=4">&#8377;2000-&#8377;3000</a></li>
-                                <li><a href="/loginHome?range=5">&#8377;3000
-                                        +</a></li>
+                                <li><a href="/?range=1">&#8377;0-&#8377;500</a></li>
+                                <li><a href="/?range=2">&#8377;500-&#8377;1000</a></li>
+                                <li><a href="/?range=3">&#8377;1000-&#8377;2000</a></li>
+                                <li><a href="/?range=4">&#8377;2000-&#8377;3000</a></li>
+                                <li><a href="/?range=5">&#8377;3000 +</a></li>
                             </ul>
                         </div>
                         <div class="banner-img wow fadeIn mb-5mb-lg-0 animated d-lg-block d-none">
-                            <img src="banner/portrait.jpg" style="border-radius: 20px;" alt>
+                            <img src="banner/portrait.jpg" alt style="border-radius: 20px;">
                             <div class="banner-text" style="margin-top: -100px;">
                                 <h5 style="color: white; margin: 20px; ">Referral Rewards</h5>
                                 <h6 style="color: white; ">If you refer a friend, you get ₹100 <br> and your friend get
                                     ₹100</h6>
 
-                                <% if(userData && typeof userData!=='undefined' ){ %>
-                                    <br><br>
-                                    <h5 style="color: white;">Your referreal code: <br>
-                                        <br> "<%= userData.referralCode %>"
-                                    </h5>
+                                <br> <br>
+                                <h5 style="color: white;">Please login to see your referral code </h5>
+                                <a style="color: white;" href="/login">Login Now <i class="fi-rs-arrow-right"></i></a>
 
-                                    <% }else { %>
-                                        <h5 style="color: white;">Please login to see your referreal code </h5>
-                                        <a style="color: white;" href="/login">Login Now <i
-                                                class="fi-rs-arrow-right"></i></a>
-                                        <% } %>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-9">
-                        <div class="tab-header" style="-ms-flex-item-align: right;">
-                            <h3>Products:</h3>
-                            <a href="/shop?categoryName=All Brands" class="view-more d-none d-md-flex">View all
-                                products<i class="fi-rs-angle-double-small-right"></i></a>
-                        </div>
 
-                        <!-- Products Tab Content -->
+
+                        <!--End nav-tabs-->
                         <div class="tab-content wow fadeIn animated" id="myTabContent">
                             <div class="tab-pane fade show active" id="tab-one" role="tabpanel"
                                 aria-labelledby="tab-one">
-                                <% if (productsData && productsData.length> 0) { %>
-                                    <!-- Product Grid -->
-                                   
-                                    <div class="row product-grid-4">
+                                <div class="row product-grid-4">
+                                    <% if (productsData && productsData.length> 0) { %>
                                         <% for (let i=0; i < productsData.length; i++) { %>
                                             <% const product=productsData[i]; %>
                                                 <% if (product.displayInHomePage=='Yes' ) { %>
@@ -452,29 +426,12 @@
                                                                                     <% } %>
                                                                             </div>
 
-                                                                            <!-- Product Actions -->
-                                                                            <div class="product-action-1">
-
-
-                                                                                <a aria-label="Add To Wishlist"
-                                                                                    class="action-btn hover-up"
-                                                                                    id="addToWishlistBtn"
-                                                                                    onclick="addToWishlist('<%= product._id %>','<%= product.productName %>', this, event)"
-                                                                                    href="#">
-                                                                                    <i class="fi-rs-heart"></i>
-                                                                                </a>
-
-
-                                                                            </div>
-
-                                                                            <!-- Product Badges -->
                                                                             <div
                                                                                 class="product-badges product-badges-position product-badges-mrg">
-                                                                                <span class="hot">Latest </span>
+                                                                                <span class="hot">
+                                                                                    Latest </span>
                                                                             </div>
                                                                         </div>
-
-                                                                        <!-- Product Content -->
                                                                         <div class="product-content-wrap">
                                                                             <div class="product-category">
                                                                                 <a href="shop-grid-right.html">
@@ -482,16 +439,15 @@
                                                                                 </a>
                                                                             </div>
                                                                             <h2><a
-                                                                                    href="/individualProductPage?_id=<%= product._id %>">
+                                                                                    href="/individualProductPage?_id=<%=product._id %>">
                                                                                     <%= product.productName %>
-                                                                                </a>
-                                                                            </h2>
+                                                                                </a></h2>
 
                                                                             <div class="product-price">
-                                                                                <span>&#8377; <%= product.salesPrice %>
+                                                                                <span> &#8377; <%= product.salesPrice %>
                                                                                 </span>
-                                                                                <% if (product.regularPrice>
-                                                                                    product.salesPrice) { %>
+                                                                                <% if(product.regularPrice>
+                                                                                    product.salesPrice ) { %>
                                                                                     <span class="old-price">
                                                                                         &#8377; <%= product.regularPrice
                                                                                             %>
@@ -501,127 +457,45 @@
                                                                                         <% if (product.quantity <=0) {
                                                                                             %>
                                                                                             <span
-                                                                                                style="color: red; font-size: 20px; float : right"
+                                                                                                style="color: red; font-size: 20px; float: right;"
                                                                                                 class="save-price  font-md color3 ml-15">
                                                                                                 <strong>Out of
                                                                                                     Stock</strong>
                                                                                             </span>
                                                                                             <% } else { %>
-                                                                                                <a href="#"
-                                                                                                    style="float:right; font-size:16px; font-weight: 700;"
-                                                                                                    onclick="addToCart('<%= product._id %>','<%= product.productName %>', this, event)"
-                                                                                                    class="btn-cart">
+                                                                                                <a class
+                                                                                                    style="float: right;"
+                                                                                                    href="/login"
+                                                                                                    id="addToCartButton">
                                                                                                     <i
-                                                                                                        class="fi-rs-shopping-bag-add"></i>
-                                                                                                    <span
-                                                                                                        class="addToCartBtnText">Add
-                                                                                                        to cart</span>
+                                                                                                        class="fi-rs-shopping-bag-add">
+                                                                                                        Add to cart</i>
                                                                                                 </a>
                                                                                                 <% } %>
                                                                             </div>
+
+
+
+
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <!-- End Single Product -->
                                                                 <% } %>
                                                                     <% } %>
                                                                         <% } %>
-                                    </div>
-                                    <!-- End Product Grid -->
-
-                                    <!-- View All Button -->
-                                    <a href="/shop?categoryName=All Brands" class="btn">View all</a>
-
-                                    <% } else { %>
-                                        <!-- No Products Found -->
-                                        <h2>No products found</h2>
-                                        <a href="/loginHome" class="btn" style="margin: 20px;">View all</a>
-                                        <% } %>
-
-                                            <script>
-                                                async function addToCart(productId, productName, clickedElement, event) {
-                                                    try {
-                                                        event.preventDefault();
-                                                        const response = await fetch(`/cart?productId=${productId}`, { method: 'POST' });
-
-                                                        if (!response.ok) {
-                                                            throw new Error("Error adding product to cart");
-                                                        }
-
-                                                        const data = await response.json();
-
-                                                        if (data.success) {
-                                                            addToCartNotification(productName, `is added to cart`);
-                                                            // Change the text of the button to "Added"
-                                                            changeButtonText(clickedElement, productName);
-                                                        } else {
-                                                            console.error("Error adding product to cart", data.message);
-                                                        }
-                                                    } catch (error) {
-                                                        console.error("Error adding product to cart", error);
-                                                    }
-                                                }
-
-                                                function addToCartNotification(productName, action) {
-                                                    Toastify({
-                                                        text: `"${productName}"   ${action}`,
-                                                        duration: 2000,
-                                                        backgroundColor: "#283745",
-                                                        position: 'right',
-                                                    }).showToast();
-                                                }
-
-                                                async function addToWishlist(productId, productName, clickedElement, event) {
-                                                    try {
-                                                        event.preventDefault();
-                                                        const response = await fetch(`/wishlist?productId=${productId}`, { method: 'POST' });
-
-                                                        if (!response.ok) {
-                                                            throw new Error("Error adding product to wishlist");
-                                                        }
-
-                                                        const data = await response.json();
-
-                                                        if (data.success) {
-                                                            addToWishlistNotification(productName, `is added to wishlist`);
-                                                        } else {
-                                                            console.error("Error adding product to wishlist", data.message);
-                                                        }
-
-                                                    } catch (error) {
-                                                        console.error("Error adding product to wishlist", error);
-                                                    }
-                                                }
-
-                                                function addToWishlistNotification(productName, action) {
-                                                    Toastify({
-                                                        text: `"${productName}"   ${action}`,
-                                                        duration: 2000,
-                                                        backgroundColor: "#289743",
-                                                        position: 'right',
-                                                    }).showToast();
-                                                }
-
-                                                // JavaScript for changing button text
-                                                function changeButtonText(clicked, productName) {
-                                                    // Check if the product is out of stock
-                                                    if (clicked.parentElement.querySelector('.save-price')) {
-                                                        return; // If out of stock, do nothing
-                                                    }
-
-                                                    // Modify the button content
-                                                    clicked.innerHTML = `<a aria-label="Added To Cart" class="btn-cart" style="float:right; font-size:20px font-weight:700;" id="addToCartButton">
-                                        <i class="fi-rs-shopping-bag-add"></i> Added</a>`;
-
-                                                }
-                                            </script>
+                                </div>
+                                <a href="/" class="btn">View all </a>
+                                <% } else { %>
+                                    <h2>No products found</h2>
+                                    <a href="/" class="btn" style="margin: 20px;">View all</a>
+                                    <% } %>
+                                        <!-- End product-grid-4 -->
                             </div>
-                            <!-- End tab-one Content -->
+                            <!-- End tab three (New added) -->
                         </div>
 
-
-
-
+                        <!--End tab-content-->
                     </div>
                 </div>
             </div>
@@ -641,7 +515,6 @@
                 </div>
             </div>
         </section>
-
         <section class="popular-categories section-padding mt-15">
             <div class="container wow fadeIn animated">
                 <h3 class="section-title mb-20"><span>All</span>
@@ -655,8 +528,8 @@
                             <% for (let i=0; i < productsData.length; i++) { %>
                                 <div class="card-1">
                                     <figure class=" img-hover-scale overflow-hidden">
-                                        <a href="/individualProductPage?_id=<%= productsData[i]._id %>"><img
-                                                src="/<%=productsData[i].image[0] %>" alt></a>
+                                        <a href="shop-grid-right.html"><img src="/<%=productsData[i].image[0] %>"
+                                                alt></a>
                                     </figure>
                                     <h5><a href="/individualProductPage?_id=<%= productsData[i]._id %>">
                                             <%=productsData[i].productName %>
@@ -686,9 +559,8 @@
                             </div>
                             <div class="deal-bottom">
                                 <p>Hurry Up! Offer End In:</p>
-                                <div class="deals-countdown" data-countdown="2026/12/27 00:00:00"></div>
-                                <a href="/shop?categoryName=All Brands" class="btn hover-up">Shop Now <i
-                                        class="fi-rs-arrow-right"></i></a>
+                                <div class="deals-countdown" data-countdown="2024/2/22 00:00:00"></div>
+                                <a href="/login" class="btn hover-up">Shop Now <i class="fi-rs-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -708,7 +580,7 @@
                             <div class="deal-bottom">
                                 <p>Hurry Up! Offer End In:</p>
                                 <div class="deals-countdown" data-countdown="2026/03/25 00:00:00"></div>
-                                <a href="/shop?categoryName=Apple" class="hover-up"
+                                <a href="/login" class="hover-up"
                                     style="color: black; font-size: 20px; font-weight: 700;">Shop Now <i
                                         class="fi-rs-arrow-right"></i></a>
                             </div>
@@ -729,18 +601,18 @@
                         <% if( categoriesData && categoriesData.length> 1) { %>
                             <% for(let i=0 ; i < categoriesData.length ; i++){ %>
                                 <div class="brand-logo">
-                                    <a href="/shop?categoryName=<%= categoriesData[i].categoryName %>">
+                                    <a href="/login">
                                         <img class="img-grey-hover" src="<%= categoriesData[i].categoryImage%>" alt>
                                     </a>
 
                                 </div>
                                 <% } %>
                                     <% } %>
-
                     </div>
                 </div>
             </div>
         </section>
+
         <section class="bg-grey-9 section-padding">
             <div class="container pt-15 pb-25">
                 <div class="heading-tab d-flex">
@@ -756,15 +628,16 @@
                             <img src="/assets/9.jpg" alt>
                             <div class="banner-text">
                                 <span style="color: white;">OFFER CLOSES SOON</span>
-                                <a href="/shop?categoryName=All Brands">
+                                <a href="/login">
                                     <h4 class="mt-5">Save money on <br>different products </h4>
                                 </a>
-                                <a style="color: white;" href="/shop?categoryName=All Brands"
-                                    class="view-more d-none d-md-flex">View all
+                                <a style="color: white;" href="/login" class="view-more d-none d-md-flex">View all
                                     <i class="fi-rs-angle-double-small-right"></i></a>
                             </div>
                         </div>
                     </div>
+
+
                     <div class="col-lg-9 col-md-12">
                         <div class="tab-content wow fadeIn animated" id="myTabContent-1">
                             <div class="tab-pane fade show active" id="tab-one-1" role="tabpanel"
@@ -833,6 +706,7 @@
                                                             </p>
                                                         </div>
 
+
                                                     </div>
                                                 </div>
                                                 <% } %>
@@ -844,7 +718,7 @@
                             </div>
 
                         </div>
-                        <!--End Col-lg-9-->
+
                     </div>
                 </div>
         </section>
@@ -856,8 +730,8 @@
                         <div class="banner-bg wow fadeIn animated"
                             style="background-image: url('assets/imgs/banner/banner-8.jpg')">
                             <div class="banner-content">
-                                <h5 class="text-grey-4 mb-15">Shop Today’s
-                                    Deals</h5>
+                                <h5 class="text-grey-4 mb-15">Shop
+                                    Today’s Deals</h5>
                                 <h2 class="fw-600">Happy <span class="text-brand">New Year</span>.
                                     Big Sale Up to
                                     30%</h2>
@@ -919,8 +793,8 @@
                         <div class="row align-items-center">
                             <div class="col flex-horizontal-center">
                                 <img class="icon-email" src="assets/imgs/theme/icons/icon-email.svg" alt>
-                                <h4 class="font-size-20 mb-0 ml-3">Sign up
-                                    to Newsletter</h4>
+                                <h4 class="font-size-20 mb-0 ml-3">Sign
+                                    up to Newsletter</h4>
                             </div>
                             <div class="col my-4 my-md-0 des">
                                 <h5 class="font-size-15 ml-4 mb-0">...and
@@ -954,12 +828,12 @@
                                 Road, Street 32, San Francisco
                             </p>
                             <p class="wow fadeIn animated">
-                                <strong>Phone: </strong>+01 2222 365 /(+91)
-                                01 2345 6789
+                                <strong>Phone: </strong>+01 2222 365
+                                /(+91) 01 2345 6789
                             </p>
                             <p class="wow fadeIn animated">
-                                <strong>Hours: </strong>10:00 - 18:00, Mon -
-                                Sat
+                                <strong>Hours: </strong>10:00 - 18:00,
+                                Mon - Sat
                             </p>
                             <h5 class="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">Follow
                                 Us</h5>
@@ -980,17 +854,18 @@
                             <li><a href="/purchaseGuide">Purchase Guide</a></li>
                             <li><a href="/termsPage">Terms &amp; Conditions</a></li>
                             <li><a href="/contactPage">Contact Us</a></li>
-                         </ul>
+
+                        </ul>
                     </div>
                     <div class="col-lg-2  col-md-3">
                         <h5 class="widget-title wow fadeIn animated">My
                             Account</h5>
                         <ul class="footer-list wow fadeIn animated">
                             <li><a href="/login">Sign In</a></li>
-                            <li><a href="/cart">View Cart</a></li>
-                            <li><a href="/wishlist">My Wishlist</a></li>
+                            <li><a href="/login">View Cart</a></li>
+                            <li><a href="/login">My Wishlist</a></li>
                             <li><a href="/contactPage">Help</a></li>
-                            <li><a href="/accountPage">Order</a></li>
+                            <li><a href="/login">Order</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-4">
@@ -1024,35 +899,35 @@
                 <div class="col-lg-6">
                     <p class="float-md-left font-sm text-muted mb-0">&copy;
                         2022, <strong class="text-brand">Zigma
-                            Smartwatches</strong> - HTML Ecommerce Template
-                    </p>
+                            Smartwatches</strong> - HTML Ecommerce
+                        Template </p>
                 </div>
                 <div class="col-lg-6">
                     <p class="text-lg-end text-start font-sm text-muted mb-0">
-                        Designed by <a href="http://alithemes.com/" target="_blank">Alithemes.com</a>. All rights
+                        Designed by <a href="http://alithemes.com/" target="_blank">Alithemes.com</a>. All
+                        rights
                         reserved
                     </p>
                 </div>
             </div>
         </div>
     </footer>
-
     <!-- Preloader Start -->
-   <div id="preloader-active">
-    <div class="preloader d-flex align-items-center justify-content-center">
-        <div class="preloader-inner position-relative">
-            <div class="text-center">
-                <h5 class="mb-10">Welcome to Zigma Smartwatches</h5>
-                <div class="loader">
-                    <div class="bar bar1"></div>
-                    <div class="bar bar2"></div>
-                    <div class="bar bar3"></div>
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="text-center">
+                    <h5 class="mb-10">Welcome to Zigma Smartwatches</h5>
+                    <div class="loader">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                    </div>
                 </div>
             </div>
+               
         </div>
-    </div>
-</div>
-
+    </div>
     <!-- Vendor JS-->
     <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
     <script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
@@ -1079,6 +954,7 @@
     <script src="assets/js/shopd134.js?v=3.4"></script>
 </body>
 
-<!-- Mirrored from wp.alithemes.com/html/Zigma Smartwatches/Zigma Smartwatches-frontend/index-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Jul 2023 10:10:07 GMT -->
+
+ 
 
 </html>

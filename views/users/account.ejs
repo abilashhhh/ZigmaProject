@@ -55,6 +55,11 @@
                                         </ul>
                                     </div>
                                 </div>
+                                <br>
+                                <br> 
+                                <br> 
+                                <br>
+                                
                                 <div class="col-md-8">
                                     <div class="tab-content dashboard-content">
                                         <div class="tab-pane fade active show" id="dashboard" role="tabpanel"
@@ -88,6 +93,17 @@
 
                                                 <div class="user-details-container">
                                                     <div class="card-body">
+                                                        <% if (userData.profileImages) { %>
+                                                            <div class="profile-pic-container">
+                                                                <img src="/<%= userData.profileImages %>"
+                                                                    alt="<%= userData.profileImages %>">
+                                                            </div>
+                                                            <% } else { %>
+                                                                <div class="profile-pic-container">
+                                                                    <img src="/user3.png" alt="">
+                                                                </div>
+                                                                <% } %>
+                                                 
                                                         <ul>
                                                             <li>Username: <%= userData.username %>
                                                             </li>
@@ -102,17 +118,10 @@
                                                                 your recent orders.</li>
                                                             <li>Manage your shipping and billing addresses.</li>
                                                         </ul>
+
+                                                        
                                                     </div>
-                                                    <% if (userData.profileImages) { %>
-                                                        <div class="profile-pic-container">
-                                                            <img src="/<%= userData.profileImages %>"
-                                                                alt="<%= userData.profileImages %>">
-                                                        </div>
-                                                        <% } else { %>
-                                                            <div class="profile-pic-container">
-                                                                <img src="/user3.png" alt="">
-                                                            </div>
-                                                            <% } %>
+                                                   
                                                 </div>
 
 

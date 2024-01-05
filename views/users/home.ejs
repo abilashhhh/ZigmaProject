@@ -55,7 +55,6 @@
                             <ul>
                                 <li><i class="fi-rs-user"></i><a href="/login">Login</a></li>
                                 <li><i class="fi-rs-user"></i><a href="/referralAtRegistrarion">Signup</a></li>
-                                <li><i class="fi-rs-user"></i><a href="/admin/">Admin</a></li>
                             </ul>
                         </div>
                     </div>
@@ -237,8 +236,7 @@
                             <hr>
                             <li><a href="/referralAtRegistrarion">Signup</a></li>
                             <hr>
-                            <li><a href="/admin/">Admin</a></li>
-                            <hr>
+                           
                         </ul>
                     </div>
                     <div class="single-mobile-header-info">
@@ -332,38 +330,34 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="widget-category mb-30">
+                        <!-- Category Widget - Visible on desktop only -->
+                        <div class="widget-category mb-30 d-none d-lg-block">
                             <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
                             <ul class="categories">
-
-                                <% if (categoriesData && typeof categoriesData !=='undefined' ) { %>
-                                    <li> <a href="/login">All Brands</a></li>
+                                <% if (categoriesData && typeof categoriesData !== 'undefined') { %>
+                                    <li><a href="/login">All Brands</a></li>
                                     <% for (let i=0; i < categoriesData.length; i++) { %>
-                                        <li><a href="/login">
-                                                <%= categoriesData[i].categoryName %>
-                                            </a></li>
-                                        <% } %>
-                                            <% } %>
-
+                                        <li><a href="/login"><%= categoriesData[i].categoryName %></a></li>
+                                    <% } %>
+                                <% } %>
                             </ul>
                         </div>
-                        <div class="widget-category mb-30">
-                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Sort
-                                by</h5>
+                
+                        <!-- Sort By Widget - Visible on all screens -->
+                        <div class="widget-category mb-30 d-none d-lg-block">
+                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Sort by</h5>
                             <ul class="categories">
                                 <li><a href="/?sort=Newest">Newest added</a></li>
                                 <li><a href="/?sort=InStock">In stock</a></li>
-                                <li><a href="/?sort=OutOfStock">Out of
-                                        stock</a></li>
-                                <li><a href="/?sort=LowToHigh">Price:
-                                        Low to High</a></li>
-                                <li><a href="/?sort=HighToLow">Price:
-                                        High to Low</a></li>
+                                <li><a href="/?sort=OutOfStock">Out of stock</a></li>
+                                <li><a href="/?sort=LowToHigh">Price: Low to High</a></li>
+                                <li><a href="/?sort=HighToLow">Price: High to Low</a></li>
                             </ul>
                         </div>
-                        <div class="widget-category mb-30">
-                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Price
-                                Range</h5>
+                
+                        <!-- Price Range Widget - Visible on all screens -->
+                        <div class="widget-category mb-30 d-none d-lg-block">
+                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Price Range</h5>
                             <ul class="categories">
                                 <li><a href="/?range=1">&#8377;0-&#8377;500</a></li>
                                 <li><a href="/?range=2">&#8377;500-&#8377;1000</a></li>
@@ -372,20 +366,8 @@
                                 <li><a href="/?range=5">&#8377;3000 +</a></li>
                             </ul>
                         </div>
-                        <div class="banner-img wow fadeIn mb-5mb-lg-0 animated d-lg-block d-none">
-                            <img src="banner/portrait.jpg" alt style="border-radius: 20px;">
-                            <div class="banner-text" style="margin-top: -100px;">
-                                <h5 style="color: white; margin: 20px; ">Referral Rewards</h5>
-                                <h6 style="color: white; ">If you refer a friend, you get ₹100 <br> and your friend get
-                                    ₹100</h6>
-
-                                <br> <br>
-                                <h5 style="color: white;">Please login to see your referral code </h5>
-                                <a style="color: white;" href="/login">Login Now <i class="fi-rs-arrow-right"></i></a>
-
-                            </div>
-                        </div>
                     </div>
+               
                     <div class="col-lg-9">
 
 
@@ -395,6 +377,7 @@
                                 aria-labelledby="tab-one">
                                 <div class="row product-grid-4">
                                     <% if (productsData && productsData.length> 0) { %>
+                                        <h3>Products:</h3>
                                         <% for (let i=0; i < productsData.length; i++) { %>
                                             <% const product=productsData[i]; %>
                                                 <% if (product.displayInHomePage=='Yes' ) { %>
