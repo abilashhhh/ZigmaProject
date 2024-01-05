@@ -1,0 +1,75 @@
+<%- include('../partials/adminHeader.ejs') %>
+    <%- include('../partials/adminAside.ejs') %>
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Product Offers </h2>
+                    <p>All offers for the individual products</p>
+                </div>
+
+            </div>
+            <div class="card mb-4">
+                 
+                <div class="card-body">
+                    <div class="row gx-3">
+
+
+                        <% if(allProductsData && allProductsData.length>0 ) { %>
+
+                            <% for(let i=0 ; i< allProductsData.length ; i++) { %>
+
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-6">
+                                    <figure class="card border-1">
+                                        <div class="card-header bg-white text-center">
+                                            <img class="img-fluid"
+                                                style="width: 100px; height: 100px; object-fit: contain;"
+                                                src="/<%= allProductsData[i].image[0] %>" alt="Product Image">
+                                        </div>
+                                        <figcaption class="card-body text-center">
+
+                                            <h6 class="card-title m-0">
+                                                <%= allProductsData[i].productName %> <br>
+
+                                                    <small style="font-size: small; font-weight: 400; "> Brand : <%=
+                                                            allProductsData[i].category %></small> <br>
+                                                    ₹<%= allProductsData[i].regularPrice %>
+                                            </h6>
+                                            <h8 style="margin: 20px;"> Offer Status:
+                                                <% if (allProductsData[i].isProductOfferActive) { %>
+                                                    <span class="badge rounded-pill alert-success">Active</span>
+                                                    <% } else { %>
+                                                        <span class="badge rounded-pill alert-danger">Inactive</span>
+                                                        <% } %>
+                                            </h8>
+                                            <div class="btn hover-up">
+
+                                                <% if( allProductsData[i].isProductOfferActive===true) { %>
+
+                                                    <a style="  color: black;"
+                                                        href="/admin/productOfferIndividualPage?id=<%= allProductsData[i]._id %>">
+
+                                                        <span class="badge  alert-success"> Edit
+                                                            Offer</span>
+                                                    </a>
+                                                    <% } else { %>
+
+                                                        <a style="  color: black;"
+                                                            href="/admin/productOfferIndividualPage?id=<%= allProductsData[i]._id %>">
+                                                            <span class="badge  alert-danger"> Add
+                                                                Offer</span>
+                                                        </a></a>
+                                                        <% } %>
+                                            </div>
+
+                                        </figcaption>
+                                    </figure>
+
+
+                                </div>
+                                <% } %>
+                                    <% } %>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <%- include('../partials/adminFooter.ejs') %>

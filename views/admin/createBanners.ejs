@@ -1,0 +1,106 @@
+<%- include('../partials/adminHeader.ejs') %>
+
+
+
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+
+    <%- include('../partials/adminAside.ejs') %>
+
+
+
+
+
+        <section class="content-main">
+
+            <div class="card mb-4">
+                <header class="card-header">
+                    <h3>Create your new banner</h3>
+                </header>
+
+                <% if (message && typeof message !=='undefined' ) { %>
+                    <div style="color: red; font-size: 30px; font-weight: 700; margin: 20px;">
+                        <%= message %>
+                    </div>
+
+                    <script>
+                        setTimeout(function () {
+                            window.location.href = '/admin/bannerManagement';
+                        }, 3000);
+                    </script>
+                    <% } %>
+
+                        <div>
+                            <div>
+                                <div class="card-body">
+                                    <main>
+                                        <form id="bannerForm" method="post" action="/admin/createBanners"
+                                            enctype="multipart/form-data">
+                                            <label for="bannerName">*Banner Name:</label>
+                                            <input type="text" id="bannerName" name="bannerName"
+                                                placeholder="Banner Name" required>
+                                            <br><br>
+                                            <label for="bannerText1">*Banner Text 1:</label>
+                                            <input type="text" id="bannerText1" name="bannerText1"
+                                                placeholder="Banner Text 1" required>
+                                            <br><br>
+                                            <label for="bannerText2">Banner Text 2:</label>
+                                            <input type="text" id="bannerText2" name="bannerText2"
+                                                placeholder="Banner Text 2">
+                                            <br><br>
+                                            <label for="bannerText3">Banner Text 3:</label>
+                                            <input type="text" id="bannerText3" name="bannerText3"
+                                                placeholder="Banner Text 3">
+                                            <br><br>
+                                            <label for="bannerShape">Banner Shape:</label>
+                                            <label for="isBannerActivePortrait">Portrait</label>
+                                            <input type="radio" name="bannerShape" id="isBannerActivePortrait"
+                                                value="Portrait" required>
+                                            <label for="isBannerActiveLandscape">Landscape</label>
+                                            <input type="radio" name="bannerShape" id="isBannerActiveLandscape"
+                                                value="Landscape" required>
+                                            <br><br>
+                                            <label for="bannerImage">*Banner Image URL:</label>
+                                            <input type="file" id="bannerImages" name="bannerImages" required>
+
+                                            <img id="imagePreview" src="" alt="Image Preview"
+                                                style="max-width: 100%; max-height: 200px; margin-top: 10px; display: none;">
+                                            <br><br>
+                                            <label for="bannerExpiryDate">Banner Expiry Date:</label>
+                                            <input type="date" id="bannerExpiryDate" name="bannerExpiryDate">
+                                            <br><br>
+                                            <label for="isBannerActive">Is Banner Active:</label>
+                                            <label for="isBannerActiveYes">Yes</label>
+                                            <input type="radio" name="isBannerActive" id="isBannerActiveYes" value="yes"
+                                                required>
+                                            <label for="isBannerActiveNo">No</label>
+                                            <input type="radio" name="isBannerActive" id="isBannerActiveNo" value="no"
+                                                required>
+                                            <br><br>
+                                            <button type="submit" class="btn"
+                                                style="background-color: green; color: white;">Submit</button>
+                                        </form>
+                                </div>
+
+                            </div>
+                            <script>
+                                const bannerImageInput = document.getElementById('bannerImages');
+                                const imagePreview = document.getElementById('imagePreview');
+
+                                bannerImageInput.addEventListener('change', function () {
+                                    const file = this.files[0];
+                                    if (file) {
+                                        const imageUrl = URL.createObjectURL(file);
+                                        imagePreview.src = imageUrl;
+                                        imagePreview.style.display = 'block';
+                                    } else {
+                                        imagePreview.src = '';
+                                        imagePreview.style.display = 'none';
+                                    }
+                                });
+                            </script>
+                        </div>
+            </div>
+        </section>
+
+        <%- include('../partials/adminFooter.ejs') %>

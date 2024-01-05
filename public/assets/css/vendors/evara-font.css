@@ -1,0 +1,50 @@
+@font-face {
+    font-family: "Zigma Smartwatches-font";
+    src: url("../../fonts/Zigma Smartwatches-font/Zigma Smartwatches-font57b6.ttf?5ff2f70882bedebb09d812961feeb5e7") format("truetype"),
+        url("../../fonts/Zigma Smartwatches-font/Zigma Smartwatches-font57b6.woff?5ff2f70882bedebb09d812961feeb5e7") format("woff"),
+        url("../../fonts/Zigma Smartwatches-font/Zigma Smartwatches-font57b6.woff2?5ff2f70882bedebb09d812961feeb5e7") format("woff2"),
+        url("../../fonts/Zigma Smartwatches-font/Zigma Smartwatches-font57b6.eot?5ff2f70882bedebb09d812961feeb5e7#iefix") format("embedded-opentype"),
+        url("../../fonts/Zigma Smartwatches-font/Zigma Smartwatches-font57b6.svg?5ff2f70882bedebb09d812961feeb5e7#Zigma Smartwatches-font") format("svg");
+}
+
+i[class^="Zigma Smartwatches-font-"]:before, i[class*=" Zigma Smartwatches-font-"]:before {
+    font-family: Zigma Smartwatches-font !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.Zigma Smartwatches-font-cpu:before {
+    content: "\f101";
+}
+.Zigma Smartwatches-font-desktop:before {
+    content: "\f102";
+}
+.Zigma Smartwatches-font-diamond:before {
+    content: "\f103";
+}
+.Zigma Smartwatches-font-dress:before {
+    content: "\f104";
+}
+.Zigma Smartwatches-font-high-heels:before {
+    content: "\f105";
+}
+.Zigma Smartwatches-font-home:before {
+    content: "\f106";
+}
+.Zigma Smartwatches-font-kite:before {
+    content: "\f107";
+}
+.Zigma Smartwatches-font-smartphone:before {
+    content: "\f108";
+}
+.Zigma Smartwatches-font-teddy-bear:before {
+    content: "\f109";
+}
+.Zigma Smartwatches-font-tshirt:before {
+    content: "\f10a";
+}

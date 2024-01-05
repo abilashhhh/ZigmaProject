@@ -1,0 +1,365 @@
+<%- include('../partials/adminHeader.ejs') %>
+    <%- include('../partials/adminAside.ejs') %>
+
+        <section class="content-main">
+            <div class="row">
+                <div class="col-9">
+                    <div class="content-header">
+                        <h2 class="content-title">Add New Product</h2>
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Basic</h4>
+                        </div>
+
+                        <form method="post" onsubmit="return validateForm()" action="/admin/addProducts"
+                            enctype="multipart/form-data">
+                            <div class="card-body">
+
+                                <div class="mb-4">
+                                    <label for="product_name" class="form-label">Product name</label>
+                                    <input type="text" placeholder="Type here" class="form-control" id="productName"
+                                        name="productName">
+                                    <p id="productNameModify" style="color: red;"> </p>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Description</label>
+                                    <textarea placeholder="Type here" class="form-control" id="description"
+                                        name="description" rows="4"></textarea>
+                                    <p id="descriptionModify" style="color: red;"> </p>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label class="form-label">Weight</label>
+                                            <div class="row gx-2">
+                                                <input placeholder="Grams" type="number" id="weight" name="weight"
+                                                    class="form-control">
+                                                <p id="weightModify" style="color: red;"> </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label class="form-label">Color</label>
+                                            <div class="row gx-2">
+                                                <input placeholder="Color" type="text" name="color" id="color"
+                                                    class="form-control">
+                                                <p id="colorModify" style="color: red;"> </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label class="form-label">Shape</label>
+                                            <div class="row gx-2">
+                                                <input placeholder="Shape" type="text" name="shape" id="shape"
+                                                    class="form-control">
+                                                <p id="shapeModify" style="color: red;"> </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label class="form-label">Regular price</label>
+                                            <div class="row gx-2">
+                                                <input placeholder="&#8377; " type="number" name="regularPrice"
+                                                    id="regularPrice" class="form-control">
+                                                <p id="regularPriceModify" style="color: red;"> </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label class="form-label">Sales price</label>
+                                            <input placeholder="&#8377; " type="number" name="salesPrice"
+                                                id="salesPrice" class="form-control">
+                                            <p id="salesPriceModify" style="color: red;"> </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label class="form-label">Brand - Sub Model</label>
+                                            <input placeholder="Submodel" type="text" name="submodel" id="submodel"
+                                                class="form-control">
+                                            <p id="submodelModify" style="color: red;"> </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="card mb-4">
+
+                                    <div class="card-body">
+                                        <div class="row gx-2">
+                                            <div class="col-sm-6 mb-3">
+                                                <label class="form-label">Category</label>
+                                                <select class="form-select" name="category">
+                                                    <% if (categoriesData && categoriesData.length> 0) { %>
+                                                        <% for (let i=0; i < categoriesData.length; i++) { %>
+                                                            <% if(categoriesData[i].isActive==true){%>
+                                                                <option value="<%= categoriesData[i].categoryName %>">
+                                                                    <%= categoriesData[i].categoryName %>
+                                                                </option>
+                                                                <% } %>
+                                                                    <% } %>
+                                                                        <% } else { %>
+                                                                            <option disabled>No categories found
+                                                                            </option>
+                                                                            <% } %>
+                                                </select>
+
+
+
+                                            </div>
+                                            <div class="col-lg-4">
+
+                                                <div class="mb-4">
+                                                    <label class="form-label">Gender</label>
+                                                    <select name="gender" class="form-select">
+                                                        <option value="other">Unisex</option>
+                                                        <option value="male">Male</option>
+                                                        <option value="female">Female</option>
+                                                    </select>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="mb-4">
+                                                    <label for="product_name" class="form-label">Tags</label>
+                                                    <input type="text" name="tags" class="form-control"
+                                                        value="Smart watch">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="mb-4">
+                                                    <label class="form-label">Quantity</label>
+                                                    <input type="number" name="quantity" class="form-control"
+                                                        id="quantity" placeholder="Quantity">
+                                                    <p id="quantityModify" style="color: red;"> </p>
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label">Display in home page</label>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="displayInHomePage"
+                                                    id="displayInHomePageYes" value="Yes" checked>
+                                                <label class="form-check-label" for="displayInHomePageYes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="displayInHomePage"
+                                                    id="displayInHomePageNo" value="No">
+                                                <label class="form-check-label" for="displayInHomePageNo">No</label>
+                                            </div>
+                                            <p id="displayInHomePageModify" style="color: red;"></p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Media</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-upload">
+                                <img src="/adminAssets/imgs/theme/upload.svg" alt="">
+                                <input class="form-control" type="file" id="imageInput" name="image" accept="image/*"
+                                    multiple>
+                            </div>
+                            <p id="imageMessage" style="color: red;"></p>
+                            <div id="imagePreviewContainer" style="width: 100%;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="submit" class="btn btn-md rounded font-sm hover-up" value="Add Product">
+                </form>
+        </section>
+
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('imageInput').addEventListener('change', function (event) {
+                    var files = event.target.files;
+
+                    // Remove existing images in the preview container
+                    var imagePreviewContainer = document.getElementById('imagePreviewContainer');
+                    while (imagePreviewContainer.firstChild) {
+                        imagePreviewContainer.removeChild(imagePreviewContainer.firstChild);
+                    }
+
+                    for (var i = 0; i < files.length; i++) {
+                        var file = files[i];
+
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var imageContainer = document.createElement('div');
+                            imageContainer.classList.add('uploaded-image-container');
+
+                            var img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.alt = 'Uploaded Image';
+                            img.classList.add('uploaded-image');
+                            imageContainer.appendChild(img);
+
+                            imagePreviewContainer.appendChild(imageContainer);
+                        };
+
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
+        </script>
+
+        <script>
+            function validateForm() {
+
+
+                var productNameModify = document.getElementById('productName').value;
+                var descriptionModify = document.getElementById('description').value;
+                var weightModify = document.getElementById('weight').value;
+                var colorModify = document.getElementById('color').value;
+                var shapeModify = document.getElementById('shape').value;
+                var regularPriceModify = document.getElementById('regularPrice').value;
+                var salesPriceModify = document.getElementById('salesPrice').value;
+                var submodelModify = document.getElementById('submodel').value;
+                var quantityModify = document.getElementById('quantity').value;
+                var imageMessage = document.getElementById('imageInput')
+
+
+                if (!imageMessage) {
+                    imageMessage.innerText = 'At least one image should be uploaded';
+                    return false;
+                } else {
+                    imageMessage.innerText = '';
+                }
+
+
+                if (productNameModify.trim() === '') {
+                    document.getElementById('productNameModify').innerText = 'Product name cannot be empty';
+                    return false;
+                } else {
+                    document.getElementById('productNameModify').innerText = '';
+                }
+
+
+                if (descriptionModify.trim() === '') {
+                    document.getElementById('descriptionModify').innerText = 'Description  cannot be empty';
+                    return false;
+                } else {
+                    document.getElementById('descriptionModify').innerText = '';
+                }
+
+
+                if (weightModify.trim() === '') {
+                    document.getElementById('weightModify').innerText = 'Weight  cannot be empty';
+                    return false;
+                } else {
+                    document.getElementById('weightModify').innerText = '';
+                }
+
+
+                if (colorModify.trim() === '') {
+                    document.getElementById('colorModify').innerText = 'Color cannot be empty';
+                    return false;
+                } else {
+                    document.getElementById('colorModify').innerText = '';
+                }
+
+
+                if (shapeModify.trim() === '') {
+                    document.getElementById('shapeModify').innerText = 'Shape cannot be empty';
+                    return false;
+                } else {
+                    document.getElementById('shapeModify').innerText = '';
+                }
+
+
+                if (regularPriceModify.trim() === '') {
+                    document.getElementById('regularPriceModify').innerText = 'Regular price cannot be empty';
+                    return false;
+                } else {
+                    document.getElementById('regularPriceModify').innerText = '';
+                }
+
+                if (regularPriceModify <= 0) {
+                    document.getElementById('regularPriceModify').innerText = ' Price should not be 0 or less';
+                    return false;
+                } else {
+                    document.getElementById('salesPriceModify').innerText = '';
+                }
+
+                if (salesPriceModify.trim() === '') {
+                    document.getElementById('salesPriceModify').innerText = 'Sales price cannot be empty';
+                    return false;
+                } else {
+                    document.getElementById('salesPriceModify').innerText = '';
+                }
+
+                if ((salesPriceModify) > (regularPriceModify)) {
+                    document.getElementById('salesPriceModify').innerText = 'Sales price should be less than the regular price';
+                    return false;
+                } else {
+                    document.getElementById('salesPriceModify').innerText = '';
+                }
+
+
+
+
+
+                if (submodelModify.trim() === '') {
+                    document.getElementById('submodelModify').innerText = 'Sub-model cannot be empty';
+                    return false;
+                } else {
+                    document.getElementById('submodelModify').innerText = '';
+                }
+
+
+                if (quantityModify.trim() === '') {
+                    document.getElementById('quantityModify').innerText = 'Quantity of products cannot be empty';
+                    return false;
+                } else {
+                    document.getElementById('quantityModify').innerText = '';
+                }
+
+
+                if ((quantityModify) <= 1) {
+                    document.getElementById('quantityModify').innerText = 'Quantity should be greater than 1';
+                    return false;
+                } else {
+                    document.getElementById('quantityModify').innerText = '';
+                }
+
+                return true;
+            }
+
+        </script>
+
+        <%- include('../partials/adminFooter.ejs') %>

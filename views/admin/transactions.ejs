@@ -1,0 +1,76 @@
+<%- include('../partials/adminHeader.ejs') %>
+
+
+    <%- include('../partials/adminAside.ejs') %>
+
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Transactions List</h2>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <table class="table align-middle table-nowrap mb-0" id="transactions">
+                            <thead class="table-dark">
+                                <tr>
+                                  
+                                    <th class="align-middle" scope="col">Order ID</th>
+                                    <th class="align-middle" scope="col">Billing Name</th>
+                                    <th class="align-middle" scope="col">Date</th>
+                                    <th class="align-middle" scope="col">Total</th>
+                                    <th class="align-middle" scope="col">Payment Status</th>
+                                    <th class="align-middle" scope="col">Payment Method</th>
+                                    <th class="align-middle" scope="col">View Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if(orderData && orderData.length > 0 ) { %>
+                                <% for(let i = 0 ; i < orderData.length ; i++){ %>
+                                <tr>
+                                     
+                                    <td><a href="#" class="fw-bold"><%= orderData[i].orderid %></a> </td>
+                                    <td><%= orderData[i].address.firstName %> <%= orderData[i].address.lastName %></td>
+                                    <td>
+                                        <%= orderData[i].orderDate.toLocaleDateString('en-US') %>
+                                    </td>
+                                    <td>
+                                        ₹<%= orderData[i].totalPrice %>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-pill badge-soft-success"><%= orderData[i].paymentStatus %></span>
+                                    </td>
+                                    <td>
+                                        <i class="material-icons md-payment font-xxl text-muted mr-5"></i> <%= orderData[i].paymentMethod %>
+                                    </td>
+                                    <td>
+                                        <a href="/admin/individualOrdersPage?ordersIndividualId=<%= orderData[i]._id %>"
+                                            class="btn btn-md rounded font-sm">Order Details</a>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                <% } %>
+                              
+                            </tbody>
+                        </table>
+                    </div>
+                </div> 
+            </div>
+         
+         
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    new DataTable('#transactions');
+            
+            })
+            </script>
+           
+
+        </section> 
+
+        <%- include('../partials/adminFooter.ejs') %>

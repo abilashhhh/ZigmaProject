@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Zigma Watches - Add rating</title>
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="/assets/css/maind134.css" />
+  <link href="/adminAssets/css/main.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+
+
+<body>
+  <div class="page-header breadcrumb-wrap">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/" rel="nofollow">Home</a>
+        <span></span><a href="/accountPage">Orders</a><span></span> Rating
+      </div>
+      <p class="logopara">Zigma Smartwatches</p>
+    </div>
+  </div>
+  
+  <div class="padding_eight_all bg-white">
+    <div class="heading_s1">
+      <h3 class="mb-30">Rate this product </h3>
+    </div>
+    <div style="width: 900px;">
+      <style>
+        .star-rating {
+          display: flex;
+          flex-direction: row;
+        }
+
+        .star {
+          font-size: 50px;
+          color: #ddd;
+          cursor: pointer;
+          transition: color 0.3s ease-in-out;
+        }
+
+        .star.glow {
+          color: gold;
+        }
+      </style>
+
+      <h1>Add Rating and Review</h1>
+
+      <form action="/addRating" method="post" onsubmit="return validateForm()">
+        <input type="hidden" name="productId" value="<%= productId %>">
+        <input type="hidden" name="orderId" value="<%= orderId %>">
+
+        <label for="rating">Rating:</label>
+        <div class="star-rating">
+          <% for (let i = 1; i <= 5; i++) { %>
+          <span class="star" id="star<%= i %>" onclick="setRating(<%= i %>)">&#9733;</span>
+          <% } %>
+        </div>
+
+        <input type="hidden" name="rating" id="ratingInput" value="1">
+
+        <label for="review">Review:</label>
+        <textarea name="review" id="review" rows="4" cols="50"></textarea>
+
+        <button type="submit">Submit Rating</button>
+
+        <script>
+          let selectedRating = 1;
+
+          function setRating(rating) {
+            selectedRating = rating;
+            updateStars();
+          }
+
+          function updateStars() {
+            for (let i = 1; i <= 5; i++) {
+              const starElement = document.getElementById(`star${i}`);
+              if (i <= selectedRating) {
+                starElement.classList.add('glow');
+              } else {
+                starElement.classList.remove('glow');
+              }
+            }
+
+            document.getElementById('ratingInput').value = selectedRating;
+          }
+
+          function validateForm() {
+            // Remove the check for missing rating when it's equal to 1
+            Swal.fire({
+              icon: 'success',
+              title: 'Thanks for your feedback!',
+              showConfirmButton: false,
+              timer: 3000, // 3 seconds
+            });
+
+            setTimeout(() => {
+              document.forms[0].submit();
+            }, 3000);
+
+            return false;
+          }
+
+          updateStars();
+        </script>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

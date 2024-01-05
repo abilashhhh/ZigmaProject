@@ -1,0 +1,332 @@
+<%- include('../partials/adminHeader.ejs') %>
+
+
+    <%- include('../partials/adminAside.ejs') %>
+
+        <style>
+            .card-title {
+                margin: 20px auto;
+            }
+
+            .card-title img {
+                width: 150px;
+                float: none;
+                display: block;
+                margin: 0 auto;
+            }
+
+            .form-container {
+                margin: 20px auto;
+                max-width: 400px;
+            }
+
+            label {
+                display: inline-block;
+                width: 100px;
+                text-align: left;
+            }
+
+            input,
+            select {
+                display: inline-block;
+                width: calc(100% - 110px);
+                margin-bottom: 10px;
+            }
+
+            button {
+                padding: 10px 20px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            .modal-dialog {
+                max-width: 80%;
+            }
+        </style>
+        </head>
+
+        <body>
+
+            <section class="content-main">
+
+                <div class="card mb-4">
+                    <h4 class="card-title"><img src="/logo.jpg" alt="" srcset=""></h4>
+                    <div class="card-body">
+
+
+                        <div class="form-container">
+                            <form id="orderFilterForm" method="post" action="/admin/salesReport"
+                                style="max-width: 500px; margin: auto; padding: 20px; border: 1px solid #000000; border-radius: 8px; background-color: #f8f9fa;">
+                                <h3
+                                    style=" text-align: center; margin: 20px; text-decoration: underline; font-weight: 700;">
+                                    Sales Report
+                                </h3>
+                                <label for="fromDate" style="font-size: 16px;">From Date:</label>
+                                <input type="date" id="fromDate" name="fromDate" required
+                                    style="width: 100%; padding: 8px; margin-bottom: 10px;">
+                                <p id="fromDateMessage" style="margin: 0;"></p>
+
+                                <label for="toDate" style="font-size: 16px;">To Date:</label>
+                                <input type="date" id="toDate" name="toDate" required
+                                    style="width: 100%; padding: 8px; margin-bottom: 10px;">
+                                <p id="toDateMessage" style="margin: 0;"></p>
+
+                                <label for="orderStatus" style="font-size: 16px;">Order Status:</label>
+                                <select id="orderStatus" name="orderStatus"
+                                    style="width: 100%; padding: 8px; margin-bottom: 10px;">
+                                    <option value="All">All</option>
+                                    <option value="OrderPlaced">Order Placed</option>
+                                    <option value="Delivered">Delivered</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                    <option value="Returned">Returned</option>
+                                </select>
+                                <p style="margin: 0;"></p>
+
+                                <label for="paymentStatus" style="font-size: 16px;">Payment Status:</label>
+                                <select id="paymentStatus" name="paymentStatus"
+                                    style="width: 100%; padding: 8px; margin-bottom: 10px;">
+                                    <option value="All">All</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Failed">Failed</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                    <option value="Refunded">Refunded</option>
+                                </select>
+                                <p style="margin: 0;"></p>
+
+                                <div class="text-center" style="margin-top: 50px;">
+                                    <input type="submit" style="width: 100px; font-size: 16px;"
+                                        class="btn btn-md hover-up" onclick="submitForm()" value="Submit">
+                                    <a class="btn" href="/admin/salesReport"
+                                        style="font-size: 16px; margin-left: 10px;">Clear All</a>
+                                </div>
+
+                            </form>
+
+                        </div>
+                        <div style="text-align: center;">
+                            <% if(message && typeof message !=='undefined' ) { %>
+                                <h3 style="color: red;">
+                                    <%= message %>
+                                </h3>
+                                <% } %>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <% if(requestedData && typeof requestedData !=='undefined' ) { %>
+                    <% if (requestedData && requestedData.length> 0) { %>
+
+                        <div class="card mb-4">
+                            <h4 class="card-title"><img src="/logo.jpg" alt="" srcset=""></h4>
+                            <div class="card-body">
+                                <h3 style=" text-align: center; margin: 60px; text-decoration: underline;">Sales Report
+                                </h3>
+                                <div style="float: right;">
+                                    <button class="btn"
+                                        style="background-color: rgb(0, 0, 0); color: white; margin-top: -15px;"
+                                        onclick="downloadFile()"> Download Report</button>
+
+                                    <script>
+                                        function downloadFile() {
+                                            window.print();
+                                        }
+                                    </script>
+                                </div>
+
+                                <h6
+                                    style="display: flex; align-items: center; justify-content: space-evenly; text-align: center; margin: 30px;">
+                                    <% if (fromDate) { %><span>From: <%= fromDate.toLocaleDateString(); %></span>
+                                        <% } %> &nbsp; &nbsp;
+                                            <% if (toDate) { %><span>To: <%= toDate.toLocaleDateString(); %></span>
+                                                <% } %> &nbsp; &nbsp;
+                                                    <% if (orderStatus) { %><span>Order Status: <%= orderStatus %>
+                                                        </span>
+                                                        <% } %> &nbsp; &nbsp;
+                                                            <% if (paymentStatus) { %><span>Payment Status: <%=
+                                                                        paymentStatus %></span>
+                                                                <% } %>
+                                </h6>
+
+
+                                <table class="table table-hover table-bordered text-center">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Date</th>
+                                            <th>Name</th>
+                                            <th>Products</th>
+                                            <th>Order Status</th>
+                                            <th>Payment Status</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody style="color: black;">
+
+                                        <% for (let i=0; i < requestedData.length; i++) { %>
+                                            <tr>
+                                                <td class="align-middle">
+                                                    <%= requestedData[i].orderid %>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <%= requestedData[i].orderDate.toLocaleDateString() %>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <b>
+                                                        <%= requestedData[i].address.firstName %>
+                                                            <%= requestedData[i].address.lastName %>
+                                                    </b>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <ul class="list-unstyled">
+                                                        <% for (let j=0; j < requestedData[i].products.length; j++) { %>
+                                                            <% if(
+                                                                (requestedData[i].products[j].canceledOrderStatus===orderStatus
+                                                                || orderStatus==="All" ) &&
+                                                                (requestedData[i].products[j].canceledOrderPaymentStatus===paymentStatus
+                                                                || paymentStatus==="All" ) ) { %>
+                                                                <li style="margin: 15px;">
+                                                                    <%= requestedData[i].products[j].productName %>
+                                                                        &nbsp;
+                                                                        <span style="font-weight: 800;">X<%=
+                                                                                requestedData[i].products[j].quantity %>
+                                                                        </span>
+                                                                        - ₹<%= requestedData[i].products[j].price %>
+                                                                </li>
+                                                                <% } %>
+                                                                    <% } %>
+                                                    </ul>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <ul class="list-unstyled">
+                                                        <% for (let j=0; j < requestedData[i].products.length; j++) { %>
+                                                            <% if
+                                                                (requestedData[i].products[j].canceledOrderStatus===orderStatus
+                                                                || orderStatus==="All" ) { %>
+                                                                <% if
+                                                                    (requestedData[i].products[j].canceledOrderPaymentStatus===paymentStatus
+                                                                    || paymentStatus==="All" ) { %>
+                                                                    <li>
+                                                                        <span class="badge rounded-pill alert-warning"
+                                                                            style="font-size: 14px; margin: 6px;">
+                                                                            <%= requestedData[i].products[j].canceledOrderStatus
+                                                                                %>
+                                                                        </span>
+                                                                    </li>
+                                                                    <% } %>
+                                                                        <% } %>
+                                                                            <% } %>
+                                                    </ul>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <ul class="list-unstyled">
+                                                        <% for (let j=0; j < requestedData[i].products.length; j++) { %>
+                                                            <% if
+                                                                (requestedData[i].products[j].canceledOrderPaymentStatus===paymentStatus
+                                                                || paymentStatus==="All" ) { %>
+                                                                <% if
+                                                                    (requestedData[i].products[j].canceledOrderStatus===orderStatus
+                                                                    || orderStatus==="All" ) { %>
+                                                                    <li>
+                                                                        <span class="badge rounded-pill alert-warning"
+                                                                            style="font-size: 14px; margin: 6px;">
+                                                                            <%= requestedData[i].products[j].canceledOrderPaymentStatus
+                                                                                %>
+                                                                        </span>
+                                                                    </li>
+                                                                    <% } %>
+                                                                        <% } %>
+                                                                            <% } %>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <% } %>
+
+                                                <% } %>
+
+                                    </tbody>
+                                </table>
+
+                                <% } %>
+
+                            </div>
+                        </div>
+
+            </section>
+
+            <script>
+
+                function getCurrentDate() {
+                    const today = new Date();
+                    const year = today.getFullYear();
+                    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+                    const day = today.getDate().toString().padStart(2, '0');
+                    return `${year}-${month}-${day}`;
+                }
+
+                document.addEventListener('DOMContentLoaded', function () {
+
+                    const toDateInput = document.getElementById('toDate');
+                    toDateInput.value = getCurrentDate();
+                    fromDateInput.addEventListener('change', function () {
+                        const fromDateValue = new Date(fromDateInput.value);
+                        const currentDate = new Date(getCurrentDate());
+                        if (fromDateValue > currentDate) {
+                            toDateInput.value = getCurrentDate();
+                        }
+                        toDateInput.min = fromDateInput.value;
+                    });
+                });
+
+                document.addEventListener('DOMContentLoaded', function () {
+                    const toDateInput = document.getElementById('toDate');
+                    const fromDateInput = document.getElementById('fromDate');
+                    const fromDateMessage = document.getElementById('fromDateMessage');
+                    const toDateMessage = document.getElementById('toDateMessage');
+
+
+
+                    function showError(message, element) {
+                        element.textContent = message;
+                        element.style.color = 'red';
+                    }
+
+                    function clearError(element) {
+                        element.textContent = '';
+                    }
+
+                    fromDateInput.addEventListener('change', function () {
+                        const fromDateValue = new Date(fromDateInput.value);
+                        const currentDate = new Date(getCurrentDate());
+
+                        if (fromDateValue > currentDate) {
+                            showError('Invalid date. From Date cannot be after the current date.', fromDateMessage);
+                            toDateInput.value = getCurrentDate();
+                        } else {
+                            clearError(fromDateMessage);
+                        }
+
+                        toDateInput.min = fromDateInput.value;
+                    });
+
+                    toDateInput.addEventListener('change', function () {
+                        const toDateValue = new Date(toDateInput.value);
+                        const currentDate = new Date(getCurrentDate());
+
+                        if (toDateValue > currentDate) {
+                            showError('Invalid date. To Date cannot be after the current date.', toDateMessage);
+                            toDateInput.value = getCurrentDate();
+                        } else {
+                            clearError(toDateMessage);
+                        }
+                    });
+                });
+
+            </script>
+
+            <%- include('../partials/adminFooter.ejs') %>

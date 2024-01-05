@@ -1,0 +1,201 @@
+<%- include('../partials/adminHeader.ejs') %>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <%- include('../partials/adminAside.ejs') %>
+
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Categories </h2>
+                    <p>Add, edit and block/unblock a category</p>
+                </div>
+      
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+
+
+                            <form method="post" action="/admin/addCategories" enctype="multipart/form-data">
+
+                                <h4 style="margin: 20px; text-decoration: underline;">Add new categories</h4>
+
+
+                                <div class="mb-4">
+                                    <label for="product_name" class="form-label">Name</label>
+                                    <input type="text" placeholder="Type here" name="categoryName" class="form-control"
+                                        id="product_name" />
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="product_name" class="form-label">Country</label>
+                                    <input type="text" placeholder="Type here" name="categoryCountry"
+                                        class="form-control" id="product_name" />
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="category_image" class="form-label">Category Image</label>
+                                    <input type="file" name="categoryImage" class="form-control" id="category_image">
+                                </div>
+
+
+                                <div class="d-grid">
+                                    <input class="btn btn-primary" type="submit" value="Create category">
+                                </div>
+
+                                <% if (typeof message !=="undefined" ) { %>
+                                    <div id="messageElementId" style="font-size: large; color: blue; margin: 20px;">
+                                        <%= message %>
+                                    </div>
+                                    <% } %>
+
+                            </form>
+                        </div>
+                        <br>            
+                        <br>
+
+                        <div class="col-md-9 d-flex align-items-center justify-content-center">
+                            <div style="text-align: center;">
+                                <h4 style="margin: 10px; text-decoration: underline;">Categories List</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="categories">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th class="align-middle">Image</th>
+                                                <th class="align-middle">Name</th>
+                                                <th class="align-middle">Category id</th>
+                                                <th class="align-middle">Products</th>
+                                                <th class="align-middle">Country</th>
+                                                <th class="align-middle">Status</th>
+                                                <th class="align-middle">Block/Unblock</th>
+                                                <th class="align-middle">Edit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if (categoriesData && categoriesData.length> 0) { %>
+                                                <% for (let i=0; i < categoriesData.length; i++) { %>
+                                                    <% const category=categoriesData[i]; %>
+                                                        <% const
+                                                            productCount=categoriesWithProductCount[i].productCount; %>
+                                                            <tr>
+                                                                <td class="align-middle">
+                                                                    <img style="width: 100px; height: 100px;"
+                                                                        src="/<%= category.categoryImage %>"
+                                                                        alt="Image">
+                                                                </td>
+                                                                <td class="align-middle">
+                                                                    <span style="font-weight: 700; font-size: 18px;">
+                                                                        <%= category.categoryName %>
+                                                                    </span>
+                                                                </td>
+                                                                <td class="align-middle">
+                                                                    <small class="text-muted">ID: <%= category._id %>
+                                                                            </small>
+                                                                </td>
+                                                                <td class="align-middle">
+                                                                    <%= productCount %>
+                                                                </td>
+                                                                <td class="align-middle">
+                                                                    <%= category.categoryCountry %>
+                                                                </td>
+                                                                <td class="align-middle">
+                                                                    <% if (category.isActive===true) { %>
+                                                                        <span
+                                                                            class="badge rounded-pill alert-success">Active</span>
+                                                                        <% } else { %>
+                                                                            <span
+                                                                                class="badge rounded-pill alert-danger">Inactive</span>
+                                                                            <% } %>
+                                                                </td>
+                                                                <td class="align-middle">
+                                                                    <% if (category.isActive===true) { %>
+                                                                        <a href="#"
+                                                                            onclick="confirmBlock('<%= category._id %>')">
+                                                                            <button
+                                                                                class="btn btn-sm btn-danger rounded font-sm">Block</button>
+                                                                        </a>
+                                                                        <% } else { %>
+                                                                            <a href="#"
+                                                                                onclick="confirmUnblock('<%= category._id %>')">
+                                                                                <button
+                                                                                    class="btn btn-sm btn-success rounded font-sm ml-2">Unblock</button>
+                                                                            </a>
+                                                                            <% } %>
+                                                                </td>
+                                                                <td class="align-middle">
+                                                                    <a href="/admin/editCategories?_id=<%= category._id %>"
+                                                                        class="btn btn-sm font-sm rounded btn-brand">
+                                                                        <i class="material-icons md-edit"></i> Edit
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                            <% } %>
+                                                                <% } else { %>
+                                                                    <tr>
+                                                                        <td colspan="5" class="text-center">No
+                                                                            categories found in the system.</td>
+                                                                    </tr>
+                                                                    <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </section>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                new DataTable('#categories');
+        
+        })
+        </script>
+        
+        <script>
+            function confirmBlock(categoryId) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You are about to block this category.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, block it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/admin/blockCategories?_id=" + categoryId;
+                    }
+                });
+            }
+
+            function confirmUnblock(categoryId) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You are about to unblock this category.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, unblock it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/admin/unblockCategories?_id=" + categoryId;
+                    }
+                });
+            }
+ 
+            document.addEventListener('DOMContentLoaded', function () {
+                function hideMessage() {
+                    var messageElement = document.getElementById('messageElementId');
+                    if (messageElement) {
+                        messageElement.style.display = 'none';
+                    }
+                }
+                setTimeout(hideMessage, 3000);
+            });
+        </script>
+
+        <%- include('../partials/adminFooter.ejs') %>

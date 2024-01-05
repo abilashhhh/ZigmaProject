@@ -1,0 +1,529 @@
+<%- include('../partials/adminHeader.ejs') %>
+
+    <!-- chart  -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <%- include('../partials/adminAside.ejs') %>
+
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Dashboard </h2>
+                    <p>Whole data about your business here</p>
+                </div>
+                <div>
+                    <a href="/admin/salesReport" class="btn btn-primary"><i
+                            class="text-muted material-icons md-post_add"></i>Create
+                        report</a>
+                </div>
+            </div>
+            <div class="row">
+
+
+                <div class="col-lg-3" data-toggle="modal" data-target="#createRevenueModal" style="cursor: pointer;">
+                    <div class="card card-body mb-4">
+                        <article class="icontext">
+                            <span class="icon icon-sm rounded-circle bg-success-light"><i
+                                    class="text-success material-icons md-local_shipping"></i></span>
+                            <div class="text">
+                                <h6 class="mb-1 card-title">Revenue</h6>
+                                <span>
+                                    <% if(totalPriceIncome && typeof totalPriceIncome !=='undefined' ) { %>
+                                        ₹<%= totalPriceIncome.toFixed(2) %>
+                                            <% } else { %> 0 <% } %>
+                                </span>
+                                <span class="text-sm">
+                                    Shipping fees are not included
+                                </span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+
+                <div class="modal fade" id="createRevenueModal" tabindex="-1" role="dialog"
+                    aria-labelledby="createRevenueModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="createRevenueModalLabel">Revenue Details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                The revenue which was generated on the current financial year.
+                                The coupon discounts and shipping charges being excluded.
+                                <h3 style="margin: 20px; font-weight: 800;">Revenue : <% if(totalPriceIncome && typeof
+                                        totalPriceIncome !=='undefined' ) { %>
+                                        ₹<%= totalPriceIncome.toFixed(2) %>
+                                            <% } else { %> 0 <% } %>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="modal fade" id="createOrderModal" tabindex="-1" role="dialog"
+                    aria-labelledby="createOrderModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="createOrderModalLabel">Orders Details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                The number of orders in the financial year
+                                <h3 style="margin: 20px; font-weight: 800;"> Total Orders: <% if(orderDataCount &&
+                                        typeof orderDataCount !=='undefined' ) { %>
+                                        <%= orderDataCount %>
+                                            <% }else{ %> 0 <% } %>
+                                </h3>
+                                <h4>Products orders placed :<%= orderPlacedProducts %>
+                                </h4>
+                                <h4>Products orders shipped :<%= shippedProducts %>
+                                </h4>
+                                <h4>Products orders delivered :<%= deliveredProducts %>
+                                </h4>
+                                <h4>Products orders cancelled :<%= cancelledProducts %>
+                                </h4>
+                                <h4>Products orders returned :<%= returnedProducts %>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-3" class="col-lg-3" data-toggle="modal" data-target="#createOrderModal"
+                    style="cursor: pointer;">
+                    <div class="card card-body mb-4">
+                        <article class="icontext">
+                            <span class="icon icon-sm rounded-circle bg-success-light"><i
+                                    class="text-success material-icons md-local_shipping"></i></span>
+                            <div class="text">
+                                <h6 class="mb-1 card-title">Orders</h6>
+                                <span>
+                                    <% if(orderDataCount && typeof orderDataCount !=='undefined' ) { %>
+                                        <%= orderDataCount %>
+                                            <% }else{ %> 0 <% } %>
+
+                                </span>
+                                <span class="text-sm">
+                                    All orders included
+                                </span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="createProductsModal" tabindex="-1" role="dialog"
+                    aria-labelledby="createProductsModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="createProductsModalLabel">Products Details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                All products available
+                                <h3 style="margin: 20px; font-weight: 800;"> Total Products: <% if(productsDataCount &&
+                                        typeof productsDataCount !=='undefined' ) { %>
+                                        <%= productsDataCount %>
+                                            <% }else{ %> 0 <% } %>
+                                </h3>
+                                <ol>
+                                    <% for(let i=0; i < productsData.length; i++) { %>
+                                        <li>
+                                            <%= i + 1 %>. <%= productsData[i].productName %>
+                                        </li>
+                                        <% } %>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-lg-3" class="col-lg-3" data-toggle="modal" data-target="#createProductsModal"
+                    style="cursor: pointer;">
+                    <div class="card card-body mb-4">
+                        <article class="icontext">
+                            <span class="icon icon-sm rounded-circle bg-warning-light"><i
+                                    class="text-warning material-icons md-qr_code"></i></span>
+                            <div class="text">
+                                <h6 class="mb-1 card-title">Products</h6>
+                                <span>
+                                    <% if(productsDataCount && typeof productsDataCount !=='undefined' ) { %>
+                                        <%= productsDataCount %>
+                                            <% }else{ %> 0 <% } %>
+
+                                </span>
+                                <span class="text-sm">
+                                    In
+                                    <% if( categoriesDataCount && typeof categoriesDataCount !=='undefined' ) { %>
+                                        <%= categoriesDataCount %>
+                                            <% }else{ %> 0 <% } %>
+
+                                                    Categories
+                                </span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="createUsersModal" tabindex="-1" role="dialog"
+                    aria-labelledby="createUsersModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="createUsersModalLabel">Users Details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                All users available
+                                <h3 style="margin: 20px; font-weight: 800;"> Total Users:<% if( usersCount && typeof
+                                        usersCount !=='undefined' ) { %>
+                                        <%= usersCount - 1%>
+                                            <% }else{ %> 0 <% } %>
+                                </h3>
+                                <ol>
+                                    <% let count=0; %>
+                                        <% for(let i=0; i < usersData.length; i++) { %>
+                                            <% if(usersData[i].isAdmin===0) { %>
+                                                <% count++; %>
+                                                    <li>
+                                                        <%= count %>. <%= usersData[i].username %>
+                                                    </li>
+                                                    <% } %>
+                                                        <% } %>
+                                </ol>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3" class="col-lg-3" data-toggle="modal" data-target="#createUsersModal"
+                    style="cursor: pointer;">
+                    <div class="card card-body mb-4">
+                        <article class="icontext">
+                            <span class="icon icon-sm rounded-circle bg-info-light">
+                                <i class="fa-solid fa-user" style="color: #263754;"></i>
+                            </span>
+                            <div class="text">
+                                <h6 class="mb-1 card-title">Users</h6>
+                                <span>
+                                    <% if( usersCount && typeof usersCount !=='undefined' ) { %>
+                                        <%= usersCount -1 %>
+                                            <% }else{ %> 0 <% } %>
+                                </span>
+                                <span class="text-sm">
+                                    All users.
+                                </span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-8 col-lg-12">
+                    <div class="card mb-4">
+                        <article class="card-body">
+                            <h4 id="salesStatistics">Sales Statistics</h4>
+
+
+
+
+                            <canvas id="monthlyChart" width="600" height="400"></canvas>
+                            <canvas id="weeklyChart" width="600" height="400" style="display: none;"></canvas>
+
+                            <script>
+                                function showMonthlyChart() {
+                                    const monthlyChart = document.getElementById('monthlyChart');
+                                    const weeklyChart = document.getElementById('weeklyChart');
+                                    const salesStatistics = document.getElementById('salesStatistics');
+
+                                    monthlyChart.style.display = 'block';
+                                    weeklyChart.style.display = 'none';
+                                    salesStatistics.innerText = "Monthly Chart Data"
+                                }
+
+                                function showWeeklyChart() {
+                                    const monthlyChart = document.getElementById('monthlyChart');
+                                    const weeklyChart = document.getElementById('weeklyChart');
+                                    const salesStatistics = document.getElementById('salesStatistics');
+
+                                    monthlyChart.style.display = 'none';
+                                    weeklyChart.style.display = 'block';
+                                    salesStatistics.innerText = "Weekly Chart Data"
+                                }
+                            </script>
+
+
+                            <script>
+
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    // Fetch weekly data
+                                    fetch('/admin/fetchWeeklyData')
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            var weeklyOrderData = data.weeklyOrderData || [];
+                                            var weeklyUserData = data.weeklyUserData || [];
+
+                                            // Extract data from the fetched JSON
+                                            var orderLabels = weeklyOrderData.map(order => getDayName(order._id));
+                                            var orderData = weeklyOrderData.map(order => order.totalWeeklyPrice);
+
+                                            var userLabels = [' '];
+                                            var userData = weeklyUserData.length > 0 ? weeklyUserData.map(user => user.userCount) : [];
+
+                                            var ctx = document.getElementById('weeklyChart').getContext('2d');
+                                            var chart = new Chart(ctx, {
+                                                type: 'bar',
+                                                data: {
+                                                    labels: orderLabels.concat(userLabels),
+                                                    datasets: [{
+                                                        label: 'Weekly Order Data',
+                                                        data: orderData,
+                                                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                                        borderColor: 'rgba(75, 192, 192, 1)',
+                                                        borderWidth: 1
+                                                    },
+                                                    {
+                                                        label: 'Weekly User Data',
+                                                        data: userData,
+                                                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                                        borderColor: 'rgba(255, 99, 132, 1)',
+                                                        borderWidth: 1
+                                                    }]
+                                                },
+                                                options: {
+                                                    scales: {
+                                                        y: {
+                                                            beginAtZero: true
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        })
+                                        .catch(error => console.error('Error fetching data:', error));
+
+                                    // Function to get day name based on day number
+                                    function getDayName(dayNumber) {
+                                        const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+                                        return dayNames[dayNumber - 1] || 'Unknown';
+                                    }
+                                });
+                            </script>
+
+
+
+
+                            <script>
+                                // monthly data
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    fetch('/admin/fetchMonthlyData')
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            var monthlyOrderData = data.monthlyOrderData || [];
+                                            var monthlyUserData = data.monthlyUserData || [];
+
+                                            // Extract data from the fetched JSON
+                                            var orderLabels = monthlyOrderData.map(order => getMonthName(order._id));
+                                            var orderData = monthlyOrderData.map(order => order.totalMonthlyPrice);
+
+                                            var userLabels = [' '];
+                                            var userData = monthlyUserData.length > 0 ? monthlyUserData.map(user => user.userCount) : [];
+
+                                            var ctx = document.getElementById('monthlyChart').getContext('2d');
+                                            var chart = new Chart(ctx, {
+                                                type: 'bar',
+                                                data: {
+                                                    labels: orderLabels.concat(userLabels),
+                                                    datasets: [{
+                                                        label: 'Monthly Order Data',
+                                                        data: orderData,
+                                                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                                        borderColor: 'rgba(75, 192, 192, 1)',
+                                                        borderWidth: 1
+                                                    },
+                                                    {
+                                                        label: 'Monthly User Data',
+                                                        data: userData,
+                                                        backgroundColor: 'rgba(255, 99, 132, 0.2)',  
+                                                        borderColor: 'rgba(255, 99, 132, 1)', 
+                                                        borderWidth: 1
+                                                    }]
+                                                },
+                                                options: {
+                                                    scales: {
+                                                        y: {
+                                                            beginAtZero: true
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        })
+                                        .catch(error => console.error('Error fetching data:', error));
+
+                                    // Function to get month name based on month number
+                                    function getMonthName(monthNumber) {
+                                        const monthNames = [
+                                            'January', 'February', 'March', 'April',
+                                            'May', 'June', 'July', 'August',
+                                            'September', 'October', 'November', 'December'
+                                        ];
+
+                                        return monthNames[monthNumber - 1] || 'Unknown';
+                                    }
+                                });
+                            </script>
+                        </article>
+                        <div style="padding: 10px; margin-left: 10px;">
+                            <button class="btn" onclick="showMonthlyChart()"
+                                style="color: #088178; border: 1px solid #088178; padding: 5px; margin: 10px ;"> Monthly
+                                Basis</button>
+                            <button class="btn" onclick="showWeeklyChart()"
+                                style="color: #088178; border: 1px solid #088178; padding: 5px;"> Weekly Basis</button>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- // doughnut chart  -->
+                <div class="col-xl-4 col-lg-12">
+                    <div class="card mb-4">
+                        <article class="card-body">
+                            <h5 class="card-title">Products sales chart</h5>
+                            <canvas id="productSoldChart" height="217"></canvas>
+
+                            <script>
+                            
+                                fetch('/admin/productSoldData')  
+                                    .then(response => response.json())
+                                    .then(data => {
+                                      
+                                        createDoughnutChart(data.productSoldData);
+                                    })
+                                    .catch(error => console.error('Error fetching productSoldData:', error));
+
+                                function createDoughnutChart(productSoldData) {
+                                    // Assuming you have Chart.js library included in your project
+                                    var ctx = document.getElementById('productSoldChart').getContext('2d');
+                                    var myDoughnutChart = new Chart(ctx, {
+                                        type: 'doughnut',
+                                        data: {
+                                            labels: productSoldData.map(item => item.productName),
+                                            datasets: [{
+                                                data: productSoldData.map(item => item.totalSold),
+                                                backgroundColor: [
+                                                    'rgba(255, 99, 132, 0.7)',
+                                                    'rgba(54, 162, 235, 0.7)',
+                                                    'rgba(54, 62, 235, 0.7)',
+                                                    'rgba(123, 206, 86, 0.7)',
+                                                    'rgba(75, 192, 192, 0.7)',
+                                                    'rgba(153, 102, 255, 0.7)',
+                                                    'rgba(53, 12, 255, 0.7)',
+                                                    'rgba(113, 652, 255, 0.7)',
+                                                    'rgba(213, 122, 255, 0.7)',
+                                                ],
+                                            }],
+                                        },
+                                    });
+                                }
+                            </script>
+
+                        </article>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            <div class="card mb-4">
+                <h4 class="card-title" style="margin: 20px;">Latest orders</h4>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-nowrap mb-0" id="transactions">
+                                <thead class="table-dark">
+                                    <tr>
+
+                                        <th class="align-middle" scope="col">Order ID</th>
+                                        <th class="align-middle" scope="col">Billing Name</th>
+                                        <th class="align-middle" scope="col">Date</th>
+                                        <th class="align-middle" scope="col">Total</th>
+                                        <th class="align-middle" scope="col">Payment Status</th>
+                                        <th class="align-middle" scope="col">Payment Method</th>
+                                        <th class="align-middle" scope="col">View Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if(orderData && orderData.length> 0 ) { %>
+                                        <% for(let i=0 ; i < orderData.length ; i++){ %>
+                                            <tr>
+
+                                                <td><a href="#" class="fw-bold">
+                                                        <%= orderData[i].orderid %>
+                                                    </a> </td>
+                                                <td>
+                                                    <%= orderData[i].address.firstName %>
+                                                        <%= orderData[i].address.lastName %>
+                                                </td>
+                                                <td>
+                                                    <%= orderData[i].orderDate.toLocaleDateString('en-US') %>
+                                                </td>
+                                                <td>
+                                                    ₹<%= orderData[i].totalPrice %>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-pill badge-soft-success">
+                                                        <%= orderData[i].paymentStatus %>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <i class="material-icons md-payment font-xxl text-muted mr-5"></i>
+                                                    <%= orderData[i].paymentMethod %>
+                                                </td>
+                                                <td>
+                                                    <a href="/admin/individualOrdersPage?ordersIndividualId=<%= orderData[i]._id %>"
+                                                        class="btn btn-md rounded font-sm">Order Details</a>
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                                                <% } %>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    new DataTable('#transactions');
+            
+            })
+            </script>
+           
+        </section>
+        <%- include('../partials/adminFooter.ejs') %>

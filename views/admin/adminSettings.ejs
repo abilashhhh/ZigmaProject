@@ -1,0 +1,85 @@
+<%- include('../partials/adminHeader.ejs') %>
+
+<!-- SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+<!-- Main CSS -->
+<link href="/adminAssets/css/main.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<%- include('../partials/adminAside.ejs') %>
+
+<section class="content-main">
+    <div class="content-header">
+        <h2 class="content-title">Profile setting</h2>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row gx-5">
+
+                <div class="col-lg-9">
+                    <section class="content-body p-xl-4">
+
+                        <div class="row" style="max-width: 920px">
+                            <div class="col-md">
+
+                                <h6>Password</h6>
+                                <small class="text-muted d-block" style="width:70%">You can reset or change your password here</small>
+
+                                <form method="post" onsubmit="return validateForm()" class="my-4">
+                                    <div class="form-group">
+                                        <input type="password" required="" name="oldpassword" id="oldpassword"
+                                            placeholder="Enter old password" class="form-control">
+                                        <span id="passwordError1" class="error"></span>
+                                    </div>
+                                    <br>
+
+                                    <div class="form-group">
+                                        <input type="password" required="" name="newpassword" id="newpassword"
+                                            placeholder="Enter new password" class="form-control">
+                                        <span id="passwordError2" class="error"></span>
+                                    </div>
+<br>
+                                    <div class="form-group">
+                                        <input type="password" required="" name="confirmpassword"
+                                            id="confirmpassword" placeholder="Confirm new password"
+                                            class="form-control">
+                                        <span id="confirmPasswordError" class="error"></span>
+                                    </div>
+<br>
+<h5 style="color: blue; margin: 20px;">
+    <% if(message && typeof message !== 'undefined'){ %>
+        <div id="message-container">
+            <h5 style="font-size: large; color: red; margin: 20px;">
+              <%= message %>
+            </h5>
+          </div>
+    <% } %>
+    <span id="generalError" class="error"></span>
+</h5>
+
+ 
+    <script>
+      setTimeout(() => {
+        document.getElementById("message-container").style.display = "none";
+      }, 3000);
+    </script>
+   
+
+                                    <div class="form-group">
+                                        <button type="submit"
+                                            class="btn btn-fill-out btn-block hover-up" name="login"
+                                            style="color: white; background-color: green;">Reset password</button>
+                                    </div>
+                                </form>
+
+        
+                            </div>
+
+                        </div> <!-- row.// -->
+                    </section> <!-- content-body .// -->
+                </div> <!-- col.// -->
+            </div> <!-- row.// -->
+        </div> <!-- card body end// -->
+    </div> <!-- card end// -->
+</section> <!-- content-main end// -->
+<%- include('../partials/adminFooter.ejs') %>

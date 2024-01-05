@@ -1,0 +1,94 @@
+﻿
+<%- include('../partials/userHeader.ejs') %>
+<%- include('../partials/pageTopPanel.ejs') %>
+
+    <main class="main single-page">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="/" rel="nofollow">Home</a>
+                    <span></span> Pages
+                    <span></span> About us
+                </div>
+            </div>
+        </div>
+        <section class="section-padding">
+            <div class="container pt-25">
+                <div class="row">
+                    <div class="col-lg-6 align-self-center mb-lg-0 mb-4">
+                        <h6 class="mt-0 mb-15 text-uppercase font-sm text-brand wow fadeIn animated">Zigma Smartwatches</h6>
+                        <h1 class="font-heading mb-40">
+                            Elevate Your Style with Smartwatches from Zigma
+                        </h1>
+                        <p>Discover the latest in smartwatch technology with Zigma Smartwatches. Our curated collection includes top brands like Apple, Samsung, Boat, Titan, Fastrack, Fossil, and more.</p>
+                        <p>Experience the convenience and style of our smartwatches, designed to enhance your lifestyle. Whether you're a fitness enthusiast or a tech-savvy individual, Zigma has the perfect smartwatch for you.</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="assets/imgs/page/about-1.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="team" class="pt-25 wow fadeIn animated">
+            <div class="container">
+             </div>
+        </section>
+        <section id="work" class="mt-40 pt-50 pb-50 section-border">
+            <div class="container">
+                <div class="row mb-50">
+                    <div class="col-lg-12 col-md-12 text-center">
+                        <h6 class="mt-0 mb-5 text-uppercase text-brand font-sm wow fadeIn animated">Zigma Smartwatches</h6>
+                        <h2 class="mb-15 text-grey-1 wow fadeIn animated">Explore Our Showrooms<br> Across India</h2>
+                        <p class="w-50 m-auto text-grey-3 wow fadeIn animated">Visit our showrooms across the country to get hands-on experience with the latest smartwatches from top brands. Our expert staff is ready to assist you in finding the perfect smartwatch.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- Showroom Information - Update with Zigma Showroom Details -->
+                </div>
+            </div>
+        </section>
+        <section id="testimonials" class="section-padding">
+            <div class="container pt-25">
+                <div class="row mb-50">
+                    <div class="col-lg-12 col-md-12 text-center">
+                        <h6 class="mt-0 mb-10 text-uppercase text-brand font-sm wow fadeIn animated">Customer Testimonials</h6>
+                        <h2 class="mb-15 text-grey-1 wow fadeIn animated">See What Our Customers Say About Zigma Smartwatches</h2>
+                        <p class="w-50 m-auto text-grey-3 wow fadeIn animated">Discover the satisfaction of our customers who have experienced the excellence of Zigma Smartwatches. Join the community of smartwatch enthusiasts!</p>
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <!-- Customer Testimonials - Update with Zigma Customer Reviews -->
+                </div>
+                
+            </div>
+        </section>
+    </main>
+    
+    <section class="section-padding">
+        <div class="container pb-20">
+            <h3 class="section-title mb-20 wow fadeIn animated"><span>Featured</span>
+                Brands</h3>
+            <div class="carausel-6-columns-cover position-relative wow fadeIn animated">
+                <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-3-arrows">
+                </div>
+                <div class="carausel-6-columns text-center" id="carausel-6-columns-3">
+                    <% if( categoriesData && categoriesData.length> 1) { %>
+                        <% for(let i=0 ; i < categoriesData.length ; i++){ %>
+                            <div class="brand-logo">
+                                <a href="/shop?categoryName=<%= categoriesData[i].categoryName %>">
+                                    <img class="img-grey-hover" src="<%= categoriesData[i].categoryImage%>" alt>
+                                </a>
+
+                            </div>
+                            <% } %>
+                                <% } %>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    </main>
+
+    
+    <%- include('../partials/userAboveFooterPanel.ejs') %>
+    <%- include('../partials/userFooter.ejs') %>

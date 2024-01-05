@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Zigma Watches - Add Address Page</title>
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="/assets/css/maind134.css" />
+</head>
+
+<body>
+  <div class="page-header breadcrumb-wrap">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/" rel="nofollow">Home</a>
+        <span></span><a href="/accountPage">Account</a><span></span> Add Address
+      </div>
+      <p class="logopara">Zigma Smartwatches</p>
+    </div>
+  </div>
+
+  <div class="padding_eight_all bg-white">
+    <div class="heading_s1">
+      <h3 class="mb-30">Add New Address</h3>
+    </div>
+    <div style="width: 900px;">
+
+      <form method="post" action="/addAddress" onsubmit="return validateForm()">
+        <div class="form-group">
+          <input type="text" required="" name="firstName" id="firstName" placeholder="First name *">
+          <p id="firstNameModify" style="color: red;"></p>
+        </div>
+        <div class="form-group">
+          <input type="text" required="" name="lastName" id="lastName" placeholder="Last name *">
+          <p id="lastNameModify" style="color: red;"></p>
+        </div>
+        <div class="form-group">
+          <input type="text" required="" name="deliveryemail" id="deliveryemail" placeholder="Email">
+          <p id="emailModify" style="color: red;"></p>
+        </div>
+        <div class="form-group">
+          <input type="text" required="" name="phone" id="phone" placeholder="Phone Number">
+          <p id="phoneModify" style="color: red;"></p>
+        </div>
+        <div class="form-group">
+          <input type="text" required="" name="street" id="street" placeholder="Address *">
+          <p id="streetModify" style="color: red;"></p>
+        </div>
+        <div class="form-group">
+          <input type="text" name="addressLine2" id="addressLine2" placeholder="Address Line 2">
+        </div>
+        <div class="form-group">
+          <input required="" type="text" name="city" id="city" placeholder="City / Town *">
+          <p id="cityModify" style="color: red;"></p>
+        </div>
+        <div class="form-group">
+          <input required="" type="text" name="state" id="state" placeholder="State *">
+          <p id="stateModify" style="color: red;"></p>
+        </div>
+        <div class="form-group">
+          <input required="" type="text" name="country" id="country" placeholder="Country *">
+          <p id="countryModify" style="color: red;"></p>
+        </div>
+        <div class="form-group">
+          <input required="" type="text" name="zipCode" id="zipCode" placeholder="Postcode / ZIP *">
+          <p id="zipCodeModify" style="color: red;"></p>
+        </div>
+
+
+
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-fill-out btn-block hover-up" name="addAddress">
+            Add Address
+          </button>
+        </div>
+
+        <% if (typeof message !=='undefined' ) { %>
+          <div id="message-container">
+            <h5 style="font-size: large; color: red; margin: 20px;">
+              <%= message %>
+            </h5>
+          </div>
+          <script>
+            setTimeout(() => {
+              document.getElementById("message-container").style.display = "none";
+            }, 3000);
+          </script>
+          <% } %>
+      </form>
+    </div>
+
+  </div>
+  </main>
+  <script>
+    function validateForm() {
+      // Get the values entered by the user
+      var firstName = document.getElementById('firstName').value;
+      var lastName = document.getElementById('lastName').value;
+      var email = document.getElementById('deliveryemail').value;
+      var phone = document.getElementById('phone').value;
+      var street = document.getElementById('street').value;
+      var city = document.getElementById('city').value;
+      var state = document.getElementById('state').value;
+      var country = document.getElementById('country').value;
+      var zipCode = document.getElementById('zipCode').value;
+
+      // Check if the fields are empty
+      if (firstName.trim() === '') {
+        document.getElementById('firstNameModify').innerText = 'First name cannot be empty';
+        return false;
+      } else {
+        document.getElementById('firstNameModify').innerText = '';
+      }
+
+      if (lastName.trim() === '') {
+        document.getElementById('lastNameModify').innerText = 'Last name cannot be empty';
+        return false;
+      } else {
+        document.getElementById('lastNameModify').innerText = '';
+      }
+
+      // email
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+/;
+      if (email.trim() === '') {
+        document.getElementById('emailModify').innerText = 'Email cannot be empty';
+        return false;
+      } else if (!emailRegex.test(email)) {
+        document.getElementById('emailModify').innerText = 'Invalid email format';
+        return false;
+      } else {
+        document.getElementById('emailModify').innerText = '';
+      }
+
+
+
+      var mobileRegex = /^\d+$/;
+      if (phone.trim() === '') {
+        document.getElementById('phoneModify').innerText = 'Mobile number cannot be empty';
+        return false;
+      } else if (!mobileRegex.test(phone)) {
+        document.getElementById('phoneModify').innerText = 'Invalid mobile number format';
+        return false;
+      } else if (phone.length !== 10) {
+        document.getElementById('phoneModify').innerText = 'Mobile number should be 10 digits long';
+        return false;
+      } else {
+        document.getElementById('phoneModify').innerText = '';
+      }
+
+
+
+
+      if (street.trim() === '') {
+        document.getElementById('streetModify').innerText = 'Address cannot be empty';
+        return false;
+      } else {
+        document.getElementById('streetModify').innerText = '';
+      }
+
+      if (city.trim() === '') {
+        document.getElementById('cityModify').innerText = 'City/Town cannot be empty';
+        return false;
+      } else {
+        document.getElementById('cityModify').innerText = '';
+      }
+
+      if (state.trim() === '') {
+        document.getElementById('stateModify').innerText = 'State cannot be empty';
+        return false;
+      } else {
+        document.getElementById('stateModify').innerText = '';
+      }
+
+      if (country.trim() === '') {
+        document.getElementById('countryModify').innerText = 'Country cannot be empty';
+        return false;
+      } else {
+        document.getElementById('countryModify').innerText = '';
+      }
+
+      var zipCodeRegex = /^\d+$/;
+      if (zipCode.trim() === '') {
+        document.getElementById('zipCodeModify').innerText = 'Zip code  cannot be empty';
+        return false;
+      } else if (!zipCodeRegex.test(zipCode)) {
+        document.getElementById('zipCodeModify').innerText = 'Invalid zip code  format';
+        return false;
+      } else if (zipCode.length < 4) {
+        document.getElementById('zipCodeModify').innerText = 'Zip code will not be this short';
+        return false;
+      } else {
+        document.getElementById('zipCodeModify').innerText = '';
+      }
+
+
+
+      return true;
+    }
+  </script>
+</body>
+
+</html>

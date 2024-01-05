@@ -1,0 +1,65 @@
+<%- include('../partials/userHeader.ejs') %>
+
+<link rel="shortcut icon" type="image/x-icon" href="adminAssets/imgs/theme/favicon.svg">
+
+<link href="adminAssets/css/main.css" rel="stylesheet" type="text/css" />
+<%- include('../partials/pageTopPanel.ejs') %>
+
+<div class="screen-overlay"></div>
+
+<div class="container">
+    <div class="card-body">
+        <div class="row gx-3">
+
+            <% if (categoriesData && categoriesData.length > 0) { %>
+                <% for (let i = 0; i < categoriesData.length; i++) { %>
+
+                    <% if (userData && typeof userData !== 'undefined') { %>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-6">
+                            <a href="/shop?categoryName=<%= categoriesData[i].categoryName %>">
+                                <figure class="card border-1">
+                                    <div class="card-header bg-white text-center">
+                                        <img height="80" src="/<%= categoriesData[i].categoryImage %>"
+                                            class="img-fluid" alt="Logo">
+                                    </div>
+                                    <figcaption class="card-body text-center">
+                                        <h4 class="card-title m-0">
+                                            <%= categoriesData[i].categoryName %>
+                                        </h4>
+                                        <p class="card-title m-0">
+                                            <%= categoriesData[i].categoryCountry %>
+                                        </p>
+                                    </figcaption>
+                                </figure>
+                            </a>
+                        </div>
+                    <% } else { %>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-6">
+                            <figure class="card border-1">
+                                <div class="card-header bg-white text-center">
+                                    <img height="80" src="/<%= categoriesData[i].categoryImage %>"
+                                        class="img-fluid" alt="Logo">
+                                </div>
+                                <figcaption class="card-body text-center">
+                                    <h4 class="card-title m-0">
+                                        <%= categoriesData[i].categoryName %>
+                                    </h4>
+                                    <p class="card-title m-0">
+                                        <%= categoriesData[i].categoryCountry %>
+                                    </p>
+                                </figcaption>
+                            </figure>
+                        </div>
+                    <% } %>
+
+                <% } %>
+            <% } else { %>
+                <h4>No brands found </h4>
+            <% } %>
+
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/userAboveFooterPanel.ejs') %>
+<%- include('../partials/userFooter.ejs') %>

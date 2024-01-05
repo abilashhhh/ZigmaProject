@@ -1,0 +1,67 @@
+<%- include('../partials/adminHeader.ejs') %>
+
+    <link rel="stylesheet" href="/assets/css/maind134.css" />
+    <!-- USER STYLESHEET FOR BREADCRMBS -->
+
+
+    <style>
+        .logo-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .logo {
+            width: 100px;
+        }
+    </style>
+    </head>
+
+    <body>
+        <main>
+            <div class="page-header breadcrumb-wrap">
+                <div class="container">
+                    <div class="breadcrumb">
+                        <a href="/" rel="nofollow">Home</a>
+                        <span></span>Admin Login
+                    </div>
+                    <p class="logopara">Zigma Smartwatches</p>
+                </div>
+            </div>
+
+            <div class="card mx-auto card-login">
+
+                <div class="logo-container">
+                    <a href="/">
+                        <img src="/logo.jpg" class="logo" alt="Zigma Smartwatches Dashboard">
+                    </a>
+                </div>
+
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Admin Login</h4>
+                    <form method="post">
+                        <div class="mb-3">
+                            <input class="form-control" placeholder="Username" name="username" id="username" type="text"
+                                value="admin">
+                        </div>
+
+                        <div class="mb-3">
+                            <input class="form-control" placeholder="Password" id="password" name="password"
+                                type="password" value="adminadmin">
+                        </div>
+                        <p style="color: red;">
+                            <% if (typeof message !=='undefined' ) { %>
+                                <%= message %>
+                                    <% } %>
+                        </p>
+                       
+
+                        <div class="mb-4">
+                            <button type="submit" class="btn btn-primary w-100"> Login </button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+ 
+        <%- include('../partials/adminFooter.ejs') %>

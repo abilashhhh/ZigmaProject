@@ -1,0 +1,67 @@
+<%- include('../partials/adminHeader.ejs') %>
+    <%- include('../partials/adminAside.ejs') %>
+
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Edit Categories </h2>
+   
+                </div>
+                <div>
+                    <input type="text" placeholder="Search Categories" class="form-control bg-white">
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="table-responsive">
+                                <form method="post" action="/admin/editCategories" enctype="multipart/form-data">
+ 
+                                    <div class="card-body">
+                                        <div class="mb-4">
+                                            <label for="product_name" class="form-label">Category </label>
+                                            <input type="text" placeholder="Category" class="form-control" value="<%= categories.categoryName %>" id="categoryName" name="categoryName">
+                                        </div>
+            
+                                        <div class="mb-4">
+                                            <label for="product_name" class="form-label">Country </label>
+                                            <input type="text" placeholder="Country" class="form-control" value="<%= categories.categoryCountry %>" id="categoryCountry" name="categoryCountry">
+                                        </div>
+            
+                                      
+                                        <div class="mb-4">
+                                            <label for="previousImage" class="form-label">Previous Image</label>
+                                            <img src="/<%= categories.categoryImage %>" alt="Previous Image" style="max-width: 200px; max-height: 200px;">
+                                        </div>
+            
+                                        
+                                        <div class="mb-4">
+                                            <label for="newImage" class="form-label">New Image</label>
+                                                <input type="file" name="categoryImage" class="form-control"   id="category_image">
+                                        </div>
+            
+                                        <input type="hidden" name="categoriesid" value="<%= categories._id %>" />
+                                        <input type="submit" class="btn btn-md rounded font-sm hover-up" value="Update category">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section> 
+ 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+             function hideMessage() {
+                var messageElement = document.getElementById('messageElementId');
+                if (messageElement) {
+                    messageElement.style.display = 'none';
+                }
+            }
+             setTimeout(hideMessage, 3000);
+        });
+    </script>   
+     <%- include('../partials/adminFooter.ejs') %>

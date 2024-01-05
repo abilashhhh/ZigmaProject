@@ -1,0 +1,192 @@
+﻿<%- include('../partials/userHeader.ejs') %>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <%- include('../partials/pageTopPanel.ejs') %>
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="/loginHome" rel="nofollow">Home</a>
+                    <span></span> Shop
+                    <span></span> Wishlist
+                </div>
+            </div>
+        </div>
+        <section class="mt-50 mb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                             
+                            
+                            <style>
+                                .btn.btn-sm {
+                                    transition: background-color 0.3s, color 0.3s;
+                                }
+                            
+                                .btn.btn-sm:hover {
+                                    background-color: #555;
+                                    color: #fff;
+                                }
+                            
+                                .btn.btn-sm:active {
+                                    background-color: #333;
+                                }
+                            </style>
+                            
+                            <% if (productData && productData.length > 0) { %>
+                                <table class="table shopping-summery text-center">
+                                    <thead>
+                                        <tr class="main-heading">
+                                            <th scope="col" colspan="2">Product</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Stock Status</th>
+                                            <th scope="col">Action</th>
+                                            <th scope="col">Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for (let i = 0; i < productData.length; i++) { %>
+                                            <tr id="<%= `product-${productData[i].productId._id}` %>">
+                                                <td class="image product-thumbnail">
+                                                    <img src="/<%= productData[i].productId.image[0] %>" alt="#">
+                                                </td>
+                                                <td class="product-des product-name">
+                                                    <h5 class="product-name">
+                                                        <a href="/individualProductPage?_id=<%= productData[i].productId._id %>">
+                                                            <%= productData[i].productId.productName %>
+                                                        </a>
+                                                    </h5>
+                                                    <p class="font-xs">
+                                                        Brand: <%= productData[i].productId.category %> <br>
+                                                        Submodel: <%= productData[i].productId.submodel %>
+                                                    </p>
+                                                </td>
+                                                <td class="price" data-title="Price">
+                                                    <span>₹<%= productData[i].productId.salesPrice %></span>
+                                                </td>   
+                                                <td class="text-center" data-title="Stock">
+                                                    <span class="color3 font-weight-bold">
+                                                        <% if (productData[i].productId.quantity > 0) { %>
+                                                            In Stock
+                                                            <% } else { %>
+                                                                <span style="color: red;"> Out of Stock</span>
+                                                                <% } %>
+                                                            </span>
+                                                        </td>
+                                                        <% if (productData[i].productId.quantity > 0) { %>
+                                                <td class="text-right" data-title="Cart">
+                                                    <button class="btn btn-sm" onclick="addToCart('<%= productData[i].productId._id %>', '<%= productData[i].productId.productName %>')">
+                                                        <i class="fi-rs-shopping-bag mr-5"></i>Add to cart
+                                                    </button>
+                                                </td>
+                                                <% }else{ %>
+                                                   <td>
+                                                    <p>WIll add new stocks soon</p>
+                                                   </td>
+                                                <% } %>
+                                                <td class="action" data-title="Remove">
+                                                    <a href="#" class="text-muted" onclick="removeProduct('<%= productData[i].productId._id %>', '<%= productData[i].productId.productName %>')">
+                                                        <i class="fi-rs-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            
+                                <script>
+                                    function removeProduct(productId, productName) {
+                                        Swal.fire({
+                                            title: 'Are you sure?',
+                                            text: `Do you want to remove "${productName}" from your wishlist?`,
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonText: 'Yes, remove it!',
+                                            cancelButtonText: 'No, cancel!',
+                                            reverseButtons: true
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                fetch(`/wishlist/remove?productId=${productId}`, { method: 'DELETE' })
+                                                    .then(response => {
+                                                        if (!response.ok) {
+                                                            throw new Error('Error removing product');
+                                                        }
+                                                        return response.json();
+                                                    })
+                                                    .then(data => {
+                                                        if (data.success) {
+                                                            const productElement = document.getElementById(`product-${productId}`);
+                                                            if (productElement) {
+                                                                productElement.remove();
+                                                            }
+        
+                                                            // Display notification without reloading
+                                                            removeProductNotification(productName, 'removed from wishlist');
+                                                        } else {
+                                                            console.error('Error removing product:', data.message);
+                                                        }
+                                                    })
+                                                    .catch(error => {
+                                                        console.error('Error removing product:', error);
+                                                    });
+                                            }
+                                        });
+                                    }
+        
+                                    function removeProductNotification(productName, action) {
+                                        // Use Toastify for notifications
+                                        Toastify({
+                                            text: `"${productName}" ${action}`,
+                                            duration: 2000,
+                                            backgroundColor: "#dc3545", // You can customize the background color
+                                            position: 'right',
+                                        }).showToast();
+                                    }
+        
+                                    async function addToCart(productId, productName) {
+                                        try {
+                                            const response = await fetch(`/cart/add?productId=${productId}`, { method: 'POST' });
+        
+                                            if (!response.ok) {
+                                                throw new Error('Error adding product to cart');
+                                            }
+        
+                                            const data = await response.json();
+        
+                                            if (data.success) {
+                                                // Display notification using Toastify
+                                                addToCartNotification(productName, 'added to cart');
+                                            } else {
+                                                console.error('Error adding product to cart:', data.message);
+                                            }
+                                        } catch (error) {
+                                            console.error('Error adding product to cart:', error);
+                                        }
+                                    }
+        
+                                    function addToCartNotification(productName, action) {
+                                        // Use Toastify for notifications
+                                        Toastify({
+                                            text: `"${productName}" ${action}`,
+                                            duration: 2000,
+                                            backgroundColor: "#28a745", // You can customize the background color
+                                            position: 'right',
+                                        }).showToast();
+                                    }
+                                </script>
+        
+                            <% } else { %>
+                                <h2>Wishlist is empty! </h2>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <%- include('../partials/userAboveFooterPanel.ejs') %>
+    <%- include('../partials/userFooter.ejs') %>

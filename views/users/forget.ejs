@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Zigma Watches - Forget Password</title>
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="/assets/css/maind134.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+
+<div class="page-header breadcrumb-wrap">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/" rel="nofollow">Home</a>
+        <span></span> <a href="/login">Log in</a>  <span></span> Forget Password
+      </div>
+      <p class="logopara">Zigma Smartwatches</p>
+    </div>
+  </div>
+
+<div class="padding_eight_all bg-white " style="width: 500px;">
+    <div class="heading_s1">
+        <h3 class="mb-30">Forget Password</h3>
+    </div>
+    <form method="post">
+        <div class="form-group">
+            <input type="text" required="" name="email" placeholder="Email id">
+        </div>
+        
+        <div class="login_footer form-group">
+            
+           
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-fill-out btn-block hover-up" name="login">Send reset link</button>
+        </div>
+ 
+
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              <% if (typeof message !== 'undefined') { %>
+              Swal.fire({
+                icon: '<%= message.type || "info" %>',
+                title: '<%= message.title || "Alert" %>',
+                text: "<%= message.text %>",
+                timer: 5000,
+              });
+              <% } %>
+            });
+          </script>
+
+    </form>
+</div>
+</div>
+</div>
+</body>
+</html>

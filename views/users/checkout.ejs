@@ -1,0 +1,633 @@
+﻿<%- include('../partials/userHeader.ejs') %>
+    <!-- //razorpay -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <%- include('../partials/pageTopPanel.ejs') %>
+
+
+        <main class="main">
+            <div class="page-header breadcrumb-wrap">
+                <div class="container">
+                    <div class="breadcrumb">
+                        <a href="/" rel="nofollow">Home</a>
+                        <span></span> Shop
+                        <span></span> Checkout
+                    </div>
+                </div>
+            </div>
+
+            <section class="mt-50 mb-50">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="toggle_info">
+                                <span>
+                                    <i class="fi-rs-label mr-10"></i>
+                                    <span class="text-muted">Have a coupon?</span>
+                                    <a href="#coupon" data-bs-toggle="collapse" class="collapsed"
+                                        aria-expanded="false">Click here to enter your code</a>
+                                </span>
+                                <h5 style="margin: 10px;">
+                                    <% if (typeof message !=='undefined' && message) { %>
+                                        <%= message %>
+                                            <% } %>
+
+                                </h5>
+
+                                <h6 style="margin-left: 10px;">
+                                    <% if (message=="Coupon applied successfully" ) { %>
+                                        <span style="color: red; font-size: 20px;">
+                                            <%= couponCode %>
+                                        </span><br>
+                                        <a href="/loadCheckout">Remove Coupon</a>
+                                        <!-- Trigger SweetAlert and refresh page -->
+                                        <script>
+                                            Swal.fire({
+                                                title: 'Coupon Applied!',
+                                                text: 'Your coupon has been successfully applied.',
+                                                icon: 'success',
+                                                showConfirmButton: false,
+                                                timer: 1500
+                                            });
+
+
+
+                                        </script>
+                                        <% } %>
+                                </h6>
+                            </div>
+                            <div class="panel-collapse collapse coupon_form" id="coupon">
+                                <div class="panel-body">
+                                    <p class="mb-30 font-sm">If you have a coupon code, please apply it below.</p>
+                                    <form method="get" action="/checkCouponValididty">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="Enter Coupon Code..." name="enteredCoupon">
+
+
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-md">Apply Coupon</button>
+                                        </div>
+                                        <% let totalSum=0; if (productData.length> 0) {
+                                            for (let i = 0; i < productData.length; i++) { const product=productData[i];
+                                                totalSum +=product.productId.salesPrice * product.quantity; } } %>
+                                                <input type="hidden" name="priceChecking" value="<%=
+                                            totalSum %>">
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="toggle_info">
+                                <span><i class="fi-rs-label mr-10"></i><span class="text-muted"></span> <a
+                                        href="#couponCodes" data-bs-toggle="collapse" class="collapsed"
+                                        aria-expanded="false">Click here to see all coupons</a></span>
+                            </div>
+                            <div class="panel-collapse collapse coupon_form " id="couponCodes">
+                                <div class="panel-body">
+                                    <% if(couponsData && couponsData.length> 0){ %>
+                                        <ul>
+                                            <% for(let i=0 ;i< couponsData.length;i++){ %>
+                                                <li>&bull; <%= couponsData[i].couponCode %> - <%=
+                                                            couponsData[i].discountPercentage %>% off on minimum
+                                                            purchase of
+                                                            Rs. <%= couponsData[i].minimumAmount %> (Maximum : Rs<%=
+                                                                    couponsData[i].maximumAmount %>)
+                                                </li>
+
+                                                <% } %>
+                                        </ul>
+                                        <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- <form action="/ordered" method="post" class="pay-form"> -->
+                    <!-- <form method="post"  onsubmit="event.preventDefault(); handleFormSubmission()"  >   -->
+                    <form id="orderForm" method="post" onsubmit="event.preventDefault(); handleFormSubmission()">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="divider mt-50 mb-50"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-25">
+                                    <h4>Select Address</h4>
+                                </div>
+
+
+                                <style>
+                                    .address-card {
+                                        cursor: pointer;
+                                        transition: box-shadow 0.3s ease;
+                                        text-align: center;
+                                    }
+
+                                    .address-card.selected {
+                                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                                    }
+
+                                    .address-card .card-header {
+                                        background-color: #088178;
+                                        color: white;
+                                        padding: 10px;
+                                    }
+
+                                    .address-card .card-body {
+                                        padding: 15px;
+                                    }
+
+                                    .form-check-input {
+                                        transform: scale(2);
+                                        margin-top: 10px;
+                                    }
+                                </style>
+
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        const addressCards = document.querySelectorAll(".address-card");
+
+                                        addressCards.forEach(function (card, index) {
+                                            card.addEventListener("click", function () {
+                                                addressCards.forEach(function (card) {
+                                                    card.classList.remove("selected");
+                                                });
+                                                card.classList.add("selected");
+                                            });
+                                        });
+                                    });
+                                </script>
+
+                                <div class="row" style="width: 100%; display: flex; flex-wrap: wrap; gap: 20px;">
+                                    <% if (userData && userData.address && userData.address.length> 0) { %>
+                                        <% for (let i=0; i < userData.address.length; i++) { %>
+                                            <div class="col-lg-6" style="flex: 0 0 48%; margin-bottom: 20px;">
+                                                <div class="address-card">
+                                                    <div class="card mb-3 mb-lg-0">
+                                                        <div class="card-header">
+                                                            <h5 class="mb-0" style="color: white;">
+                                                                <%= i===0 ? 'Permanent Address' : 'Address ' + (i) %>
+                                                            </h5>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <address>
+                                                                <%= userData.address[i].firstName %>
+                                                                    <%= userData.address[i].lastName %><br>
+                                                                        <%= userData.address[i].street %>,
+                                                                            <%= userData.address[i].city %>,
+                                                                                <%= userData.address[i].state %>
+                                                                                    <%= userData.address[i].zipCode %>
+                                                                                        <br>
+                                                                                        <%= userData.address[i].country
+                                                                                            %>
+                                                            </address>
+
+                                                            <input type="hidden" name="usernameRazorPay"
+                                                                value="<%= userData.address[i].firstName %> <%= userData.address[i].lastName %>">
+                                                            <input type="hidden" name="deliveryemailRazorPay"
+                                                                value="<%= userData.address[i].deliveryemail %>">
+                                                            <input type="hidden" name="phoneRazorPay"
+                                                                value=" +91<%= userData.address[i].phone %>">
+
+                                                            <p>
+                                                                <%= userData.address[i].phone %>
+                                                            </p>
+                                                            <p>
+                                                                <%= userData.address[i].deliveryemail %>
+                                                            </p>
+                                                            <input class="form-check-input" required="" type="radio"
+                                                                name="address_selection" id="<%= i %>" value="<%= i %>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <% } %>
+                                                <% } else { %>
+                                                    <h3>
+                                                        No addresses found. <br>
+                                                        Please add a new address to place the order<br><br>
+                                                        <a href="/addAddress" class="btn"> Add address </a>
+                                                    </h3>
+                                                    <% } %>
+                                </div>
+                                <a href="/addAddress" class="btn" style="margin: 20px;">Add new address</a>
+
+
+
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="order_review">
+                                    <div class="mb-20">
+                                        <h4>Your Orders</h4>
+                                    </div>
+                                    <div class="table-responsive order_table text-center">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="2">Product</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% if (productData.length> 0) { %>
+                                                    <% productData.forEach(product=> { %>
+                                                        <tr>
+                                                            <td class="image product-thumbnail">
+                                                                <% if (product.productId.image &&
+                                                                    product.productId.image.length> 0) { %>
+                                                                    <img src="/<%= product.productId.image[0] %>"
+                                                                        alt="#" class="product-image">
+                                                                    <input type="hidden" name="productId" id=""
+                                                                        value="<%=  product.productId._id %>">
+                                                                    <% } else { %>
+                                                                        <img src="" alt="No Image"
+                                                                            class="product-image">
+                                                                        <% } %>
+                                                            </td>
+                                                            <td>
+                                                                <h5><a
+                                                                        href="/individualProductPage?_id=<%= product.productId._id %>">
+                                                                        <%= product.productId.productName %>
+                                                                    </a></h5>
+                                                                <span class="product-qty">x <%= product.quantity %>
+                                                                </span>
+                                                                <input type="hidden" name="productName" id=""
+                                                                    value="<%= product.productId.productName %>">
+                                                                <input type="hidden" name="productQuantity" id=""
+                                                                    value="<%= product.quantity %>">
+                                                            </td>
+                                                            <td>
+                                                                ₹<%= product.productId.salesPrice * product.quantity %>
+                                                                    <input type="hidden" name="productQuantityTotal"
+                                                                        id=""
+                                                                        value="<%= product.productId.salesPrice * product.quantity %>">
+                                                            </td>
+                                                        </tr>
+                                                        <% }); %>
+                                                            <% } %>
+
+
+                                                                <tr>
+                                                                    <th>SubTotal</th>
+                                                                    <td class="product-subtotal" colspan="2">₹<%=
+                                                                            totalSum %>
+                                                                    </td>
+
+
+                                                                    <% if (message==='Coupon applied successfully' ) {
+                                                                        %>
+                                                                        <% if ( ((discountPercentage / 100) * totalSum)>
+                                                                            maximumAmount) { %>
+                                                                            <input type="hidden" name="allSubtotal"
+                                                                                id="allSubtotal"
+                                                                                value="<%= totalSum - maximumAmount %>">
+                                                                            <% } else { %>
+                                                                                <input type="hidden" name="allSubtotal"
+                                                                                    id="allSubtotal"
+                                                                                    value="<%= Math.round(totalSum - ((discountPercentage / 100) * totalSum)) %>">
+                                                                                <% } %>
+                                                                                    <% } else { %>
+                                                                                        <input type="hidden"
+                                                                                            name="allSubtotal"
+                                                                                            id="allSubtotal"
+                                                                                            value="<%= totalSum %>">
+                                                                                        <% } %>
+
+
+
+                                                                                            <% if
+                                                                                                (message==='Coupon applied successfully'
+                                                                                                ) { %>
+                                                                                                <% if (
+                                                                                                    ((discountPercentage
+                                                                                                    / 100) * totalSum)>
+                                                                                                    maximumAmount) { %>
+                                                                                                    <input type="hidden"
+                                                                                                        name="dicountAmount"
+                                                                                                        value="<%= maximumAmount %>">
+                                                                                                    <% } else { %>
+                                                                                                        <input
+                                                                                                            type="hidden"
+                                                                                                            name="dicountAmount"
+                                                                                                            value="<%= totalSum - Math.round(totalSum - ((discountPercentage / 100) * totalSum)) %>">
+                                                                                                        <% } %>
+                                                                                                            <% } else {
+                                                                                                                %>
+                                                                                                                <input
+                                                                                                                    type="hidden"
+                                                                                                                    name="dicountAmount"
+                                                                                                                    value="<%= 0 %>">
+                                                                                                                <% } %>
+
+
+
+
+                                                                                                                    <input
+                                                                                                                        type="hidden"
+                                                                                                                        name="couponApplied"
+                                                                                                                        value="<%= message === 'Coupon applied successfully' ?  couponCode : '' %>">
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Shipping</th>
+                                                                    <td colspan="2"><em>Free Shipping</em></td>
+                                                                </tr>
+                                                                <% if (message=="Coupon applied successfully" ) { %>
+                                                                    <tr>
+                                                                        <th>Coupon Applied</th>
+
+                                                                        <% if ( ((discountPercentage / 100) * totalSum)>
+                                                                            maximumAmount) { %> <td colspan="2">
+                                                                                <em><span
+                                                                                        style="color: red; font-size: 20px;">
+                                                                                        <%= couponCode %>
+                                                                                    </span>- Rs<%= maximumAmount %>
+                                                                                        discount</em>
+                                                                            </td>
+
+                                                                            <% } else { %>
+                                                                                <td colspan="2"><em><span
+                                                                                            style="color: red; font-size: 20px;">
+                                                                                            <%= couponCode %>
+                                                                                        </span>- <%= discountPercentage
+                                                                                            %> % discount</em></td>
+
+                                                                                <% } %>
+
+                                                                    </tr>
+                                                                    <% } %>
+                                                                        <tr>
+                                                                            <th>Total</th>
+                                                                            <td colspan="2" class="product-subtotal">
+                                                                                <span class="font-xl text-brand fw-900">
+                                                                                    <% if
+                                                                                        (message=="Coupon applied successfully"
+                                                                                        ) { %>
+
+
+                                                                                        <% if ( ((discountPercentage /
+                                                                                            100) * totalSum)>
+                                                                                            maximumAmount) { %> ₹<%=
+                                                                                                Math.round(totalSum -
+                                                                                                maximumAmount ) %>
+                                                                                                <% } else { %>
+                                                                                                    ₹<%= Math.round(totalSum
+                                                                                                        -
+                                                                                                        ((discountPercentage
+                                                                                                        / 100) *
+                                                                                                        totalSum)) %>
+                                                                                                        <% } %>
+
+                                                                                                            <% } else {
+                                                                                                                %>
+                                                                                                                ₹<%= totalSum
+                                                                                                                    %>
+                                                                                                                    <% }
+                                                                                                                        %>
+                                                                                </span>
+                                                                            </td>
+                                                                        </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                    <div class="bt-1 border-color-1 mt-30 mb-30"></div>
+                                    <div class="payment_method">
+                                        <div class="mb-25">
+                                            <h5>Payment</h5>
+                                        </div>
+                                        <div class="payment_option">
+                                            <div class="custome-radio">
+                                                <input class="form-check-input" required type="radio"
+                                                    name="payment_option" id="payment_option_RazorPay" value="RazorPay">
+                                                <label class="form-check-label"
+                                                    for="payment_option_RazorPay">RazorPay</label>
+                                            </div>
+                                            <div class="custome-radio">
+                                                <input class="form-check-input" required type="radio"
+                                                    name="payment_option" id="payment_option_POD"
+                                                    value="Pay On Delivery">
+                                                <label class="form-check-label" for="payment_option_POD">Pay On
+                                                    Delivery</label>
+                                            </div>
+
+
+                                            <% if (userData.wallet>= totalSum ) { %>
+
+                                                <div class="custome-radio">
+                                                    <input class="form-check-input" required type="radio"
+                                                        name="payment_option" id="payment_option_Wallet" value="Wallet">
+                                                    <label class="form-check-label"
+                                                        for="payment_option_Wallet">Wallet</label>
+                                                </div>
+
+                                                <% }else{%>
+
+                                                    <div class="custome-radio" style="font-weight: 800; ">
+
+                                                        Insufficient balance in wallet (Balance :<%= userData.wallet %>)
+
+                                                    </div>
+
+
+                                                    <% } %>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+
+                                <input type="submit" class="btn" value="Place Order">
+
+                            </div>
+                        </div>
+                </div>
+                </div>
+                </form>
+
+                <!--razor pay -->
+                <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+
+                <script>
+                    function handleFormSubmission() {
+                        Swal.fire({
+                            title: 'Confirm Order',
+                            text: 'Are you sure you want to place the order?',
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonText: 'Yes',
+                            cancelButtonText: 'No'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                var selectedPaymentOption;
+                                if ($('input[id="payment_option_RazorPay"]').is(':checked')) {
+                                    selectedPaymentOption = 'RazorPay';
+                                    razorPayFunction();
+                                } else if ($('input[id="payment_option_POD"]').is(':checked')) {
+                                    selectedPaymentOption = 'Pay On Delivery';
+                                    payOnDeliveryFunction();
+                                } else if ($('input[id="payment_option_Wallet"]').is(':checked')) {
+                                    selectedPaymentOption = 'Wallet';
+                                    walletFunction();
+                                }
+                            }
+                        });
+                    }
+
+                    function razorPayFunction() {
+                        var formData = $('form').serialize();
+                        $.ajax({
+                            url: "/createRazorpayOrder",
+                            type: "POST",
+                            data: formData,
+                            success: function (res) {
+                                if (res.success) {
+                                    var options = {
+                                        "key": "" + res.key_id + "",
+                                        "amount": "" + res.amount + "",
+                                        "currency": "INR",
+                                        "name": "" + res.product_name + "",
+                                        "image": "assets/imgs/theme/logo.jpg", // logo image
+                                        "order_id": "" + res.order_id + "",
+                                        "handler": function (response) {
+                                            razorpaySucccessfulPaymentFunction()
+                                        },
+                                        "prefill": {  // contains user details
+                                            "contact": "" + res.contact + "",
+                                            "name": "" + res.name + "",
+                                            "email": "" + res.email + ""
+                                        },
+                                        "notes": {
+                                            // "description": "" + res.description + ""
+                                        },
+                                        "theme": {
+                                            "color": "#2300a3"
+                                        }
+                                    };
+                                    var razorpayObject = new Razorpay(options);
+                                    razorpayObject.on('payment.failed', function (response) {
+                                        showErrorOrderConfirmation()
+                                        // alert("Payment Failed");
+                                    });
+                                    razorpayObject.open();
+
+
+                                } else {
+                                    alert(res.msg);
+                                }
+                            }
+                        });
+                    }
+                    function razorpaySucccessfulPaymentFunction() {
+                        var formData = $('form').serialize();
+
+                        $.ajax({
+                            url: "/loadcheckout",
+                            type: "POST",
+                            data: formData,
+                            success: function (response) {
+                                console.log('Form submitted for razorpay:', response);
+                                showOrderConfirmation();
+                            },
+                            error: function (error) {
+                                showErrorOrderConfirmation()
+                                console.error('Error submitting form for razorpay:', error);
+                            }
+                        });
+                    }
+
+
+                    function payOnDeliveryFunction() {
+                        var formData = $('form').serialize();
+
+                        $.ajax({
+                            url: "/loadcheckout",
+                            type: "POST",
+                            data: formData,
+                            success: function (response) {
+                                // Handle the success response
+                                console.log('Form submitted for Pay On Delivery:', response);
+                                showOrderConfirmation();
+                            },
+                            error: function (error) {
+                                showErrorOrderConfirmation()
+                                console.error('Error submitting form for Pay On Delivery:', error);
+                            }
+                        });
+                    }
+
+                    function walletFunction() {
+                        var formData = $('form').serialize();
+
+                        $.ajax({
+                            url: "/loadcheckout",
+                            type: "POST",
+                            data: formData,
+                            success: function (response) {
+                                // Handle the success response
+                                console.log('Form submitted for wallet:', response);
+                                showOrderConfirmation();
+                            },
+                            error: function (error) {
+                                showErrorOrderConfirmation()
+                                console.error('Error submitting form for wallet:', error);
+                            }
+                        });
+                    }
+
+
+                    function showErrorOrderConfirmation() {
+                        Swal.fire({
+                            title: 'Order Cannot Be Placed!',
+                            text: 'Please try again.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = '/loginHome';
+                            }
+                        });
+                    }
+
+
+                    function showOrderConfirmation() {
+                        Swal.fire({
+                            title: 'Order Placed!',
+                            text: 'Your order has been successfully placed.',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = '/loginHome';
+                            }
+                        });
+                    }
+
+
+
+
+                </script>
+
+            </section>
+        </main>
+
+        <%- include('../partials/userAboveFooterPanel.ejs') %>
+            <%- include('../partials/userFooter.ejs') %>

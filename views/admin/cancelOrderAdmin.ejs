@@ -1,0 +1,66 @@
+<%- include('../partials/adminHeader.ejs') %>
+<link rel="stylesheet" href="assets/css/maind134.css?v=3.4">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <%- include('../partials/adminAside.ejs') %>
+
+        <section class="content-main">
+            <div class="row">
+                <div class="col-9">
+                    <div class="content-header">
+                        <h2 class="content-title">Cancel Order - Admin</h2>
+
+                    </div>
+                </div>
+              
+
+                       
+
+  <div class="padding_eight_all bg-white">
+  
+    
+
+      <form id="cancelOrderForm" method="post" action="/admin/cancelOrderAdmin">
+
+        <input type="hidden" name="cancelOrderId" value="<%= cancelOrderId %>">
+        <input type="hidden" name="productId" value="<%= productId %>">
+
+         <label for="reason">Your order is cancelled by admin. Reason for Cancellation:</label> <br> <br>
+        <textarea name="reason" id="reason" rows="10" cols="100%" required > Order Cancelled by Admin.  
+        </textarea><br>
+        
+        <button type="button" id="cancelProductButton" class="confirm-cancel-btn" style="color: white; margin: 10px; padding: 10px; background-color: red; border-radius: 10px;">Cancel Product</button>
+      </form>
+
+    </div>
+  </div>
+
+  
+
+  <script>
+ 
+    document.getElementById('cancelProductButton').addEventListener('click', function () {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, cancel it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // If the user clicks "Yes", submit the form
+          document.getElementById('cancelOrderForm').submit();
+        }
+      });
+    });
+  </script> 
+        </section>
+
+
+
+       
+
+        <%- include('../partials/adminFooter.ejs') %>

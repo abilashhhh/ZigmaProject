@@ -1,0 +1,235 @@
+<%- include('../partials/adminHeader.ejs') %>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <%- include('../partials/adminAside.ejs') %>
+
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Products List</h2>
+                    <p>List of all the products in the system.</p>
+                </div>
+                <div>
+
+                    <a href="/admin/addProducts" class="btn btn-primary btn-sm rounded">Create new</a>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <header class="card-header">
+                    <div class="row align-items-center">
+
+                        <form id="productFilterForm" action="/admin/productList" method="get">
+                            <div class="row">
+                                <div class="col-md-4 col-12 mb-md-0 mb-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Search term"
+                                            name="productsListSearch"
+                                            value="<%= productsListSearch ? productsListSearch : '' %>">
+                                    </div>
+                                </div>
+                                <!-- Choosing categories -->
+                                <div class="col-md-3 col-12 mb-md-0 mb-3">
+                                    <div class="input-group">
+                                        <select class="form-select" name="productsListSearchSelect">
+                                            <option value="">All categories</option>
+                                            <% for (let j=0; j < categoriesData.length; j++) { %>
+                                                <option value="<%= categoriesData[j].categoryName %>" <% if
+                                                    (categoriesData[j].categoryName===selectedCategory) { %> selected <%
+                                                        } %>>
+                                                        <%= categoriesData[j].categoryName %>
+                                                </option>
+                                                <% } %>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Choosing blocked or unblocked -->
+                                <div class="col-md-2 col-12">
+                                    <div class="input-group">
+                                        <select class="form-select" name="statusFilter">
+                                            <option value="" <% if (statusFilter==='' ) { %> selected <% } %>>Show state
+                                            </option>
+                                            <option value="Active" <% if (statusFilter==='Active' ) { %> selected <% }
+                                                    %>>Active</option>
+                                            <option value="Blocked" <% if (statusFilter==='Blocked' ) { %> selected <% }
+                                                    %>>Blocked</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Search button moved to the last column -->
+                                <div class="col-md-1 col-12">
+                                    <button type="submit" class="btn btn-light bg">
+                                        <i class="material-icons md-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+
+
+                </header> <!-- card-header end// -->
+                <div class="card-body">
+
+
+
+
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr class="text-center">
+
+                                <th>Name</th>
+                                <th>Images</th>
+                                <th>Quantity</th>
+                                <th>Category</th>
+                                <th>Submodel</th>
+                                <th>Sale price</th>
+                                <th>Status</th>
+                                <th>Block/Unblock</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                            <% if (productsData && productsData.length > 0) { %>
+                                <% for (let i = 0; i < productsData.length; i++) { %>
+                                    <% const product = productsData[i] %>
+                                    <tr class="text-center">
+                                        <td class="align-middle">
+                                            <h6 class="mb-0 title">
+                                                <%= product.productName %>
+                                            </h6>
+                                            <small class="text-muted">Product ID: <%= product._id %></small>
+                                        </td>
+                                        <td class="align-middle">
+                                            <div style="width: 200px; height: 100px;" id="imageCarousel" class="carousel slide" data-ride="carousel">
+                                                <div class="carousel-inner">
+                                                    <% if (product.image && product.image.length > 0) { %>
+                                                        <% for (let j = 0; j < product.image.length; j++) { %>
+                                                            <div class="carousel-item <%= j === 0 ? 'active' : '' %>">
+                                                                <img class="d-block w-100"
+                                                                    style="width: 100px; height: 100px; object-fit: contain;"
+                                                                    src="/<%= product.image[j] %>"
+                                                                    alt="Product Image">
+                                                            </div>
+                                                        <% } %>
+                                                    <% } %>
+                                                </div>
+                                                <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle">
+                                            <% if (product.quantity <= 0) { %>
+                                                <p style="color: red;"> Out of Stock</p>
+                                            <% } else { %>
+                                                <%= product.quantity %>
+                                            <% } %>
+                                        </td>
+                                        <td class="align-middle">
+                                            <%= product.category %>
+                                        </td>
+                                        <td class="align-middle">
+                                            <%= product.submodel %>
+                                        </td>
+                                        <td class="align-middle">&#8377; <%= product.salesPrice %></td>
+                                        <td class="align-middle">
+                                            <% if (product.isActive === true) { %>
+                                                <span class="badge rounded-pill alert-success">Active</span>
+                                            <% } else { %>
+                                                <span class="badge rounded-pill alert-danger">Inactive</span>
+                                            <% } %>
+                                        </td>
+                                        <td class="align-middle">
+                                            <% if (product.isActive === true) { %>
+                                                <a href="#" onclick="confirmBlock('<%= product._id %>')">
+                                                    <button class="btn btn-sm btn-danger rounded font-sm">Block</button>
+                                                </a>
+                                            <% } else { %>
+                                                <a href="#" onclick="confirmUnblock('<%= product._id %>')">
+                                                    <button class="btn btn-sm btn-success rounded font-sm ml-2">Unblock</button>
+                                                </a>
+                                            <% } %>
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="col-lg-2 col-sm-2 col-4 col-action text-center">
+                                                <a href="/admin/editProductPage?_id=<%=product._id %>"
+                                                    class="btn btn-sm font-sm rounded btn-brand">
+                                                    <i class="material-icons md-edit"></i> Edit
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            <% } else { %>
+                                <tr class="text-center">
+                                    <td colspan="9">No products found in the system.</td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                        
+                    </table>
+
+                </div>  
+            </div> 
+            <div class="pagination-area mt-30 mb-50">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-start">
+                        <% for (let j=1; j <=productsListPagesTotalPages; j++) { %>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="?productsListPage=<%= j %>&productsListSearch=<%= encodeURIComponent(productsListSearch) %>&productsListSearchSelect=<%= encodeURIComponent(selectedCategory) %>&statusFilter=<%= encodeURIComponent(statusFilter) %>">
+                                    <%= j %>
+                                </a>
+                            </li>
+                            <% } %>
+                    </ul>
+                </nav>
+
+            </div>
+        </section> 
+      
+
+        <script>
+            function confirmBlock(productId) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You are about to block this product.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, block it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/admin/blockProducts?_id=" + productId;
+                    }
+                });
+            }
+
+            function confirmUnblock(productId) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You are about to unblock this product.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, unblock it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/admin/unblockProducts?_id=" + productId;
+                    }
+                });
+            }
+        </script>
+        <%- include('../partials/adminFooter.ejs') %>

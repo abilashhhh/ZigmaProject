@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Zigma Watches - Registration Page</title>
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="/assets/css/maind134.css" />
+</head>
+
+<body>
+  <div class="page-header breadcrumb-wrap">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/" rel="nofollow">Home</a> <span></span> Create Account
+      </div>
+      <p class="logopara">Zigma Smartwatches</p>
+    </div>
+  </div>
+
+  <div class="padding_eight_all bg-white">
+    <div class="heading_s1">
+      <h3 class="mb-30">Do you have a referral code</h3>
+    </div>
+
+    If you have a referral code, you can get Rs100 and your firend can also get Rs100
+    </p>
+
+    <form action="/referralAtRegistrarion" method="post">
+      <input type="text" name="referralEntered" id="referralCode" placeholder="Enter referral code (Optional)"
+        style="display: inline-block; margin: 10px; width: 400px;">
+
+      <input type="submit" style="display: inline-block; width: 100px;" value="Submit" class="btn">
+    </form>
+
+
+    <% if (message && typeof message !=='undefined' ) { %>
+      <div id="message-container">
+        <h5 style="font-size: large; color: green; margin: 20px;">
+          <%= message %>
+        </h5>
+      </div>
+      <script>
+        setTimeout(() => {
+          document.getElementById("message-container").style.display = "none";
+        }, 5000);
+      </script>
+      <% } %>
+
+        <hr>
+        <% if (message==="Valid referral code, Continue to complete your signup. Redirecting in 3 seconds" ) { %>
+          <script>
+            setTimeout(function () {
+              window.location.href = "/register";
+            }, 3000);
+          </script>
+          <% } %>
+
+            <p class=" font-sm">If you dont have a referral code, you can skip this page and go to signup page</p>
+
+
+            <div>
+              <a href="/register" class="btn" style="text-decoration: none;  color: #fff; padding: 10px 20px;">Continue
+                to signup</a>
+            </div>
+
+            <hr>
+            <div class="text-muted text-center">
+              <strong>Already have an account? <a href="/login">Sign in now</a></strong>
+            </div>
+  </div>
+  </main>
+
+
+</body>
+
+</html>

@@ -1,0 +1,529 @@
+﻿<%- include('../partials/userHeader.ejs') %>
+    <%- include('../partials/pageTopPanel.ejs') %>
+
+        <main class="main">
+            <div class="page-header breadcrumb-wrap">
+                <div class="container">
+                    <div class="breadcrumb">
+                        <a href="/" rel="nofollow">Home</a>
+                        <span></span> Pages
+                        <span></span> Account
+                    </div>
+                </div>
+            </div>
+            <section class="pt-200 pb-200">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-40 m-auto">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="dashboard-menu">
+                                        <ul class="nav flex-column" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab"
+                                                    href="#dashboard" role="tab" aria-controls="dashboard"
+                                                    aria-selected="false"><i
+                                                        class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="orders-tab" data-bs-toggle="tab" href="#orders"
+                                                    role="tab" aria-controls="orders" aria-selected="false"><i
+                                                        class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="track-orders-tab" data-bs-toggle="tab"
+                                                    href="#track-orders" role="tab" aria-controls="track-orders"
+                                                    aria-selected="false"><i
+                                                        class="fi-rs-shopping-cart-check mr-10"></i>Wallet</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="address-tab" data-bs-toggle="tab"
+                                                    href="#address" role="tab" aria-controls="address"
+                                                    aria-selected="true"><i class="fi-rs-marker mr-10"></i>My
+                                                    Address</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab"
+                                                    href="#account-detail" role="tab" aria-controls="account-detail"
+                                                    aria-selected="true"><i class="fi-rs-user mr-10"></i>Account
+                                                    details</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="/logout"><i
+                                                        class="fi-rs-sign-out mr-10"></i>Logout</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="tab-content dashboard-content">
+                                        <div class="tab-pane fade active show" id="dashboard" role="tabpanel"
+                                            aria-labelledby="dashboard-tab">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="mb-0">Hello
+                                                        <% if (username && typeof username !=='undefined' ) { %>
+                                                            <%= username %>
+                                                                <% } else { %>
+                                                                    Account Details
+                                                                    <% } %>
+                                                    </h5>
+                                                </div>
+
+                                                <style>
+                                                    .user-details-container {
+                                                        display: flex;
+                                                        align-items: center;
+                                                    }
+
+                                                    .profile-pic-container img {
+                                                        max-width: 300px;
+                                                        max-height: 300px;
+                                                        object-fit: contain;
+                                                        border-radius: 20px;
+                                                        margin: 20px;
+                                                    }
+                                                </style>
+
+
+                                                <div class="user-details-container">
+                                                    <div class="card-body">
+                                                        <ul>
+                                                            <li>Username: <%= userData.username %>
+                                                            </li>
+                                                            <li>Email: <%= userData.email %>
+                                                            </li>
+                                                            <li>Mobile: <%= userData.mobile %>
+                                                            </li>
+                                                        </ul>
+                                                        <br>
+                                                        <ul>
+                                                            <li>From your account dashboard, you can easily check & view
+                                                                your recent orders.</li>
+                                                            <li>Manage your shipping and billing addresses.</li>
+                                                        </ul>
+                                                    </div>
+                                                    <% if (userData.profileImages) { %>
+                                                        <div class="profile-pic-container">
+                                                            <img src="/<%= userData.profileImages %>"
+                                                                alt="<%= userData.profileImages %>">
+                                                        </div>
+                                                        <% } else { %>
+                                                            <div class="profile-pic-container">
+                                                                <img src="/user3.png" alt="">
+                                                            </div>
+                                                            <% } %>
+                                                </div>
+
+
+                                                <hr>
+
+
+                                                <% if(userData.isReferralRewardClaimed===true){ %>
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <h5 class="mb-0"> Referral reward </h5>
+                                                        </div>
+
+                                                        <div class="card-body">
+                                                            Referral reward claimed successfully,
+                                                            ₹100 is added to the wallet
+                                                        </div>
+                                                        <% if(userData.referralCode){ %>
+                                                            <div class="card-body">
+                                                                Share your referral code to your friends and both of you
+                                                                will get ₹100 added to the wallet
+                                                                <div class="card-header">
+                                                                    <h4 style="margin: 10px;">Referral Code : <%=
+                                                                            userData.referralCode %>
+                                                                    </h4>
+                                                                </div>
+                                                            </div>
+                                                            <%} %>
+                                                                <% if(userData.numberOfReferralsDone){ %>
+                                                                    <div class="card-body">
+
+                                                                        <h6 style="margin: 10px;">Number of users joined
+                                                                            by
+                                                                            your referral: <%=
+                                                                                userData.numberOfReferralsDone %>
+                                                                        </h6>
+                                                                        <h6 style="margin: 10px;">Referral rewards
+                                                                            earned: ₹
+                                                                            <%= userData.numberOfReferralsDone * 100 %>
+                                                                        </h6>
+
+                                                                    </div>
+
+                                                                    <%} %>
+                                                    </div>
+
+
+
+
+                                                    <% } else { %>
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h5 class="mb-0"> Referral reward </h5>
+                                                            </div>
+
+                                                            <div class="card-body">
+                                                                <h5>Claim your referral code from here</h5>
+                                                                <form action="/referralCodeClaim" method="post">
+
+                                                                    <label for="referralCode"
+                                                                        style="display: inline-block;">Enter referral
+                                                                        code:
+                                                                    </label>
+                                                                    <input type="text" name="referralEntered"
+                                                                        id="referralCode"
+                                                                        placeholder="Enter referral code"
+                                                                        style="display: inline-block; margin: 10px; width: 400px;">
+
+                                                                    <input type="submit"
+                                                                        style="display: inline-block; width: 100px;"
+                                                                        value="Submit" class="btn">
+                                                                </form>
+                                                            </div>
+
+                                                            <% if (message && typeof message !=='undefined' ) { %>
+                                                                <div id="message-container">
+                                                                    <h5
+                                                                        style="font-size: large; color: green; margin: 20px;">
+                                                                        <%= message %>
+                                                                    </h5>
+                                                                </div>
+                                                                <script>
+                                                                    setTimeout(() => {
+                                                                        document.getElementById("message-container").style.display = "none";
+                                                                    }, 3000);
+                                                                </script>
+                                                                <% } %>
+
+                                                                    <% if(userData.referralCode){ %>
+                                                                        <div class="card-body">
+                                                                            Share your referral code to your friends and
+                                                                            both of you will get ₹100 added to the
+                                                                            wallet
+                                                                            <div class="card-header">
+                                                                                <h4 style="margin: 10px;">Referral Code
+                                                                                    :
+                                                                                    <%= userData.referralCode %>
+                                                                                </h4>
+                                                                            </div>
+                                                                        </div>
+                                                                        <%} %>
+                                                                            <% if(userData.numberOfReferralsDone){ %>
+                                                                                <div class="card-body">
+
+                                                                                    <h6 style="margin: 10px;">Number of
+                                                                                        users joined by your referral:
+                                                                                        <%= userData.numberOfReferralsDone
+                                                                                            %>
+                                                                                    </h6>
+                                                                                    <h6 style="margin: 10px;">Referral
+                                                                                        rewards earned: ₹<%=
+                                                                                            userData.numberOfReferralsDone
+                                                                                            * 100 %>
+                                                                                    </h6>
+                                                                                </div>
+
+                                                                                <%} %>
+                                                        </div>
+                                                        <% } %>
+
+
+
+
+                                            </div>
+                                            <div>
+
+
+
+
+                                            </div>
+                                        </div>
+
+                                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                        <script
+                                            src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+                                        <script
+                                            src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+                                        <script>
+                                            $(document).ready(function () {
+                                                new DataTable('#ordersDetails');
+
+                                            })
+                                        </script>
+                                        <div class="tab-pane fade" id="orders" role="tabpanel"
+                                            aria-labelledby="orders-tab">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="mb-0">Your Orders</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table" id="ordersDetails">
+                                                            <% if(ordersData.length>=1){ %>
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>OrderId</th>
+                                                                        <th>Date</th>
+                                                                        <th>Products </th>
+                                                                        <th> Order Status</th>
+                                                                        <th>Payment</th>
+                                                                        <th>Actions</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+
+
+                                                                    <% for(let i=ordersData.length -1 ;i>=0 ;i--){ %>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <%= ordersData[i].orderid %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= ordersData[i].orderDate.toLocaleDateString()
+                                                                                    %>
+                                                                            </td>
+
+                                                                            <td>
+                                                                                <% for (let j=0; j <
+                                                                                    ordersData[i].products.length; j++)
+                                                                                    { %>
+                                                                                    <%= ordersData[i].products[j].productName
+                                                                                        %> &nbsp; &nbsp; <strong> X<%=
+                                                                                                ordersData[i].products[j].quantity
+                                                                                                %> </strong> <br>
+
+                                                                                        <% } %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <% for (let j=0; j <
+                                                                                    ordersData[i].products.length; j++)
+                                                                                    { %>
+                                                                                    <span style=" font-weight: 800;">
+                                                                                        <%= ordersData[i].products[j].canceledOrderStatus
+                                                                                            %>
+                                                                                    </span> <br>
+                                                                                    <% } %>
+                                                                            </td>
+
+
+
+
+                                                                            <td>₹<%= ordersData[i].totalPrice %>
+                                                                            </td>
+                                                                            <td><a href="/displayOrder?orderId=<%= ordersData[i].orderid %>"
+                                                                                    class="btn-small d-block">View</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <% } %>
+                                                                            <% }else{ %>
+                                                                                <h3>No data found</h3>
+                                                                                <% } %>
+                                                                </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="track-orders" role="tabpanel"
+                                            aria-labelledby="track-orders-tab">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="mb-0"> Wallet</h5>
+                                                </div>
+                                                <div class="card-body contact-from-area">
+                                                    <p>The amount after a product return will be credited here .</p>
+                                                    <div class="row">
+                                                        <div class="col-lg-8">
+                                                            <h3 style="margin: 20px;">
+                                                                Wallet Balance: ₹<%= userData.wallet %>
+                                                            </h3>
+                                                        </div>
+
+
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="address" role="tabpanel"
+                                            aria-labelledby="address-tab">
+
+                                            <a href="/addAddress" class="btn" style="margin: 20px;">Add new address</a>
+
+
+                                            <div class="row">
+                                                <% if (userData && userData.address && userData.address.length> 0) { %>
+                                                    <% for (let i=0; i < userData.address.length; i++) { %>
+                                                        <div class="col-lg-6">
+                                                            <div class="card mb-3 mb-lg-0">
+                                                                <div class="card-header">
+                                                                    <h5 class="mb-0">
+                                                                        <%= i===0 ? 'Default Address' : 'Address ' + (i)
+                                                                            %>
+                                                                    </h5>
+                                                                </div>
+                                                                <div class="card-body">
+
+                                                                    <address>
+                                                                        <%= userData.address[i].firstName %>
+                                                                            <%= userData.address[i].lastName %><br>
+                                                                                <%= userData.address[i].street %>, <%=
+                                                                                        userData.address[i].city %>, <%=
+                                                                                            userData.address[i].state %>
+                                                                                            <%= userData.address[i].zipCode
+                                                                                                %><br>
+                                                                                                <%= userData.address[i].country
+                                                                                                    %>
+                                                                    </address>
+                                                                    <p>
+                                                                        <%= userData.address[i].phone %>
+                                                                    </p>
+                                                                    <p>
+                                                                        <%= userData.address[i].deliveryemail %>
+                                                                    </p>
+
+                                                                    <a href="/editAddress?addressid=<%= userData.address[i]._id %>"
+                                                                        style="font-weight: bold; padding: 5px; color: rgb(0, 0, 0); margin: 10px;   cursor: pointer;  background-color: #dededf;">Edit</a>
+
+
+                                                                    <a href="/deleteAddress?addressid=<%= userData.address[i]._id %>"
+                                                                        style="font-weight: bold; padding: 5px; color: rgb(0, 0, 0); margin: 10px;   cursor: pointer;  background-color: #dededf;">Delete</a>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <% } %>
+                                                            <% } else { %>
+                                                                <p>No addresses found.</p>
+                                                                <% } %>
+                                            </div>
+
+
+
+                                        </div>
+                                        <div class="tab-pane fade" id="account-detail" role="tabpanel"
+                                            aria-labelledby="account-detail-tab">
+                                            <div class="card">
+
+                                                <div class="card-header">
+                                                    <h5>Edit Account Details</h5>
+                                                </div>
+                                                <div class="card-body">
+
+                                                    <form method="post" name="editUserDetails"
+                                                        onsubmit="return validateForm()">
+                                                        <div class="row">
+                                                            <div class="form-group col-md-12">
+                                                                <label>Username <span class="required">*</span></label>
+                                                                <input required="" class="form-control square"
+                                                                    name="usernameUpdate" type="text"
+                                                                    value="<%= userData.username %>">
+                                                            </div>
+                                                            <div class="form-group col-md-12">
+                                                                <label>Email <span class="required">*</span></label>
+                                                                <input required="" name="emailUpdate"
+                                                                    class="form-control square"
+                                                                    value="<%= userData.email %>">
+                                                            </div>
+                                                            <div class="form-group col-md-12">
+                                                                <label>Mobile <span class="required">*</span></label>
+                                                                <input required="" class="form-control square"
+                                                                    name="mobileUpdate" type="text"
+                                                                    value="<%= userData.mobile %>">
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <button type="submit" class="btn btn-fill-out submit"
+                                                                    name="submit" value="Submit">Save</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+                                                    <br>
+                                                    <hr>
+                                                    <div class="card-body">
+                                                        <h5> Add/Update your profile image </h5> <br>
+
+                                                        <form action="addProfileImage" method="post"
+                                                            enctype="multipart/form-data">
+
+                                                            <div class="row">
+                                                                <div class="form-group col-md-12">
+                                                                    <input type="file" name="profileImages"
+                                                                        id="profileImages">
+                                                                </div>
+                                                                <div class="form-group col-md-12">
+                                                                    <img id="imagePreview" src="" alt="Image Preview"
+                                                                        margin-top: 10px; display: none;">
+
+
+                                                                </div>
+
+
+                                                                <div class="form-group col-md-12">
+                                                                    <button type="submit"
+                                                                        class="btn btn-fill-out submit" name="submit"
+                                                                        value="Submit">Add image</button>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <script>
+                                                        const profileImageInput = document.getElementById('profileImages');
+                                                        const imagePreview = document.getElementById('imagePreview');
+
+                                                        profileImageInput.addEventListener('change', function () {
+                                                            const file = this.files[0];
+                                                            if (file) {
+                                                                const imageUrl = URL.createObjectURL(file);
+                                                                imagePreview.src = imageUrl;
+                                                                imagePreview.style.display = 'block';
+                                                            } else {
+                                                                imagePreview.src = '';
+                                                                imagePreview.style.display = 'none';
+                                                            }
+                                                        });
+                                                    </script>
+                                                    <script>
+                                                        function validateForm() {
+
+                                                            var username = document.forms["editUserDetails"]["usernameUpdate"].value.trim();
+                                                            var email = document.forms["editUserDetails"]["emailUpdate"].value.trim();
+                                                            var mobile = document.forms["editUserDetails"]["mobileUpdate"].value.trim();
+
+                                                            if (username === "" || email === "" || mobile === "") {
+                                                                alert("Please fill out all required fields. Empty spaces is also not allowed");
+                                                                return false;
+                                                            }
+
+                                                            return true;
+                                                        }
+                                                    </script>
+
+
+
+
+                                                </div>
+                                            </div>
+                                            <a style="margin: 20px;" href="/changePassword?username=<%=username%>"
+                                                class="btn">Change password </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <%- include('../partials/userAboveFooterPanel.ejs') %>
+            <%- include('../partials/userFooter.ejs') %>

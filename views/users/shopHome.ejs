@@ -1,0 +1,404 @@
+﻿<%- include('../partials/userHeader.ejs') %>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <%- include('../partials/pageTopPanel.ejs') %>
+        <main class="main">
+            <div class="page-header breadcrumb-wrap">
+                <div class="container">
+                    <div class="breadcrumb">
+                        <a href="/" rel="nofollow">Home</a>
+                        <span></span> Shop
+                    </div>
+                </div>
+            </div>
+            <section class="mt-50 mb-50">
+                <div class="container">
+                    <div class="row flex-row-reverse">
+                        <div class="col-lg-9">
+                            <div class="shop-product-fillter style-2">
+                                <div class="totall-product">
+                                    <h2>Products:</h2>
+                                    <p>
+                                        <% if (productsData && productsData.length> 0){ %>
+                                            We found <strong class="text-brand">
+                                                <%= productsData.length %>
+                                            </strong> items for you!
+                                            <%} else{ %>
+                                                Sorry, no items were found.
+                                                <% } %>
+                                    </p>
+
+                                </div>
+                                <div class="sort-by-product-area">
+                                    <!-- <div class="sort-by-cover mr-10">
+                                    <div class="sort-by-product-wrap">
+                                        <div class="sort-by">
+                                            <span><i class="fi-rs-apps"></i>Show:</span>
+                                        </div>
+                                        <div class="sort-by-dropdown-wrap">
+                                            <span> 50 <i class="fi-rs-angle-small-down"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="sort-by-dropdown">
+                                        <ul>
+                                            <li><a class="active" href="#">50</a></li>
+                                            <li><a href="#">100</a></li>
+                                            <li><a href="#">150</a></li>
+                                            <li><a href="#">200</a></li>
+                                            <li><a href="#">All</a></li>
+                                        </ul>
+                                    </div>
+                                </div> -->
+
+                                    <!-- Your HTML code -->
+                                    <div class="sort-by-cover">
+                                        <div class="sort-by-product-wrap">
+                                            <div class="sort-by">
+                                                <span><i class="fi-rs-apps-sort"></i> Sort these products by: </span>
+                                            </div>
+                                        </div>
+                                        <div class="sort-by-dropdown">
+                                            <ul>
+                                                <li><a class="sort-option" data-sort="Newest" href="#">Newest</a></li>
+                                                <li><a class="sort-option" data-sort="LowToHigh" href="#">Price: Low to
+                                                        High</a></li>
+                                                <li><a class="sort-option" data-sort="HighToLow" href="#">Price: High to
+                                                        Low</a></li>
+                                                <li><a class="sort-option" data-sort="InStock" href="#">In Stock</a>
+                                                </li>
+                                                <li><a class="sort-option" data-sort="OutOfStock" href="#">Out of
+                                                        stock</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <!--  with these the data on sort could be passed on the query -->
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function () {
+                                            const sortOptions = document.querySelectorAll('.sort-option');
+
+                                            sortOptions.forEach(option => {
+                                                option.addEventListener('click', function (event) {
+                                                    event.preventDefault();
+
+                                                    // Get the data-sort attribute value
+                                                    const sortValue = option.getAttribute('data-sort');
+
+                                                    // Modify the URL and add the query parameter
+                                                    const currentURL = new URL(window.location.href);
+                                                    currentURL.searchParams.set('sort', sortValue);
+
+                                                    // Redirect to the updated URL
+                                                    window.location.href = currentURL.toString();
+                                                });
+                                            });
+                                        });
+                                    </script>
+
+                                </div>
+                            </div>
+
+                            <% if (productsData && typeof productsData !=='undefined' && productsData.length>= 1) { %>
+                                <% for (let i=0; i < productsData.length; i++) { %>
+                                    <div class="product-list mb-50"
+                                        data-sales-price="<%= productsData[i].salesPrice %>">
+                                        <div class="product-list mb-50">
+                                            <div class="product-cart-wrap">
+                                                <div class="product-img-action-wrap" style="background-color: white;">
+                                                    <div class="product-img product-img-zoom">
+                                                        <div class="product-img-inner" style="background-color: white;">
+                                                            <a href="/individualProductPage?_id=<%=productsData[i]._id %>"
+                                                                style="background-color: rgb(255, 255, 255);">
+                                                                <% if (productsData[i].image &&
+                                                                    productsData[i].image.length> 0)
+                                                                    { %>
+                                                                    <% for (let j=0; j < productsData[i].image.length;
+                                                                        j++) { %>
+
+                                                                        <img style="width: 300px; height: 300px; object-fit: contain; background-color: rgb(255, 255, 255);"
+                                                                            class="default-img"
+                                                                            src="/<%= productsData[i].image[j] %>"
+                                                                            alt="Product Image <%= j + 1 %>">
+                                                                        <% } %>
+                                                                            <% } %>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-action-1">
+
+
+                                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                                            id="addToWishlistBtn"
+                                                            onclick="addToWishlist('<%= productsData[i]._id %>','<%= productsData[i].productName %>', this, event)">
+                                                            <i class="fi-rs-heart"></i>
+                                                        </a>
+
+
+                                                    </div>
+                                                    <div
+                                                        class="product-badges product-badges-position product-badges-mrg">
+                                                        <span class="hot">Latest</span>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content-wrap">
+                                                    <h2> <a href="/individualProductPage?_id=<%=productsData[i]._id %>"
+                                                            style="background-color: rgb(255, 255, 255);">
+                                                            <%= productsData[i].productName %>
+                                                        </a></h2>
+
+                                                    <div class="product-price">
+                                                        <span> ₹<%= productsData[i].salesPrice %> </span>
+                                                        <% if (productsData[0].regularPrice> productsData[0].salesPrice)
+                                                            { %>
+                                                            <span class="old-price">₹<%= productsData[i].regularPrice %>
+                                                            </span>
+                                                            <% } %>
+                                                    </div>
+                                                    <p class="mt-15">
+                                                        <%= productsData[i].description %>
+                                                    </p>
+                                                    <div class="product-action-1 show">
+                                                        <% if (userData && typeof userData !=='undefined' ) { %>
+                                                            <% if (productsData[i].quantity <=0) { %>
+                                                                <span style="color: red; font-size: 20px;"
+                                                                    class="save-price font-md color3 ml-15">
+                                                                    <strong> Out of Stock </strong>
+                                                                </span>
+                                                                <% } else { %>
+                                                                    <!-- <a aria-label="Buy now" class="action-btn"
+                                                                    href="/cart?productId=<%= productsData[i]._id %>"
+                                                                    onclick="changeButtonText(this)">
+                                                                    <i class="fi-rs-shopping-bag-add"></i>Add to Cart
+                                                                </a> -->
+
+                                                                    <a style="float:right; font-size:16px; font-weight: 700;"
+                                                                        onclick="addToCart('<%= productsData[i]._id %>','<%= productsData[i].productName %>', this, event)"
+                                                                        class="btn-cart">
+                                                                        <i class="fi-rs-shopping-bag-add"></i>
+                                                                        <span class="addToCartBtnText">Add to
+                                                                            cart</span>
+                                                                    </a>
+                                                                    <% } %>
+                                                                        <% } else { %>
+                                                                            <a aria-label="Buy now" class="action-btn"
+                                                                                href="/login">
+                                                                                <i
+                                                                                    class="fi-rs-shopping-bag-add"></i>Add
+                                                                                to
+                                                                                Cart
+                                                                            </a>
+                                                                            <% } %>
+
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                                        <% } else { %>
+                                            <h3 style="font-size: 25px; color: red;">No products available</h3>
+                                            <% } %>
+
+
+
+
+                                                <script>
+                                                    document.addEventListener('DOMContentLoaded', function () {
+                                                        const productContainer = document.querySelector('.product-lists'); // Add a class to the product container
+
+                                                        const sortOptions = document.querySelectorAll('.sort-option');
+
+                                                        sortOptions.forEach(option => {
+                                                            option.addEventListener('click', function (event) {
+                                                                event.preventDefault();
+
+                                                                const sortType = event.target.getAttribute('data-sort');
+                                                                sortProducts(sortType);
+                                                            });
+                                                        });
+
+                                                        function sortProducts(sortType) {
+                                                            const productElements = Array.from(document.querySelectorAll('.product-list'));
+
+                                                            productElements.sort((a, b) => {
+                                                                const priceA = parseFloat(a.getAttribute('data-sales-price'));
+                                                                const priceB = parseFloat(b.getAttribute('data-sales-price'));
+
+                                                                if (sortType === 'lowToHigh') {
+                                                                    return priceA - priceB;
+                                                                } else if (sortType === 'highToLow') {
+                                                                    return priceB - priceA;
+                                                                }
+
+                                                                // For 'best' or any other default sorting, maintain the original order
+                                                                return 0;
+                                                            });
+
+                                                            // Clear existing products
+                                                            productContainer.innerHTML = '';
+
+                                                            // Append sorted products
+                                                            productElements.forEach(element => {
+                                                                productContainer.appendChild(element);
+                                                            });
+                                                        }
+                                                    });
+                                                </script>
+                                                <script>
+                                                    async function addToCart(productId, productName, clickedElement, event) {
+                                                        try {
+                                                            event.preventDefault();
+                                                            const response = await fetch(`/cart?productId=${productId}`, { method: 'POST' });
+
+                                                            if (!response.ok) {
+                                                                throw new Error("Error adding product to cart");
+                                                            }
+
+                                                            const data = await response.json();
+
+                                                            if (data.success) {
+                                                                addToCartNotification(productName, `is added to cart`);
+                                                                // Change the text of the button to "Added"
+                                                                changeButtonText(clickedElement, productName);
+                                                            } else {
+                                                                console.error("Error adding product to cart", data.message);
+                                                            }
+                                                        } catch (error) {
+                                                            console.error("Error adding product to cart", error);
+                                                        }
+                                                    }
+
+                                                    function addToCartNotification(productName, action) {
+                                                        Toastify({
+                                                            text: `"${productName}"   ${action}`,
+                                                            duration: 2000,
+                                                            backgroundColor: "#283745",
+                                                            position: 'right',
+                                                        }).showToast();
+                                                    }
+
+                                                    async function addToWishlist(productId, productName, clickedElement, event) {
+                                                        try {
+                                                            event.preventDefault();
+                                                            const response = await fetch(`/wishlist?productId=${productId}`, { method: 'POST' });
+
+                                                            if (!response.ok) {
+                                                                throw new Error("Error adding product to wishlist");
+                                                            }
+
+                                                            const data = await response.json();
+
+                                                            if (data.success) {
+                                                                addToWishlistNotification(productName, `is added to wishlist`);
+                                                            } else {
+                                                                console.error("Error adding product to wishlist", data.message);
+                                                            }
+
+                                                        } catch (error) {
+                                                            console.error("Error adding product to wishlist", error);
+                                                        }
+                                                    }
+
+                                                    function addToWishlistNotification(productName, action) {
+                                                        Toastify({
+                                                            text: `"${productName}"   ${action}`,
+                                                            duration: 2000,
+                                                            backgroundColor: "#289743",
+                                                            position: 'right',
+                                                        }).showToast();
+                                                    }
+
+                                                    // JavaScript for changing button text
+                                                    function changeButtonText(clicked, productName) {
+                                                        // Check if the product is out of stock
+                                                        if (clicked.parentElement.querySelector('.save-price')) {
+                                                            return; // If out of stock, do nothing
+                                                        }
+
+                                                        // Modify the button content
+                                                        clicked.innerHTML = `<a aria-label="Added To Cart" class="btn-cart" style="float:right; font-size:20px font-weight:700;" id="addToCartButton">
+        <i class="fi-rs-shopping-bag-add"></i> Added To Cart</a>`;
+
+                                                    }
+                                                </script>
+
+
+                                                <!--single product-->
+
+                                                <!-- pagination -->
+                                                <!-- <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
+                                                <nav aria-label="Page navigation example">
+                                                    <ul class="pagination justify-content-start">
+                                                        <li class="page-item active"><a class="page-link"
+                                                                href="#">01</a></li>
+                                                        <li class="page-item"><a class="page-link" href="#">02</a></li>
+                                                        <li class="page-item"><a class="page-link" href="#">03</a></li>
+                                                        <li class="page-item"><a class="page-link dot" href="#">...</a>
+                                                        </li>
+                                                        <li class="page-item"><a class="page-link" href="#">16</a></li>
+                                                        <li class="page-item"><a class="page-link" href="#"><i
+                                                                    class="fi-rs-angle-double-small-right"></i></a></li>
+                                                    </ul>
+                                                </nav>
+                                            </div> -->
+                        </div>
+                        <div class="col-lg-3 primary-sidebar sticky-sidebar">
+                            <div class="widget-category mb-30">
+                                <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
+                                <ul class="categories">
+                                    <% if (AllcategoriesData && typeof AllcategoriesData !=='undefined' ) { %>
+                                        <li> <a href="/shop?categoryName=All Brands">All Brands</a></li>
+                                        <% for (let i=0; i < AllcategoriesData.length; i++) { %>
+                                            <li> <a href="/shop?categoryName=<%= AllcategoriesData[i].categoryName %>">
+                                                    <%= AllcategoriesData[i].categoryName %>
+                                                </a></li>
+                                            <% } %>
+                                                <% } %>
+
+                                </ul>
+                            </div>
+                            <!-- Fillter By Price -->
+
+                            <!-- Product sidebar Widget -->
+
+
+
+                            <%if(productsOffersData && productsOffersData.length>0){ %>
+                                <% for(let i=0 ; i < productsOffersData.length ; i++){ %>
+
+                                    <div class="banner-img wow fadeIn mb-45 animated d-lg-block d-none">
+                                        <img src="/<%= productsOffersData[i].productOfferImage %>"
+                                            style="border-radius: 20px;" alt="">
+                                        <div class="banner-text">
+                                            <span
+                                                style="color: rgb(255, 0, 0); text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white; font-size: 20px;">Product
+                                                Offers</span>
+                                            <h4
+                                                style="color: black; text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;">
+                                                Save <%= productsOffersData[i].productOfferPercentage %>% on <br>
+                                                    <%= productsOffersData[i].productName %>
+                                            </h4>
+
+
+                                            <a href="/individualProductPage?_id=<%=productsOffersData[i]._id %>"
+                                                style="color: red; font-weight: 900; font-size: 15px;">Shop Now <i
+                                                    class="fi-rs-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                                        <% } %>
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <%- include('../partials/userAboveFooterPanel.ejs') %>
+            <%- include('../partials/userFooter.ejs') %>

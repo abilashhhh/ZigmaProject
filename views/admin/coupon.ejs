@@ -1,0 +1,249 @@
+<%- include('../partials/adminHeader.ejs') %>
+<%- include('../partials/adminAside.ejs') %>
+
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Coupons
+                        List</h2>
+                </div>
+
+                <div class="d-flex justify-content-end mt-3">
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#createCouponModal">Create
+                        Coupon</button>
+                </div>
+                <div class="modal fade" id="createCouponModal" tabindex="-1" role="dialog"
+                    aria-labelledby="createCouponModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="createCouponModalLabel">Create
+                                    Coupon</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/admin/addCoupons" method="post"
+                                    class="d-flex flex-wrap justify-content-between align-items-center"
+                                    onsubmit="return validateForm()">
+                                    <div class="form-group col-md-4">
+                                        <label for="couponCode">Coupon
+                                            Code:</label>
+                                        <input type="text" class="form-control" id="couponCode" name="couponCode"
+                                            required oninput="this.value = this.value.toUpperCase()">
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label for="discountPercentage">Discount
+                                            Percentage:</label>
+                                        <input type="number" class="form-control" id="discountPercentage"
+                                            name="discountPercentage" required>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label for="couponExpiry">Coupon
+                                            Expiry:</label>
+                                        <input type="date" class="form-control" id="couponExpiry" name="couponExpiry"
+                                            required>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label for="minimumAmount">Minimum
+                                            Amount To Use
+                                            Coupon:</label>
+                                        <input type="number" class="form-control" id="minimumAmount"
+                                            name="minimumAmount" required>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label for="maximumAmount">Maximum
+                                            Discount Amount:</label>
+                                        <input type="number" class="form-control" id="maximumAmount"
+                                            name="maximumAmount" required>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label for="maxUsesPerUser">Max
+                                            Uses Per User:</label>
+                                        <input type="number" class="form-control" id="maxUsesPerUser"
+                                            name="maxUsesPerUser">
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="isActive"
+                                                name="isActive">
+                                            <label class="form-check-label" for="isActive">Is
+                                                Active</label>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Create
+                                        Coupon</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <div>
+                                    <p id="validaionMessages" style="color: red;">
+
+                                    </p>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+
+                            function validateForm() {
+                                var validationMessages = '';
+
+                                if (!$('#couponCode').val().trim()) {
+                                    validationMessages += 'Coupon Code cannot be empty.';
+                                }
+
+                                if (!$('#discountPercentage').val().trim()) {
+                                    validationMessages += 'Discount Percentage cannot be empty.';
+                                }
+                                if (!$('#minimumAmount').val().trim()) {
+                                    validationMessages += 'Minimum amount cannot be empty.';
+                                }
+                                if (!$('#maximumAmount').val().trim()) {
+                                    validationMessages += 'Minimum amount cannot be empty.';
+                                }
+                                if (!$('#maxUsesPerUser').val().trim()) {
+                                    validationMessages += 'Maximum uses per user cannot be empty.';
+                                }
+
+                                if (parseInt($('#discountPercentage').val()) > 100) {
+                                    validationMessages += 'Discount Percentage cannot be greater than 100.  ';
+                                }
+
+                                if (parseInt($('#minimumAmount').val()) < 1) {
+                                    validationMessages += 'Minimum amount should be greater than 1. ';
+                                }
+
+                                if (parseInt($('#maximumAmount').val()) < 1) {
+                                    validationMessages += 'Maximum amount should be greater than 1. ';
+                                }
+
+                                if (parseInt($('#maxUsesPerUser').val()) < 0) {
+                                    validationMessages += 'Maximum uses per user should be greater than 1.  ';
+                                }
+
+                                if (validationMessages) {
+                                    $('#validaionMessages').text(validationMessages);
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            }
+
+                            $(document).ready(function () {
+                                $('form').submit(function () {
+                                    return validateForm();
+                                });
+                            });
+                        </script>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <header class="card-header">
+                    <div class="row gx-3">
+
+                        <% if (couponData && couponData.length> 0) { %>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover" id="coupons">
+                                    <thead class="thead-dark" style="background-color: black; color: white;">
+                                      
+                                        <tr>
+                                            <th>Coupon Code</th>
+                                            <th>Discount Percent</th>
+                                            <th>Coupon Expiry</th>
+                                            <th>Min Redeemable Amt</th>
+                                            <th>Maximum Discount</th>
+                                            <th>Max Uses Per User</th>
+                                            <th>Is Active</th>
+                                            <th>Edit</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for (let i=0; i < couponData.length; i++) { %>
+                                            <tr>
+                                                <td>
+                                                    <%= couponData[i].couponCode %>
+                                                </td>
+                                                <td>
+                                                    <%= couponData[i].discountPercentage %>%
+                                                </td>
+                                                <td>
+                                                    <%= couponData[i].couponExpiry.toLocaleDateString() %>
+                                                </td>
+                                                <td>
+                                                    <%= couponData[i].minimumAmount %>
+                                                </td>
+                                                <td>
+                                                    <%= couponData[i].maximumAmount %>
+                                                </td>
+                                                <td>
+                                                    <%= couponData[i].maxUsesPerUser %>
+                                                </td>
+                                                <td>
+                                                    <%= couponData[i].isActive ? 'Yes' : 'No' %>
+                                                </td>
+
+                                                <td> <a href="/admin/editCoupons?couponId=<%=couponData[i]._id%>"><i
+                                                            class="material-icons md-edit"></i></a>
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <% } else { %>
+                                <p>No coupons available.</p>
+                                <% } %>
+                    </div>
+                    <div id="errorMessage" style="color: red; margin: 20px; font-style: italic; font-size: 25px;">
+                        <% if(message && typeof message !=='undefined' ){ %>
+                            <%= message %>
+                                <% } %>
+                    </div>
+
+                    <script>
+
+                        function clearErrorMessage() {
+                            var errorMessageDiv = document.getElementById('errorMessage');
+                            if (errorMessageDiv) {
+                                setTimeout(function () {
+                                    errorMessageDiv.innerHTML = '';
+                                }, 3000);
+                            }
+                        }
+
+
+                        window.onload = clearErrorMessage;
+                    </script>
+                </header>
+            </div>
+
+
+        </section>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                new DataTable('#coupons');
+        
+        })
+        </script>
+        <%- include('../partials/adminFooter.ejs') %>

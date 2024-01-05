@@ -1,0 +1,186 @@
+<%- include('../partials/adminHeader.ejs') %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <%- include('../partials/adminAside.ejs') %>
+
+        <section class="content-main">
+            <div class="card mb-4">
+                <div class="content-header" style="margin: 10px; ">
+
+                    <div class="row">
+                        <div style="margin: 20px;">
+                            <h3>
+                                Product offers page
+                            </h3>
+                        </div>
+                        <hr>
+                        <div class="col-md-4">
+
+                            <img style="height: 200px; width: 300px;" src="/<%= productData.image[0] %>" alt=""
+                                class="img-fluid">
+                        </div>
+                        <div class="col-md-8">
+                            <h2 class="content-title card-title">
+                                <%= productData.productName %>
+                            </h2>
+                            <h5>Brand: <%= productData.category %>
+                            </h5>
+                            <h5>Regular Price: ₹<%= productData.regularPrice %>
+                            </h5>
+                            <h5>Product Offer Status:
+                                <% if (productData.isProductOfferActive) { %>
+                                    <span class="badge rounded-pill alert-success">Active</span>
+                                    <% } else { %>
+                                        <span class="badge rounded-pill alert-danger">Inactive</span>
+                                        <% } %>
+                            </h5>
+
+                            <div id="errorMessage"
+                                style="color: red; margin: 20px; font-style: italic; font-size: 25px;">
+                                <% if(message && typeof message !=='undefined' ){ %>
+                                    <%= message %>
+                                        <% } %>
+                            </div>
+
+                            <script>
+
+                                function clearErrorMessage() {
+                                    var errorMessageDiv = document.getElementById('errorMessage');
+                                    if (errorMessageDiv) {
+                                        setTimeout(function () {
+                                            errorMessageDiv.innerHTML = '';
+                                        }, 3000);
+                                    }
+                                }
+
+
+                                window.onload = clearErrorMessage;
+                            </script>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+
+
+
+                    <% if (productData.productOfferPercentage) { %>
+                        <hr>
+                        <hr>
+
+                        <div class="row">
+
+                            <div class="col-md-8">
+                                <h2 class="content-title card-title">
+                                    Current Offer:
+                                </h2>
+                                <h5>Offer Percentage: <%= productData.productOfferPercentage %>
+                                </h5>
+                                <h5>Offer expiry date: <%= productData.productOfferExpiryDate.toLocaleString() %>
+                                </h5>
+
+                                <% if (productData.isProductOfferActive == true) { %>
+                                    <h1><a href="#" onclick="confirmBlock('<%= productData._id %>')">
+                                            <button class="btn btn-sm btn-danger rounded font-sm">Block Offer</button>
+                                        </a></h1>
+                                    <% } else { %>
+                                        <h1> <a href="#" onclick="confirmUnblock('<%= productData._id %>')">
+                                                <button class="btn btn-sm btn-success rounded font-sm ml-2">Unblock
+                                                    Offer</button>
+                                            </a></h1>
+                                        <% } %>
+
+                            </div>
+                            <div class="col-md-4">
+                                <h5>Current offer image banner:</h5>
+                                <img src="/<%= productData.productOfferImage %>" alt="" class="img-fluid">
+                            </div>
+                        </div>
+
+                        <% } %>
+                            <hr>
+                            <hr>
+                            <div>
+                                <% if (productData.isProductOfferActive) { %>
+                                    <h2>Update existing offer</h2>
+                                    <% } else { %>
+                                        <h2>Add new offer</h2>
+                                        <% } %>
+
+                                            <form action="/admin/productOfferIndividualPage" method="post"
+                                                enctype="multipart/form-data">
+                                                <input type="hidden" name="productId" value="<%= productData._id %>">
+
+                                                <div style="margin-bottom: 20px;">
+                                                    <label for="productOfferPercentage">Enter the product offer
+                                                        percentage:</label>
+                                                    <input type="string" name="productOfferPercentage" required>
+                                                </div>
+
+                                                <div style="margin-bottom: 20px;">
+                                                    <label for="productOfferExpiryDate">Enter the product offer expiry
+                                                        date:</label>
+                                                    <input type="date" name="productOfferExpiryDate" required>
+                                                </div>
+
+                                                <div style="margin-bottom: 20px;">
+                                                    <label>Make the offer active:</label>
+                                                    <label for="isProductOfferActiveYes">Yes</label>
+                                                    <input type="radio" name="isProductOfferActive"
+                                                        id="isProductOfferActiveYes" value="yes" required>
+                                                    <label for="isProductOfferActiveNo">No</label>
+                                                    <input type="radio" name="isProductOfferActive"
+                                                        id="isProductOfferActiveNo" value="no" required>
+                                                </div>
+
+                                                <div style="margin-bottom: 20px;">
+                                                    <label for="productOfferImage">Add an image to display this
+                                                        offer:</label>
+                                                    <input type="file" name="productOfferImage" id="productOfferImage"
+                                                        accept="image/*" required>
+                                                </div>
+
+                                                <div>
+                                                    <input type="submit" class="btn"
+                                                        style="background-color: blue; color: #fefefe;" value="Submit">
+                                                </div>
+                                            </form>
+                            </div>
+                </div>
+            </div>
+        </section>
+
+        <script>
+            function confirmBlock(productId) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You are about to block this product offer.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, block it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/admin/blockProductOffers?productId=" + productId;
+                    }
+                });
+            }
+
+            function confirmUnblock(productId) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You are about to unblock this product offer.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, unblock it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/admin/unblockProductOffers?productId=" + productId;
+                    }
+                });
+            }
+        </script>
+        <%- include('../partials/adminFooter.ejs') %>

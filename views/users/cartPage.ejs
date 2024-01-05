@@ -1,0 +1,356 @@
+﻿<%- include('../partials/userHeader.ejs') %>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+
+    <%- include('../partials/pageTopPanel.ejs') %>
+
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="/loginHome" rel="nofollow">Home</a>
+                    <span></span> Shop
+                    <span></span> Your Cart
+                </div>
+            </div>
+        </div>
+        <section class="mt-50 mb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <% if (productData.length> 0) { %>
+                                <table class="table shopping-summery text-center clean">
+                                    <thead class="table-dark">
+                                        <tr class="main-heading">
+                                            <th scope="col">Image</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Quantity</th>
+                                            <th scope="col">Subtotal</th>
+                                            <th scope="col">Remove</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        <% productData.forEach(product=> { %>
+                                            <tr id="<%= `product-${product.productId._id}` %>">
+
+                                                <td class="image product-thumbnail">
+                                                    <div class="image-container" style="height: 100px;">
+                                                        <% if (product.productId.image &&
+                                                            product.productId.image.length> 0) { %>
+                                                            <img src="/<%= product.productId.image[0] %>" alt="#"
+                                                                class="product-image">
+                                                            <% } else { %>
+                                                                <img src="/placeholder-image.jpg"
+                                                                    alt="Placeholder Image" class="product-image">
+                                                                <% } %>
+                                                    </div>
+                                                </td>
+
+                                                <td class="product-des product-name">
+                                                    <h5 class="product-name">
+                                                        <a
+                                                            href="/individualProductPage?_id=<%= product.productId._id %>">
+                                                            <%= product.productId.productName %>
+                                                        </a>
+                                                    </h5>
+                                                    <p class="font-xs">Submodel : <%= product.productId.submodel %>
+                                                    </p>
+                                                    <p class="font-xs">Color : <%= product.productId.color %>
+                                                    </p>
+
+                                                </td>
+
+                                                <td class="price" data-title="Price"><span> ₹<%=
+                                                            product.productId.salesPrice %> </span></td>
+
+                                                <td>
+                                                    <div style="width: 90px; margin-left: 200px;">
+                                                        <input type="number" class="quantity-input"
+                                                            id="quantity_<%= product.productId._id %>"
+                                                            value="<%= product.quantity %>" min="1" step="1"
+                                                            onchange="updateQuantity('<%= product.productId._id %>', this.value)">
+
+                                                    </div>
+                                                    <label id="quantityError_<%= product.productId._id %>"
+                                                        style="color: red;"></label>
+                                                </td>
+
+
+                                                <td class="text-right" data-title="Cart">
+                                                    <span class="subtotal" id="subtotal_<%= product.productId._id %>">
+                                                        ₹<%= product.productId.salesPrice * product.quantity %>
+                                                    </span>
+                                                </td>
+
+                                                <td class="action" data-title="Remove">
+                                                    <a href="#" class="text-muted"
+                                                        onclick="removeProduct('<%= product.productId._id %>', '<%= product.productId.productName %>')">
+                                                        <i class="fi-rs-trash"></i>
+                                                    </a>
+                                                </td>
+
+
+
+
+                                            </tr>
+
+
+
+
+
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <tr>
+                                                        <td colspan="6" class="text-center">
+                                                            <h3 style="margin: 20px;">Your cart is empty, please add
+                                                                products to cart.</h3>
+                                                        </td>
+                                                    </tr>
+                                                    <% } %>
+                                    </tbody>
+                                </table>
+                        </div>
+
+                        <script>
+                            function updateQuantity(productId, newQuantity) {
+                                fetch(`/updateCartQuantity?productId=${productId}&newQuantity=${newQuantity}`)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        const updatedProduct = data.productData.find(item => item.productId._id === productId);
+                                        const quantityInput = document.getElementById(`quantity_${productId}`);
+                                        const errorLabel = document.getElementById(`quantityError_${productId}`);
+
+                                        // Check if the updated quantity exceeds the total available quantity
+                                        if (updatedProduct && updatedProduct.quantity <= updatedProduct.productId.quantity) {
+                                            // Quantity is within limits
+                                            quantityInput.value = updatedProduct.quantity;
+                                            errorLabel.innerText = '';  // Clear the error label
+                                            const subtotalElement = document.getElementById(`subtotal_${productId}`);
+                                            subtotalElement.innerText = `₹${updatedProduct.productId.salesPrice * updatedProduct.quantity}`;
+
+                                            calculateAndDisplayCartTotals(data.productData);
+                                        } else {
+                                            // Handle the case where the updated quantity exceeds the total available quantity
+                                            errorLabel.innerText = `Maximum available quantity: ${updatedProduct.productId.quantity}`;
+                                            // You may choose to set the quantity to the maximum available or take other actions as needed
+                                            quantityInput.value = updatedProduct.productId.quantity;
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error updating quantity:', error);
+                                    });
+                            }
+
+
+
+                            function removeProduct(productId, productName) {
+                                Swal.fire({
+                                    title: 'Are you sure?',
+                                    text: `Do you want to remove "${productName}" from your cart?`,
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Yes, remove it!',
+                                    cancelButtonText: 'No, cancel!',
+                                    reverseButtons: true
+                                }).then(async (result) => {
+                                    if (result.isConfirmed) {
+                                        try {
+                                            const response = await fetch(`/removeProduct?productId=${productId}`, { method: 'DELETE' });
+
+                                            if (!response.ok) {
+                                                throw new Error('Error removing product');
+                                            }
+
+                                            const data = await response.json();
+
+                                            if (data.success) {
+                                                const productElement = document.getElementById(`product-${productId}`);
+                                                if (productElement) {
+                                                    productElement.remove();
+                                                }
+
+                                                // Display notification without reloading
+                                                removeProductNotification(productName, 'removed from cart');
+                                            } else {
+                                                console.error('Error removing product:', data.message);
+                                            }
+                                        } catch (error) {
+                                            console.error('Error removing product:', error);
+                                        }
+                                    }
+                                });
+                            }
+
+                            function removeProductNotification(productName, action) {
+                                // Use Toastify for notifications
+                                Toastify({
+                                    text: `"${productName}" ${action}`,
+                                    duration: 2000,
+                                    backgroundColor: "#dc3545", // You can customize the background color
+                                    position: 'right',
+                                }).showToast();
+                            }
+                            function clearCart() {
+                                fetch('/clearCart', { method: 'POST' })  // Use POST method for modifying data
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            // Clear the cart items in the DOM
+                                            clearCartMessage("Cart is cleared successfully");
+                                            const tableBody = document.querySelector('.table.shopping-summery tbody');
+                                            tableBody.innerHTML = '';
+
+                                            // Display a message indicating the cart is empty
+                                            const cartEmptyMessage = document.createElement('tr');
+                                            cartEmptyMessage.innerHTML = `
+                    <td colspan="6" class="text-center">
+                        <h3 style="margin: 20px;">Your cart is empty, please add products to cart.</h3>
+                    </td>
+                `;
+                                            tableBody.appendChild(cartEmptyMessage);
+                                        } else {
+                                            console.error('Error clearing the cart:', data.message);
+                                            // Display an error message if needed
+                                            clearCartMessage(`Error clearing the cart: ${data.message}`);
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error clearing the cart:', error);
+                                        // Display an error message if needed
+                                        clearCartMessage(`Error clearing the cart: ${error.message}`);
+                                    });
+                            }
+
+                            function clearCartMessage(action) {
+                                // Use Toastify for notifications
+                                Toastify({
+                                    text: `${action}`,
+                                    duration: 2000,
+                                    backgroundColor: "#dc3545",
+                                    fontsize: "20px",
+                                    position: 'right',
+                                }).showToast();
+                            }
+
+
+
+                        </script>
+
+
+
+
+                        <div class="cart-action text-end">
+
+                            <% if (productData.length> 0) { %>
+
+
+                                <a class="btn" onclick="clearCart()"><i class="fi-rs-shopping-bag mr-10"></i>Clear
+                                    Cart</a>
+                                <% } %>
+                                    <a class="btn" href="/loginHome"><i class="fi-rs-shopping-bag mr-10"></i>Add more
+                                        products</a>
+                        </div>
+                        <div class="divider center_icon mt-50 mb-50"><i class="fi-rs-fingerprint"></i></div>
+                        <div class="row mb-50">
+                            <% if (productData.length> 0) { %>
+                                <div class="border p-md-4 p-30 border-radius cart-totals">
+                                    <div class="heading_s1 mb-3">
+                                        <h4>Cart Totals</h4>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <!-- <%
+                                                    let totalSum = 0;
+                                                
+                                                    if (productData.length > 0) {
+                                                        for (let i = 0; i < productData.length; i++) {
+                                                            const product = productData[i];
+                                                            totalSum += product.productId.salesPrice * product.quantity;
+                                                        }
+                                                    }
+                                                %> -->
+                                                <script>
+                                                    let totalSum = 0;
+
+                                                    function calculateAndDisplayCartTotals(productData) {
+                                                        console.log(productData);
+
+                                                        // Reset totalSum to 0 before recalculating
+                                                        totalSum = 0;
+
+                                                        if (productData.length > 0) {
+                                                            for (let i = 0; i < productData.length; i++) {
+                                                                const product = productData[i];
+                                                                if (product.productId && product.productId.salesPrice && product.quantity) {
+                                                                    totalSum += product.productId.salesPrice * product.quantity;
+                                                                }
+                                                            }
+                                                        }
+
+                                                        // Update the cart subtotal in the HTML
+                                                        const cartSubtotalElement = document.getElementById('cartSubtotal');
+                                                        if (cartSubtotalElement) {
+                                                            cartSubtotalElement.textContent = `₹${totalSum}`;
+                                                        }
+
+                                                        const cartTotalElement = document.getElementById('cartTotal');
+                                                        if (cartTotalElement) {
+                                                            cartTotalElement.textContent = `₹${totalSum}`;
+                                                        }
+                                                    }
+                                                </script>
+
+
+                                                <tr>
+                                                    <td class="cart_total_label">Cart Subtotal</td>
+                                                    <td class="cart_total_amount"><span
+                                                            class="font-lg fw-900 text-brand" id="cartSubtotal">₹<%=
+                                                                totalSum %></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="cart_total_label">Shipping</td>
+                                                    <td class="cart_total_amount"> <i class="ti-gift mr-5"></i> Free
+                                                        Shipping</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="cart_total_label">Total</td>
+                                                    <td class="cart_total_amount"><strong><span
+                                                                class="font-xl fw-900 text-brand" id="cartTotal">₹<%=
+                                                                    totalSum %></span></strong></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                    <% if (productData.length> 0) {
+                                        %>
+                                        <a href="/loadcheckout" class="btn">
+                                            <i class="fi-rs-box-alt mr-10"></i> Proceed To Checkout
+                                        </a>
+                                        <% } else { %>
+                                            <a href="/loginHome" class="btn">
+                                                <i class="fi-rs-box-alt mr-10"></i> Add products to continue
+                                            </a>
+                                            <% } %>
+
+                                </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+    </main>
+    <% } %>
+    <%- include('../partials/userAboveFooterPanel.ejs') %>
+    <%- include('../partials/userFooter.ejs') %>

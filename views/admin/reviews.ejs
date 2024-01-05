@@ -1,0 +1,62 @@
+<%- include('../partials/adminHeader.ejs') %>
+
+<%- include('../partials/adminAside.ejs') %>
+
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Reviews</h2>
+            <p>All the reviews made on different products.</p>
+        </div>
+    </div>
+    <div class="card mb-4">
+ 
+        <!-- card-header end// -->
+        <div class="card-body" >
+            <div class="table-responsive" >
+                <% if(productRatings && productRatings.length > 0) { %>
+                    <table class="table table-hover" id="reviewTable" >
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>User</th>
+                                <th>Product</th>
+                                <th>Rating</th>
+                                <th>Date</th>
+                                <th>Review</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i=0 ; i < productRatings.length ; i ++) { %>
+                                <tr>
+                                    <td><%= i + 1 %></td>
+                                    <td><%= productRatings[i].username %></td>
+                                    <td><b><%= productRatings[i].product.productName %></b></td>
+                                    <td>
+                                        <% for(let j = 0; j < productRatings[i].product.rating; j++) { %>
+                                            <span class="star" style="color: orange; font-size: 20px;">&#9733;</span>
+                                        <% } %>
+                                    </td>
+                                    <td><%= productRatings[i].date.toLocaleString() %></td>
+                                    <td><%= productRatings[i].product.review %></td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    $(document).ready(function () {
+        new DataTable('#reviewTable');
+
+})
+</script>
+<%- include('../partials/adminFooter.ejs') %>
