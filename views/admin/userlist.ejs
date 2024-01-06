@@ -1,191 +1,171 @@
 <%- include('../partials/adminHeader.ejs') %>
-
- 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<%- include('../partials/adminAside.ejs') %>
 
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->
-
-    <%- include('../partials/adminAside.ejs') %>
- 
-        <section class="content-main">
-            <div class="content-header">
-                <h2 class="content-title">Users List</h2>
-
-            </div>
-            <div class="card mb-4">
-                <header class="card-header">
-                    <div class="row gx-3">
-                        <form id="usersFilterForm" action="/admin/usersList" method="get"
-                            class="d-flex justify-content-between align-items-center">
-                            <div class="col-md-3 col-12 mb-md-0 mb-3">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search term"
-                                        name="usersListSearch" value="<%= usersListSearch ? usersListSearch : '' %>">
-
-                                    <button type="submit" class="btn btn-light bg">
-                                        <i class="material-icons md-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-2 col-6 col-md-8">
-                                <div class="input-group">
-                                    <select id="userStatusFilter" class="form-select" name="usersStatus">
-                                        <option value="2">All</option>
-                                        <option value="1">Active</option>
-                                        <option value="0">Disabled</option>
-                                    </select>
-
-                                    <button type="submit" class="btn btn-light bg">
-                                        <i class="material-icons md-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        
-                            
-                        </form>
-
-
-
+<section class="content-main">
+    <div class="content-header">
+        <h2 class="content-title">Users List</h2>
+    </div>
+    <div class="card mb-4">
+        <header class="card-header">
+            <div class="row gx-3">
+                <form id="usersFilterForm" action="/admin/usersList" method="get"
+                    class="d-flex justify-content-between align-items-center">
+                    <div class="col-md-3 col-12 mb-md-0 mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search term" name="usersListSearch"
+                                value="<%= usersListSearch ? usersListSearch : '' %>">
+                            <button type="submit" class="btn btn-light bg">
+                                <i class="material-icons md-search"></i>
+                            </button>
+                        </div>
                     </div>
-                </header>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover text-center">
-                            <thead>
-                                <tr>
-                                    <th>Image</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Wallet Balance</th>
-                                    <th>Mobile</th>
-                                    <th>Referral rewards</th>
-                                    <th>Status</th>
-                                    <th>Block/Unblock</th>
+                    <div class="col-lg-2 col-6 col-md-8">
+                        <div class="input-group">
+                            <select id="userStatusFilter" class="form-select" name="usersStatus">
+                                <option value="2">All</option>
+                                <option value="1">Active</option>
+                                <option value="0">Disabled</option>
+                            </select>
+                            <button type="submit" class="btn btn-light bg">
+                                <i class="material-icons md-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </header>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover text-center">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Wallet Balance</th>
+                            <th>Mobile</th>
+                            <th>Referral rewards</th>
+                            <th>Status</th>
+                            <th>Block/Unblock</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (userData && userData.length > 0) { %>
+                            <% for (let i = userData.length - 1; i >= 0; i--) { %>
+                                <% const user = userData[i]; %>
+                                <tr class="<%= i % 2 === 0 ? 'even-row' : 'odd-row' %>">
+                                    <td class="align-middle">
+                                        <% if (user.profileImages) { %>
+                                            <div class="profile-pic-container">
+                                                <img style="max-width: 100px; max-height: 100px" src="/<%= user.profileImages %>" alt="<%= user.profileImages %>">
+                                            </div>
+                                        <% } else { %>
+                                            <div class="profile-pic-container">
+                                                <img style="max-width: 100px; max-height: 100px" src="/user3.png" alt="<%= user.profileImages %>">
+                                            </div>
+                                        <% } %>
+                                    </td>
+                                    <td class="align-middle">
+                                        <h6 class="mb-0 title">
+                                            <%= user.username %>
+                                        </h6>
+                                        <small class="text-muted">User ID: <%= user._id %></small>
+                                    </td>
+                                    <td class="align-middle"><%= user.email %></td>
+                                    <td class="align-middle">₹<%= user.wallet.toFixed(2) %></td>
+                                    <td class="align-middle"><%= user.mobile %></td>
+                                    <td class="align-middle">
+                                        <% const numberOfReferrals = isNaN(user.numberOfReferralsDone) ? 0 : user.numberOfReferralsDone; %>
+                                        <%= numberOfReferrals %> referrals : ₹<%= numberOfReferrals * 100 %>
+                                    </td>
+                                    <td class="align-middle">
+                                        <% if (user.isActive === 1) { %>
+                                            <span class="badge rounded-pill alert-success">Active</span>
+                                        <% } else { %>
+                                            <span class="badge rounded-pill alert-danger">Inactive</span>
+                                        <% } %>
+                                    </td>
+                                    <td class="align-middle">
+                                        <% if (user.isActive === 1) { %>
+                                            <a href="#" onclick="confirmBlockUser('<%= user._id %>')">
+                                                <button class="btn btn-sm btn-danger rounded font-sm">Block</button>
+                                            </a>
+                                        <% } else { %>
+                                            <a href="#" onclick="confirmUnblockUser('<%= user._id %>')">
+                                                <button class="btn btn-sm btn-success rounded font-sm ml-2">Unblock</button>
+                                            </a>
+                                        <% } %>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <% if (userData && userData.length > 0) { %>
-                                    <% for (let i = userData.length; i > 0; i--) { %>
-                                        <% const user = userData[i - 1]; %>
-                                        <tr>
-                                            <td class="align-middle">
-                                                <% if (user.profileImages) { %>
-                                                    <div class="profile-pic-container">
-                                                        <img src="/<%= user.profileImages %>" alt="<%= user.profileImages %>">
-                                                    </div>
-                                                <% } else { %>
-                                                    <div class="profile-pic-container">
-                                                        <img src="/user3.png" alt="">
-                                                    </div>
-                                                <% } %>
-                                                <style>
-                                                       .profile-pic-container img {
-                                                            max-width: 100px;  
-                                                            max-height:100px;  
-                                                            object-fit: contain; 
-                                                            border-radius: 20px;
-                                                            margin: 20px;
-                                                        }
-                                                </style>
-                                            </td >
-                                            <td class="align-middle">
-                                                <h6 class="mb-0 title">
-                                                    <%= user.username %>
-                                                </h6>
-                                                <small class="text-muted">User ID: <%= user._id %></small>
-                                            </td>
-                                            <td class="align-middle"><%= user.email %></td>
-                                            <td class="align-middle">₹<%= user.wallet.toFixed(2) %></td>
-                                            <td class="align-middle"><%= user.mobile %></td>
-                                            <td class="align-middle">
-                                                <% const numberOfReferrals = isNaN(user.numberOfReferralsDone) ? 0 : user.numberOfReferralsDone; %>
-                                                <%= numberOfReferrals %> referrals : ₹<%= numberOfReferrals * 100 %>
-                                            </td>
-                                            <td class="align-middle">
-                                                <% if (user.isActive === 1) { %>
-                                                    <span class="badge rounded-pill alert-success">Active</span>
-                                                <% } else { %>
-                                                    <span class="badge rounded-pill alert-danger">Inactive</span>
-                                                <% } %>
-                                            </td>
-                                            <td class="align-middle">
-                                                <% if (user.isActive === 1) { %>
-                                                    <a href="#" onclick="confirmBlockUser('<%= user._id %>')">
-                                                        <button class="btn btn-sm btn-danger rounded font-sm">Block</button>
-                                                    </a>
-                                                <% } else { %>
-                                                    <a href="#" onclick="confirmUnblockUser('<%= user._id %>')">
-                                                        <button class="btn btn-sm btn-success rounded font-sm ml-2">Unblock</button>
-                                                    </a>
-                                                <% } %>
-                                            </td>
-                                        </tr>
-                                    <% } %>
-                                <% } else { %>
-                                    <tr>
-                                        <td colspan="8" class="align-middle">No users found in the system.</td>
-                                    </tr>
-                                <% } %>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-            </div>  
-            <div class="pagination-area mt-15 mb-50">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-start">
-                        <% for (let j=1; j <=usersListTotalPages; j++) { %>
-                            <li class="page-item <%= j === usersListCurrentPage ? 'active' : '' %>">
-                                <a class="page-link"
-                                    href="?usersListPage=<%= j %>&usersListSearch=<%= usersListSearch %>">
-                                    <%= j %>
-                                </a>
-                            </li>
                             <% } %>
-                    </ul>
-                </nav>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="8" class="align-middle">No users found in the system.</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
             </div>
-        </section>
+        </div>
+        <style>
+            .even-row {
+                background-color: #f2f2f2; /* Light gray shade */
+            }
+        
+            .odd-row {
+                background-color: #ffffff; /* White background */
+            }
+        </style>
+                
+    </div>
+    <div class="pagination-area mt-15 mb-50">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-start">
+                <% for (let j = 1; j <= usersListTotalPages; j++) { %>
+                    <li class="page-item <%= j === usersListCurrentPage ? 'active' : '' %>">
+                        <a class="page-link" href="?usersListPage=<%= j %>&usersListSearch=<%= usersListSearch %>">
+                            <%= j %>
+                        </a>
+                    </li>
+                <% } %>
+            </ul>
+        </nav>
+    </div>
+</section>
 
-    </main>
+<script>
+    function confirmBlockUser(userId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You are about to block this user.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, block it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/admin/blockUser?_id=" + userId;
+            }
+        });
+    }
 
-    <script>
-        function confirmBlockUser(userId) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'You are about to block this user.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, block it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                 
-                    window.location.href = "/admin/blockUser?_id=" + userId;
-                }
-            });
-        }
-
-        function confirmUnblockUser(userId) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'You are about to unblock this user.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#28a745',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, unblock it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                 
-                    window.location.href = "/admin/unblockUser?_id=" + userId;
-                }
-            });
-        }
-    </script>
+    function confirmUnblockUser(userId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You are about to unblock this user.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#28a745',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, unblock it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/admin/unblockUser?_id=" + userId;
+            }
+        });
+    }
+</script>
 
 <%- include('../partials/adminFooter.ejs') %>

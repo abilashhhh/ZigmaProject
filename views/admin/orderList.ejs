@@ -68,7 +68,7 @@
                             <tbody>
                                 <% if (allOrders && allOrders.length> 0) { %>
                                     <% for (let i=0; i < allOrders.length; i++) { %>
-                                        <tr>
+                                        <tr class="<%= i % 2 === 0 ? 'even-row' : 'odd-row' %>">
                                             <td class="align-middle">
                                                 <%= allOrders[i].orderid %>
                                             </td>
@@ -151,7 +151,15 @@
                         </table>
                     </div>
                 </div> <!-- card-body end// -->
-
+                <style>
+                    .even-row {
+                        background-color: #e0e0e0; /* Light gray shade */
+                    }
+                
+                    .odd-row {
+                        background-color: #fff8f8; /* White background */
+                    }
+                </style>
                 <div class="pagination-area mt-15 mb-50" style="margin-left: 20px;">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-start">
