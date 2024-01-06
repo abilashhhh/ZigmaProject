@@ -46,7 +46,7 @@ app.use('/', userRoute);
 // Error handling middleware
 const errorHandler = (err, req, res, next) => {
   console.error("Error caught by errorHandler:", err.message);
-  res.status(500).render('users/404', { message: "Internal Server Error. Sorry for the inconvenience." });
+  res.status(500).render('users/500', { message: `Internal Server Error. Sorry for the inconvenience: ${err.message}` });
 };
 
 app.use(errorHandler);
