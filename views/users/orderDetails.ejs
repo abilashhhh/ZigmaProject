@@ -185,7 +185,7 @@
                                                  <a href="/returnOrder?orderId=<%= ordersData[0].orderid%>&productId=<%= ordersData[0].products[j]._id %>">Return Order</a>
                                                  <% }  else {%>
 
-                                                    <a href="/cancelOrder?orderId=<%= ordersData[0].orderid%>&productId=<%= ordersData[0].products[j]._id %>">Cancel Order</a> 
+                                                    <a href="/cancelOrder?orderId=<%= ordersData[0].orderid%>&productId=<%= ordersData[0].products[j]._id %>"><button class="btn hiver hover-up">Cancel Order</button></a> 
                                                   <% } %>
                                                   <% } %>
                                             </td>

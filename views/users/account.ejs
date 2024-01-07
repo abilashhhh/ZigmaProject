@@ -1,4 +1,11 @@
 ﻿<%- include('../partials/userHeader.ejs') %>
+
+
+    <!-- toaster  -->
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     <%- include('../partials/pageTopPanel.ejs') %>
 
         <main class="main">
@@ -49,12 +56,44 @@
                                                     details</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="/logout"><i
+                                                <a class="nav-link" href="" onclick="logoutHandler()"><i
                                                         class="fi-rs-sign-out mr-10"></i>Logout</a>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
+
+                                <script>
+                                    function logoutHandler(){
+                                        fetch('/logout' , {
+                                            method : 'GET',
+                                        }).then(response => response.json())
+                                        .then(data => {
+                                            if(data.message === ""){
+                                                showToast(data.message,'success');
+                                                window.location.href='/';
+                                            }else{
+                                                showToast(data.message, 'error')
+                                            }
+                                        }).catch(error => {
+                                            console.error("Logout error", error);
+                                            showToast('Unexpected error occured', 'error')
+                                        })
+                                    }
+
+                                    function showToast(message,type){
+                                        Toastify({
+                                            text : message,
+                                            duration:3000,
+                                            close: true,
+                                            gravity: 'top',
+                                            position: 'right',
+                                            backgroundColor : type === 'success' ? 'blue' : 'red'
+                                        }).showToast()
+                                    }
+                                </script>
+
+
                                 <br>
                                 <br> 
                                 <br> 
@@ -140,14 +179,41 @@
                                                         </div>
                                                         <% if(userData.referralCode){ %>
                                                             <div class="card-body">
-                                                                Share your referral code to your friends and both of you
-                                                                will get ₹100 added to the wallet
-                                                                <div class="card-header">
-                                                                    <h4 style="margin: 10px;">Referral Code : <%=
-                                                                            userData.referralCode %>
-                                                                    </h4>
+                                                                Share your referral code with your friends, and both of you will get ₹100 added to the wallet.
+                                                            
+                                                                <div class="card-header"">
+                                                                    <h4 style="margin: 5px;">Referral Code: <span id="referralCode"><%= userData.referralCode %></span></h4>
                                                                 </div>
-                                                            </div>
+                                                            
+                                                                    <button class="hover-up" style="color: white;  border-radius: 10px;  background-color: black;  margin-top: 5px;" id="copyButton">Copy to Clipboard</button>
+                                                           
+                                                                
+                                                                    <script>
+                                                                        document.getElementById('copyButton').addEventListener('click', () => {
+                                                                            const referralCodeElement = document.getElementById('referralCode');
+                                                                            const referralCodeData = `
+                                                                                Welcome to Zigma Smartwatches! 
+                                                                                Create an account on www.zigmawatches.shop using the referral code: "${referralCodeElement.innerText}", so that you will get Rs.100 as a WELCOME bonus, and your friend gets Rs.100.
+                                                                            `;
+                                                                
+                                                                            // Create a temporary input element to facilitate copying
+                                                                            const tempInput = document.createElement('input');
+                                                                            tempInput.value = referralCodeData;
+                                                                            document.body.appendChild(tempInput);
+                                                                
+                                                                            // Select the text in the input element
+                                                                            tempInput.select();
+                                                                            document.execCommand('copy');
+                                                                
+                                                                            // Remove the temporary input element
+                                                                            document.body.removeChild(tempInput);
+                                                                
+                                                                            showToast(`Referral code "${referralCodeElement.innerText}" has been copied to the clipboard.`, 'success');
+                                                                        });
+                                                                    </script> 
+                                                                
+                                                                
+                                                            
                                                             <%} %>
                                                                 <% if(userData.numberOfReferralsDone){ %>
                                                                     <div class="card-body">
@@ -346,7 +412,7 @@
                                                     <h5 class="mb-0"> Wallet</h5>
                                                 </div>
                                                 <div class="card-body contact-from-area">
-                                                    <p>The amount after a product return will be credited here .</p>
+                                                    <p>Users wallet balance</p>
                                                     <div class="row">
                                                         <div class="col-lg-8">
                                                             <h3 style="margin: 20px;">
@@ -354,7 +420,7 @@
                                                             </h3>
                                                         </div>
 
-
+                                                         
 
 
                                                     </div>
