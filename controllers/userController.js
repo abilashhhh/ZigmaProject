@@ -191,7 +191,7 @@
  
       const bannerPortraitData = await Banner.find({ isBannerActive: true , bannerShape : "Portrait"});
       const bannerLandscapeData = await Banner.find({ isBannerActive: true , bannerShape : "Landscape"});
-    
+  
       res.render('./users/loginHome', {
         username: username,
         userData: userData,
@@ -201,7 +201,8 @@
         categoriesOffersData,
         productsOffersData,
         bannerPortraitData,
-        bannerLandscapeData
+        bannerLandscapeData,
+        userData
       });
 
 
@@ -213,7 +214,8 @@
 
   const loadRegister = async (req, res) => {
     try {
-      res.render('./users/registration');
+      const userData = req.session.userData
+      res.render('./users/registration' , {userData});
     } catch (error) {
       console.log("Error in userController-loadRegister", error.message);
     }
@@ -261,10 +263,12 @@
         const usernames = await User.findOne({ username: user.username });
 
         if (usernames && user.username === usernames.username) {
-          return res.render('./users/registration', { message: "Username already exists in the system, Try logging in or create new account with a different username" });
+          const userData = req.session.userData
+          return res.render('./users/registration', { message: "Username already exists in the system, Try logging in or create new account with a different username" , userData});
         }
         else if (mailExisting && user.email === mailExisting.email) {
-          return res.render('./users/registration', { message: "An account already exists with this email id, Try logging in" });
+          const userData = req.session.userData
+          return res.render('./users/registration', { message: "An account already exists with this email id, Try logging in" , userData});
         } else {
           const generatedOtp = generateOtp();
           req.session.user = {
@@ -283,7 +287,8 @@
       }
     } catch (error) {
       console.log("Error in insertUser: " + error.message);
-      res.render('./users/registration', { message: "An error occurred. Please try again." });
+      const userData = req.session.userData
+      res.render('./users/registration', { message: "An error occurred. Please try again." , userData});
     }
   };
 
@@ -378,7 +383,8 @@
 
   const loadLogin = async (req, res) => {
     try {
-      res.render('./users/loginpage');
+      const userData = req.session.userData;
+      res.render('./users/loginpage', {userData});
     } catch (error) {
       console.log("Error in userController-loadLogin", error.message);
     }
@@ -388,6 +394,7 @@
     try {
       const data = req.body.data;
       const password = req.body.password;
+      const userData2 = req.session.userData;
 
       const userData = await User.findOne({ username: data });
       req.session.userData = userData;
@@ -395,19 +402,20 @@
       if (!userData) {
         const productsData = await Products.find({});
         const categoriesData = await Category.find({})
-        res.render('./users/loginpage', { message: { type: 'error', title: 'Login Failed,', text: 'Check your user name and password and try again' }, productsData: productsData, categoriesData: categoriesData });
+        res.render('./users/loginpage', { message: { type: 'error', title: 'Login Failed', text: 'Check your username and password and try again' }, productsData: productsData, categoriesData: categoriesData , userData:userData2});
       }
 
       if (userData.isAdmin === 1) {
         const productsData = await Products.find({});
         const categoriesData = await Category.find({})
-        return res.render('./users/loginpage', { message: { type: 'error', title: 'Login Failed', text: 'Admins should login using the admin page' }, productsData: productsData, categoriesData: categoriesData });
+        return res.render('./users/loginpage', { message: { type: 'error', title: 'Login Failed', text: 'Admins should login using the admin page' }, productsData: productsData, categoriesData: categoriesData ,userData: userData2});
       }
 
       if (userData.isActive === 0) {
         const productsData = await Products.find({});
         const categoriesData = await Category.find({})
-        return res.render('./users/loginpage', { message: { type: 'error', title: 'Login Failed', text: 'You are blocked by the admin, Cant login' }, productsData: productsData, categoriesData: categoriesData });
+        
+        return res.render('./users/loginpage', { message: { type: 'error', title: 'Login Failed', text: 'You are blocked by the admin, Cant login' }, productsData: productsData, categoriesData: categoriesData ,userData :userData2});
       }
 
       const passwordMatch = await bcrypt.compare(password, userData.password)
@@ -438,15 +446,16 @@
           categoriesOffersData,
           productsOffersData,
           bannerPortraitData,
-          bannerLandscapeData
+          bannerLandscapeData,
+          userData
 
         });
 
       } else {
         const productsData = await Products.find({});
         const categoriesData = await Category.find({})
-
-        res.render('./users/loginpage', { message: { type: 'error', title: 'Login Failed', text: 'Check your user name and password and try again' }, productsData: productsData, categoriesData: categoriesData });
+const userData = req.session.userData
+        res.render('./users/loginpage', { message: { type: 'error', title: 'Login Failed', text: 'Check your user name and password and try again' }, productsData: productsData, categoriesData: categoriesData , userData});
       }
     } catch (error) {
       console.log("verifyLogin - users: " + error.message);
@@ -514,14 +523,15 @@
 
   const forgetPasswordLoad = async (req, res) => {
     try {
+      const userData = req.session.userData
       const token = req.query.token
       const tokenData = await User.findOne({ token: token })
 
       if (token) {
-        res.render('./users/forget-password', { user_id: tokenData._id });
+        res.render('./users/forget-password', { user_id: tokenData._id ,userData});
 
       } else {
-        res.render('./users/404', { message: "Token is invalid" })
+        res.render('./users/404', { message: "Token is invalid" ,userData})
       }
 
     } catch (error) {
@@ -534,12 +544,12 @@
 
       const password = await securePassword(req.body.password)
       const user_id = req.body.user_id;
-
+const userData = req.session.userData
       const updatedData = await User.findByIdAndUpdate({ _id: user_id }, { $set: { password: password, token: '' } });
       console.log("Password updated: ", updatedData)
       const productsData = await Products.find({});
       const categoriesData = await Category.find({})
-      res.render('./users/loginpage', { message: { type: 'success', title: 'Password Updated', text: 'Your password have been updated, You can login now with the new password' }, productsData: productsData, categoriesData: categoriesData });
+      res.render('./users/loginpage', { message: { type: 'success', title: 'Password Updated', text: 'Your password have been updated, You can login now with the new password' }, productsData: productsData, categoriesData: categoriesData ,userData});
     } catch (error) {
       console.log("error in userController-resetPasswordP: ", error.message)
     }
@@ -667,12 +677,13 @@
 
   const userLogout = async (req, res) => {
     try {
-      req.session.destroy();
-      res.redirect('/')
+        req.session.destroy();
+        res.status(200).send({ message: 'Logged out successfully' });
     } catch (error) {
-      console.log("error in usercontroller-logout", error.message)
+        console.log("error in usercontroller-logout", error.message);
+        res.status(500).send({ message: 'Error logging out' });
     }
-  }
+};
 
   const loadChangePassword = async (req, res) => {
     try {
@@ -992,7 +1003,8 @@
  
  const referralAtRegistration = async(req,res) => {
   try {
-    res.render('./users/referralAtRegistration' , {message  : ""})
+    const userData = req.session.userData
+    res.render('./users/referralAtRegistration' , {message  : "" , userData})
   } catch (error) {
     console.error('Error in userController-referralAtRegistration:', error);
     res.status(500).send('Internal Server Error');
@@ -1005,7 +1017,7 @@
     const referralEntered = req.body.referralEntered;
     const walletIncrement = 100;
     const numberOfReferrals = 1;
-    
+    const userData = req.session.userData
     let messageSuccess;
  
     
@@ -1022,7 +1034,7 @@
       if (existingUserOfReferral) {
         req.session.referralEnteredAtSignUp =    referralEntered
  
-          messageSuccess = "Valid referral code, Continue to complete your signup. Redirecting in 3 seconds";
+          messageSuccess = "Valid referral code, Continue to complete your signup. Redirecting now";
         
       
     }else{
@@ -1031,13 +1043,15 @@
   }
   
    
-    res.render('./users/referralAtRegistration', { message: messageSuccess || ''   });
+    res.render('./users/referralAtRegistration', { message: messageSuccess || ''  , userData });
     
   } catch (error) {
     console.error('Error in userController-postReferralAtRegistration:', error);
     res.status(500).send('Internal Server Error');
   }
  }
+
+
  const addProfileImage = async (req, res) => {
   try {
     const userId = req.session.userData._id;

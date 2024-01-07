@@ -1,61 +1,239 @@
-<!DOCTYPE html>
-<html class="no-js" lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <title>Zigma Watches - Verify OTP</title>
-  <link rel="stylesheet" href="/assets/css/maind134.css" />
+<%- include('../partials/userHeader.ejs') %>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-</head>
 
-<body>
-  <main class="main">
-    <div class="page-header breadcrumb-wrap">
+  <header class="header-area header-style-5">
+    <div class="header-top header-top-ptb-1 d-none d-lg-block">
       <div class="container">
-        <div class="breadcrumb">
-          <a href="/" rel="nofollow">Home</a>
-          <span></span> Create Account <span></span> Verify OTP
+        <div class="row align-items-center">
+          <div class="col-xl-3 col-lg-4">
+            <div class="header-info">
+              <ul>
+                <li><i class="fi-rs-smartphone"></i> <a href="/contactPage">(+01) - 2345 - 6789</a></li>
+                <li><i class="fi-rs-marker"></i><a href="/contactPage">Our location</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-4">
+            <div class="text-center">
+              <div id="news-flash" class="d-inline-block">
+                <ul>
+
+                  <li>Get great smart watches up to 30% off <a href="/login">View details</a></li>
+                  <li>Super Value Deals - Save more with coupons</li>
+                  <li>Trendy Apple smart watches, save up to 35% off today <a href="/login">Shop now</a></li>
+
+
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4">
+            <div class="header-info header-info-right">
+              <ul>
+                <li>
+                  <a class="language-dropdown-active" href=""> <i class="fi-rs-world"></i> English </a>
+
+                </li>
+
+                <li><i class="fi-rs-user"></i><a href="/login">Log In</a></li>
+                <li><i class="fi-rs-user"></i><a href="/register">Sign Up</a></li>
+
+              </ul>
+            </div>
+          </div>
         </div>
-        <p class="logopara">Zigma Smartwatches</p>
       </div>
     </div>
+    <div class="header-bottom sticky-bar sticky-white-bg">
+      <div class="container">
+        <div class="header-wrap header-space-between position-relative">
+          <div class="logo logo-width-1">
+            <a href="/"><img style="margin: 20px;" src="assets/imgs/theme/logo.jpg" alt="logo"></a>
+          </div>
+          <div
+            class="main-menu main-menu-grow main-menu-padding-1 main-menu-lh-1 main-menu-mrg-1 hm3-menu-padding d-none d-lg-block hover-boder">
+            <nav>
+              <ul>
 
-    <div class="padding_eight_all bg-white">
-      <div class="heading_s1">
-        <h3 class="mb-30">Verify OTP to create your account</h3>
-      </div>
 
-      <form method="post" action="/verifyotp">
-        <div class="form-group">
-          <input required="" type="number" name="verifyotp" placeholder="Enter the OTP" />
-          <p style="padding: 10px; font-size: 12px">Otp will expire in 60 seconds. After that click resend otp to
-            generate new otp
+                <li><a class="active" href="/">Home </a></li>
+                <li><a href="/login">All Products</a></li><!-- shop page link -->
+                <li><a href="/brands">All Brands</a></li>
+                <li><a href="/aboutPage">About</a></li>
+                <li><a href="/blogCategoryFullwidth">Blog</a></li>
+                <li><a href="/blogPostFullwidth">Latest Buzz</a></li>
+                <li><a href="/contactpage">Contact</a></li>
 
-          </p>
-          <div class="form-group" style="float: right">
+
+
+
+              </ul>
+            </nav>
+          </div>
+          <div class="header-action-right">
+
+
+
+            <div class="header-action-2" style="margin: 5px;">
+              <div class="header-action-icon-2" style="margin: 5px;">
+                <a href="/login">
+                  <img style="width: 25px;" class="svgInject" alt="Zigma Smartwatches"
+                    src="assets/imgs/theme/icons/icon-heart.svg">
+                  <p style="margin-left: -10px ;">Wishlist</p>
+                </a>
+              </div>
+
+
+              <div class="header-action-icon-2" style="margin: 5px;">
+                <a class="mini-cart-icon" href="/login">
+                  <img style="width: 25px;" alt="Zigma Smartwatches" src="assets/imgs/theme/icons/icon-cart.svg">
+                  <p>Cart</p>
+                </a>
+              </div>
+              <div class="header-action-icon-2 d-block d-lg-none">
+                <div class="burger-icon burger-icon-white">
+                  <span class="burger-icon-top"></span>
+                  <span class="burger-icon-mid"></span>
+                  <span class="burger-icon-bottom"></span>
+                </div>
+              </div>
+            </div>
+
+
 
           </div>
         </div>
-
-        <div class="form-group">
-          <button type="submit" class="btn btn-fill-out btn-block hover-up" name="verifyOtp">
-            Verify OTP
-          </button>
-        </div>
-      </form>
-      <form method="post" action="/resendotp" style="float: right;" onsubmit="resetCountdown();">
-        <button style="padding: 4px; background-color: rgb(36, 123, 78); color: white;" type="submit" class="hover-up"
-          name="resendOtp">
-          Resend OTP
-        </button>
-      </form>
-      <div class="text-muted text-center">
-        <strong>Already have an account? <a href="/login">Sign in now</a></strong>
       </div>
     </div>
-  </main>
+    </div>
+  </header>
+  <div class="mobile-header-active mobile-header-wrapper-style">
+    <div class="mobile-header-wrapper-inner">
+      <div class="mobile-header-top">
+        <div class="mobile-header-logo">
+          <a href="/"><img src="assets/imgs/theme/logo.jpg" alt="logo"></a>
+        </div>
+        <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
+          <button class="close-style search-close">
+            <i class="icon-top"></i>
+            <i class="icon-bottom"></i>
+          </button>
+        </div>
+      </div>
+      <div class="mobile-header-content-area">
+        <div class="mobile-search search-style-3 mobile-header-border">
+          <form action="#">
+            <input type="text" placeholder="Search for items…">
+            <button type="submit"><i class="fi-rs-search"></i></button>
+          </form>
+        </div>
+        <div class="mobile-menu-wrap mobile-header-border">
 
+          <!-- mobile menu start -->
+          <nav>
+            <ul class="mobile-menu">
+
+
+
+              <li><a class="active" href="/">Home </a></li>
+              <li><a href="/login">All Products</a></li><!-- shop page link -->
+              <li><a href="/brands">All Brands</a></li>
+              <li><a href="/aboutPage">About</a></li>
+              <li><a href="/blogCategoryFullwidth">Blog</a></li>
+              <li><a href="/blogPostFullwidth">Latest Buzz</a></li>
+              <li><a href="/contactpage">Contact</a></li>
+
+            </ul>
+          </nav>
+          <!-- mobile menu end -->
+        </div>
+        <div class="mobile-header-info-wrap mobile-header-border">
+          <div class="single-mobile-header-info mt-30">
+            <a href="/contactPage"> Our location </a>
+          </div>
+          <div>
+
+            <i class="fi-rs-user"></i><a href="/login">Log In</a>
+            <br>
+            <i class="fi-rs-user"></i><a href="/register">Sign Up</a>
+
+          </div>
+          <div class="single-mobile-header-info">
+            <a href="">(+01) - 2345 - 6789 </a>
+          </div>
+        </div>
+        <div class="mobile-social-icon">
+          <h5 class="mb-15 text-grey-4">Follow Us</h5>
+          <a href="#"><img src="assets/imgs/theme/icons/icon-facebook.svg" alt=""></a>
+          <a href="#"><img src="assets/imgs/theme/icons/icon-twitter.svg" alt=""></a>
+          <a href="#"><img src="assets/imgs/theme/icons/icon-instagram.svg" alt=""></a>
+          <a href="#"><img src="assets/imgs/theme/icons/icon-pinterest.svg" alt=""></a>
+          <a href="#"><img src="assets/imgs/theme/icons/icon-youtube.svg" alt=""></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-header breadcrumb-wrap">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/" rel="nofollow">Home</a>
+        <span></span> Create Account <span></span> Verify OTP
+      </div>
+
+    </div>
+  </div>
+
+  <section class="pt-100 pb-150 d-flex justify-content-center">
+    <div class="container">
+      <div class="row">
+        <div class="m-auto d-flex justify-content-center">
+          <div class="row d-flex col-lg-5 justify-content-center">
+            <div class="col-lg-12">
+              <div
+                class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5  border-4">
+
+                <div class="heading_s1">
+                  <h3 class="mb-30">Verify OTP to create your account</h3>
+                </div>
+
+                <form method="post" action="/verifyotp">
+                  <div class="form-group">
+                    <input required="" type="number" name="verifyotp" placeholder="Enter the OTP" />
+                    <p style="padding: 10px; font-size: 12px">Otp will expire in 60 seconds. After that click resend otp
+                      to
+                      generate new otp
+
+                    </p>
+                    <div class="form-group" style="float: right">
+
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-fill-out btn-block hover-up" name="verifyOtp">
+                      Verify OTP
+                    </button>
+                  </div>
+                </form>
+                <form method="post" action="/resendotp" style="float: right;" onsubmit="resetCountdown();">
+                  <button style="padding: 4px; background-color: rgb(36, 123, 78); color: white;" type="submit"
+                    class="hover-up" name="resendOtp">
+                    Resend OTP
+                  </button>
+                </form>
+                <div class="text-muted text-center">
+                  <strong>Already have an account? <a href="/login">Sign in now</a></strong>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </main>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       Swal.fire({
@@ -66,6 +244,185 @@
       });
     });
   </script>
-</body>
+  <header class="header-area header-style-5">
+    <div class="header-top header-top-ptb-1 d-none d-lg-block">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-xl-3 col-lg-4">
+            <div class="header-info">
+              <ul>
+                <li><i class="fi-rs-smartphone"></i> <a href="/contactPage">(+01) - 2345 - 6789</a></li>
+                <li><i class="fi-rs-marker"></i><a href="/contactPage">Our location</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-4">
+            <div class="text-center">
+              <div id="news-flash" class="d-inline-block">
+                <ul>
 
-</html>
+
+                  <li>Get great smart watches up to 30% off <a href="/login">View details</a></li>
+                  <li>Super Value Deals - Save more with coupons</li>
+                  <li>Trendy Apple smart watches, save up to 35% off today <a href="/login">Shop now</a></li>
+
+
+
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4">
+            <div class="header-info header-info-right">
+              <ul>
+                <li>
+                  <a class="language-dropdown-active" href=""> <i class="fi-rs-world"></i> English </a>
+
+                </li>
+
+                <li><i class="fi-rs-user"></i><a href="/login">Log In</a></li>
+                <li><i class="fi-rs-user"></i><a href="/register">Sign Up</a></li>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="header-bottom sticky-bar sticky-white-bg">
+      <div class="container">
+        <div class="header-wrap header-space-between position-relative">
+          <div class="logo logo-width-1">
+            <a href="/"><img style="margin: 20px;" src="assets/imgs/theme/logo.jpg" alt="logo"></a>
+          </div>
+          <div
+            class="main-menu main-menu-grow main-menu-padding-1 main-menu-lh-1 main-menu-mrg-1 hm3-menu-padding d-none d-lg-block hover-boder">
+            <nav>
+              <ul>
+
+
+
+
+                <li><a class="active" href="/">Home </a></li>
+                <li><a href="/login">All Products</a></li><!-- shop page link -->
+                <li><a href="/brands">All Brands</a></li>
+                <li><a href="/aboutPage">About</a></li>
+                <li><a href="/blogCategoryFullwidth">Blog</a></li>
+                <li><a href="/blogPostFullwidth">Latest Buzz</a></li>
+                <li><a href="/contactpage">Contact</a></li>
+
+
+
+
+              </ul>
+            </nav>
+          </div>
+          <div class="header-action-right">
+
+
+
+
+
+            <div class="header-action-2" style="margin: 5px;">
+              <div class="header-action-icon-2" style="margin: 5px;">
+                <a href="/login">
+                  <img style="width: 25px;" class="svgInject" alt="Zigma Smartwatches"
+                    src="assets/imgs/theme/icons/icon-heart.svg">
+                  <p style="margin-left: -10px ;">Wishlist</p>
+                </a>
+              </div>
+
+
+              <div class="header-action-icon-2" style="margin: 5px;">
+                <a class="mini-cart-icon" href="/login">
+                  <img style="width: 25px;" alt="Zigma Smartwatches" src="assets/imgs/theme/icons/icon-cart.svg">
+                  <p>Cart</p>
+                </a>
+              </div>
+              <div class="header-action-icon-2 d-block d-lg-none">
+                <div class="burger-icon burger-icon-white">
+                  <span class="burger-icon-top"></span>
+                  <span class="burger-icon-mid"></span>
+                  <span class="burger-icon-bottom"></span>
+                </div>
+              </div>
+            </div>
+
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </header>
+  <div class="mobile-header-active mobile-header-wrapper-style">
+    <div class="mobile-header-wrapper-inner">
+      <div class="mobile-header-top">
+        <div class="mobile-header-logo">
+          <a href="/"><img src="assets/imgs/theme/logo.jpg" alt="logo"></a>
+        </div>
+        <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
+          <button class="close-style search-close">
+            <i class="icon-top"></i>
+            <i class="icon-bottom"></i>
+          </button>
+        </div>
+      </div>
+      <div class="mobile-header-content-area">
+        <div class="mobile-search search-style-3 mobile-header-border">
+          <form action="#">
+            <input type="text" placeholder="Search for items…">
+            <button type="submit"><i class="fi-rs-search"></i></button>
+          </form>
+        </div>
+        <div class="mobile-menu-wrap mobile-header-border">
+
+          <!-- mobile menu start -->
+          <nav>
+            <ul class="mobile-menu">
+
+
+
+              <li><a class="active" href="/">Home </a></li>
+              <li><a href="/login">All Products</a></li><!-- shop page link -->
+              <li><a href="/brands">All Brands</a></li>
+              <li><a href="/aboutPage">About</a></li>
+              <li><a href="/blogCategoryFullwidth">Blog</a></li>
+              <li><a href="/blogPostFullwidth">Latest Buzz</a></li>
+              <li><a href="/contactpage">Contact</a></li>
+
+
+            </ul>
+          </nav>
+          <!-- mobile menu end -->
+        </div>
+        <div class="mobile-header-info-wrap mobile-header-border">
+          <div class="single-mobile-header-info mt-30">
+            <a href="/contactPage"> Our location </a>
+          </div>
+          <div>
+
+            <i class="fi-rs-user"></i><a href="/login">Log In</a>
+            <br>
+            <i class="fi-rs-user"></i><a href="/register">Sign Up</a>
+
+          </div>
+          <div class="single-mobile-header-info">
+            <a href="">(+01) - 2345 - 6789 </a>
+          </div>
+        </div>
+        <div class="mobile-social-icon">
+          <h5 class="mb-15 text-grey-4">Follow Us</h5>
+          <a href="#"><img src="assets/imgs/theme/icons/icon-facebook.svg" alt=""></a>
+          <a href="#"><img src="assets/imgs/theme/icons/icon-twitter.svg" alt=""></a>
+          <a href="#"><img src="assets/imgs/theme/icons/icon-instagram.svg" alt=""></a>
+          <a href="#"><img src="assets/imgs/theme/icons/icon-pinterest.svg" alt=""></a>
+          <a href="#"><img src="assets/imgs/theme/icons/icon-youtube.svg" alt=""></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../partials/userFooter.ejs') %>

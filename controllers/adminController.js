@@ -10,7 +10,7 @@ const Rating = require('../models/ratingModel');
 const adminLoginLoad = async (req, res) => {
     try {
         
-        res.render('./admin/accountLogin' );
+        res.render('./admin/accountLogin', {message : ""} );
     } catch (error) {
         console.error("Error in adminController-adminLoginLoad: ", error.message);
         res.status(500).send("Error in adminController-adminLoginLoad: ", error.message);
@@ -89,7 +89,7 @@ const displayUsersList = async (req, res) => {
 
         const usersStatus = await User.find({ isAdmin: 0 });
 
-        res.render('./admin/userList', {
+        res.render('./admin/userlist', {
             userData: usersData,
             usersStatus: usersStatus,
             usersListTotalPages: Math.ceil(usersListPageCount / usersListPageLimit),

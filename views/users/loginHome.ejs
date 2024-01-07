@@ -63,11 +63,51 @@
                                     <li><a href="/accountPage"><i class="fi-rs-user"></i>
                                             <%= username %>
                                         </a></li>
+
+                                        <li>
+                                            <a href="" onclick="logoutHandler()"><span style="color: red;">Logout</span></a>
+                                        </li>
+                                        
                                     <% } else { %>
                                         <li><i class="fi-rs-user"></i><a href="/login">Log In</a></li>
                                         <br>
                                         <li><i class="fi-rs-user"></i><a href="/register">Sign Up</a></li>
                                         <% } %>
+
+                                        <script>
+                                            function logoutHandler() {
+                                                fetch('/logout', {
+                                                    method: 'GET',
+                                                })
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    if (data.message === 'Logged out successfully') {
+                                                        showToast(data.message, 'success');
+                                                        
+                                                        window.location.href = '/';
+                                                    } else {
+                                                        showToast(data.message, 'error');
+                                                    }
+                                                })
+                                                .catch(error => {
+                                                    console.error('Logout error:', error);
+                                                    showToast('An unexpected error occurred', 'error');
+                                                });
+                                            }
+                                        
+                                            function showToast(message, type) {
+                                                Toastify({
+                                                    text: message,
+                                                    duration: 3000,
+                                                    close: true,
+                                                    gravity: 'top',  
+                                                    position: 'right',  
+                                                    backgroundColor: type === 'success' ? 'red' : 'red', 
+                                                }).showToast();
+                                            }
+                                        </script>
+                                        
+                                        
                             </ul>
                         </div>
                     </div>
@@ -243,6 +283,8 @@
                             <a href="/accountPage"><i class="fi-rs-user"></i>
                                 <%= username %>
                             </a>
+                            <br>
+                           
                             <% } else { %>
                                 <i class="fi-rs-user"></i><a href="/login">Log In</a>
                                 <br>

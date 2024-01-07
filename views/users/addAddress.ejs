@@ -1,29 +1,29 @@
-<!DOCTYPE html>
-<html class="no-js" lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <title>Zigma Watches - Add Address Page</title>
-  <!-- Template CSS -->
-  <link rel="stylesheet" href="/assets/css/maind134.css" />
-</head>
-
-<body>
+<%- include('../partials/userHeader.ejs') %>
+<%- include('../partials/pageTopPanel.ejs') %>
+ 
   <div class="page-header breadcrumb-wrap">
     <div class="container">
       <div class="breadcrumb">
         <a href="/" rel="nofollow">Home</a>
         <span></span><a href="/accountPage">Account</a><span></span> Add Address
       </div>
-      <p class="logopara">Zigma Smartwatches</p>
+   
     </div>
   </div>
 
-  <div class="padding_eight_all bg-white">
+  <section class="pt-100 pb-150 d-flex justify-content-center">
+    <div class="container">
+      <div class="row">
+        <div class="m-auto d-flex justify-content-center">
+          <div class="row d-flex col-lg-5 justify-content-center">
+            <div class="col-lg-12">
+              <div
+                class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5  border-4">
+
     <div class="heading_s1">
       <h3 class="mb-30">Add New Address</h3>
     </div>
-    <div style="width: 900px;">
+ 
 
       <form method="post" action="/addAddress" onsubmit="return validateForm()">
         <div class="form-group">
@@ -91,7 +91,13 @@
     </div>
 
   </div>
-  </main>
+  <div class="col-lg-1"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
   <script>
     function validateForm() {
       // Get the values entered by the user
@@ -198,6 +204,7 @@
       return true;
     }
   </script>
-</body>
 
-</html>
+
+<%- include('../partials/userAboveFooterPanel.ejs') %>
+<%- include('../partials/userFooter.ejs') %>

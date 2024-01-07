@@ -1,8 +1,6 @@
 <%- include('../partials/adminHeader.ejs') %>
 
     <link rel="stylesheet" href="/assets/css/maind134.css" />
-    <!-- USER STYLESHEET FOR BREADCRMBS -->
-
 
     <style>
         .logo-container {
@@ -29,7 +27,6 @@
             </div>
 
             <div class="card mx-auto card-login">
-
                 <div class="logo-container">
                     <a href="/">
                         <img src="/logo.jpg" class="logo" alt="Zigma Smartwatches Dashboard">
@@ -40,28 +37,48 @@
                     <h4 class="card-title mb-4">Admin Login</h4>
                     <form method="post">
                         <div class="mb-3">
-                            <input class="form-control" placeholder="Username" name="username" id="username" type="text"
-                                 >
+                            <input class="form-control" placeholder="Username" name="username" id="username"
+                                type="text">
                         </div>
 
                         <div class="mb-3">
                             <input class="form-control" placeholder="Password" id="password" name="password"
-                                type="password"  >
+                                type="password">
                         </div>
-                        <p style="color: red;">
-                            <% if (typeof message !=='undefined' ) { %>
-                                <%= message %>
-                                    <% } %>
-                        </p>
-                       
+
+                        <div style="margin: 10px;">
+                            <p style="color: red;">
+                                <% if (message && typeof message !=='undefined' ) { %>
+                                    <%= message %>
+                                        <% } %>
+
+                                           
+                            </p>
+                        </div>
 
                         <div class="mb-4">
-                            <button type="submit" class="btn btn-primary w-100"> Login </button>
+                            <button type="submit" class="btn btn-primary w-100">Login</button>
                         </div>
-
                     </form>
                 </div>
-
             </div>
- 
-        <%- include('../partials/adminFooter.ejs') %>
+
+            <%- include('../partials/adminFooter.ejs') %>
+
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                    <% if (typeof message !== 'undefined') { %>
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'error',
+                          text: "Check your username and password and try again",
+                          timer: 3000,
+                        });
+                    <% } %>
+                  });
+                  </script>
+
+    </body>
+
+    </html>

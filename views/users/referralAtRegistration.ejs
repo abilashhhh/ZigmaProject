@@ -1,24 +1,26 @@
-﻿<!DOCTYPE html>
-<html class="no-js" lang="en">
+﻿<%- include('../partials/userHeader.ejs') %>
 
-<head>
-  <meta charset="utf-8" />
-  <title>Zigma Watches - Registration Page</title>
-  <!-- Template CSS -->
-  <link rel="stylesheet" href="/assets/css/maind134.css" />
-</head>
-
-<body>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+ 
+   <%- include('../partials/pageTopPanel.ejs') %>
   <div class="page-header breadcrumb-wrap">
     <div class="container">
       <div class="breadcrumb">
         <a href="/" rel="nofollow">Home</a> <span></span> Create Account
       </div>
-      <p class="logopara">Zigma Smartwatches</p>
+    
     </div>
   </div>
+  <section class="pt-100 pb-150 d-flex justify-content-center">
+    <div class="container">
+      <div class="row">
+        <div class="m-auto d-flex justify-content-center">
+          <div class="row d-flex col-lg-5 justify-content-center">
+            <div class="col-lg-12">
+              <div
+                class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5  border-4">
 
-  <div class="padding_eight_all bg-white">
     <div class="heading_s1">
       <h3 class="mb-30">Do you have a referral code</h3>
     </div>
@@ -69,9 +71,16 @@
               <strong>Already have an account? <a href="/login">Sign in now</a></strong>
             </div>
   </div>
-  </main>
+</div>
+</div>
+<div class="col-lg-1"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
 
 
-</body>
-
-</html>
+         
+<%- include('../partials/userAboveFooterPanel.ejs') %>
+<%- include('../partials/userFooter.ejs') %>

@@ -28,7 +28,7 @@
                             <tbody>
                                 <% if(orderData && orderData.length > 0 ) { %>
                                 <% for(let i = 0 ; i < orderData.length ; i++){ %>
-                                    <tr class="<%= i % 2 === 0 ? 'even-row' : 'odd-row' %>">
+                                <tr>
                                      
                                     <td><a href="#" class="fw-bold"><%= orderData[i].orderid %></a> </td>
                                     <td><%= orderData[i].address.firstName %> <%= orderData[i].address.lastName %></td>
@@ -59,15 +59,7 @@
             </div>
          
          
-            <style>
-                .even-row {
-                    background-color: #e0e0e0; /* Light gray shade */
-                }
-            
-                .odd-row {
-                    background-color: #fff8f8; /* White background */
-                }
-            </style>
+
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
             <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
