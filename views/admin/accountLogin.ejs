@@ -68,7 +68,7 @@
                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
                 <script>
                     document.addEventListener("DOMContentLoaded", function () {
-                    <% if (typeof message !== 'undefined') { %>
+                    <% if (typeof message !== 'undefined' && message === 'Cannot login. Check your username and password and try again') { %>
                         Swal.fire({
                           icon: 'error',
                           title: 'error',

@@ -38,10 +38,10 @@ const adminVerifyLogin = async (req, res) => {
                 req.session.user_id = adminData._id;
                 return res.redirect('/admin/adminHome');
             } else {
-                return res.render('./admin/accountLogin', { message: "Can't login. Check your username and password and try again" });
+                return res.render('./admin/accountLogin', { message: "Cannot login. Check your username and password and try again" });
             }
         } else {
-            return res.render('./admin/accountLogin', { message: "Can't login. Check your username and password and try again" });
+            return res.render('./admin/accountLogin', { message: "Cannot login. Check your username and password and try again" });
         }
 
     } catch (error) {

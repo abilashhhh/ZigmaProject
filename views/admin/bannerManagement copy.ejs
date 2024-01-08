@@ -1,0 +1,149 @@
+<%- include('../partials/adminHeader.ejs') %>
+
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    <!-- Main CSS -->
+    <link href="/adminAssets/css/main.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <%- include('../partials/adminAside.ejs') %>
+
+        <section class="content-main">
+            <div class="content-header">
+                <h2 class="content-title card-title">Banner Management</h2><br>
+                <a href="/admin/createBanners" class="btn btn-primary btn-sm rounded">Create new banner</a>
+            </div>
+
+            <div class="card mb-4">           
+                <div class="card-body">
+                    <h4>
+                        <% if (typeof message !=='undefined' ) { %>
+                            <div id="message-container">
+                                <h5 style="font-size: 25px; color: red; margin: 20px;">
+                                    <%= message %>
+                                </h5>
+                            </div>
+                            <script>
+                                setTimeout(() => {
+                                    document.getElementById("message-container").style.display = "none";
+                                }, 3000);
+                            </script>
+                            <% } %>
+                    </h4>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-3">
+                        <% if(bannerData && bannerData.length> 0) { %>
+                            <% for(let i=0; i < bannerData.length; i++) { %>
+                                <div class="col">
+                                    <div class="card card-user">
+                                        <img src="/<%= bannerData[i].bannerImages %>" alt="Banner Image">
+                                        <div class="card-body">
+                                             
+                                            <h6>Text 1 : <%= bannerData[i].bannerText1 %>
+                                            </h6>
+                                            <h6>Text 2 : <%= bannerData[i].bannerText2 %>
+                                            </h6>
+                                            <h6>Text 3 : <%= bannerData[i].bannerText3 %>
+                                            </h6>
+                                            <h6>Text 4 : <%= bannerData[i].bannerText4 %>
+                                            </h6>
+                                            <h6>Shape : <%= bannerData[i].bannerShape %>
+                                            </h6>
+                                            <h6>Location : <%= bannerData[i].bannerDisplayPlace %>
+                                            </h6>
+                                            <h6>Banner Expiry Date : <%= bannerData[i].bannerExpiryDate.toLocaleString()  %>
+                                            </h6>
+                                            <h6>Banner Status :
+                                                <% if( bannerData[i].isBannerActive===true) { %>
+
+
+                                                    <span class="badge  alert-success"> Active</span>
+
+                                                    <% } else { %>
+
+                                                        <span class="badge  alert-danger"> Inactive</span>
+
+                                                        <% } %>
+                                            </h6>
+
+                                            <% if (bannerData[i]) { %>
+                                                <h1><a href="#" onclick="confirmDelete('<%= bannerData[i]._id %>')">
+                                                        <button class="btn btn-sm btn-danger rounded font-sm">Delete
+                                                            banner</button>
+                                                    </a>
+                                                    <% if (bannerData[i].isBannerActive===true) { %>
+                                                        <a href="#" onclick="confirmBlock('<%= bannerData[i]._id %>')">
+                                                            <button class="btn btn-sm btn-danger rounded font-sm">Block
+                                                                banner</button>
+                                                        </a>
+                                                        <% } else { %>
+                                                            <a href="#"
+                                                                onclick="confirmUnblock('<%= bannerData[i]._id %>')">
+                                                                <button
+                                                                    class="btn btn-sm btn-success rounded font-sm ml-2">Unblock
+                                                                    banner</button>
+                                                            </a>
+                                                            <% } %>
+                                                </h1>
+
+                                                <% } %>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                            <% } %>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script>
+            function confirmDelete(bannerId) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You are about to delete this banner  .',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/admin/deleteBanner?bannerId=" + bannerId;
+                    }
+                });
+            }
+
+            function confirmBlock(bannerId) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You are about to block this banner.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, block it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/admin/blockBanner?bannerId=" + bannerId;
+                    }
+                });
+            }
+
+            function confirmUnblock(bannerId) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You are about to unblock this banner.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, unblock it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/admin/unblockBanner?bannerId=" + bannerId;
+                    }
+                });
+            }
+        </script>
+
+        <%- include('../partials/adminFooter.ejs') %>

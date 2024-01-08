@@ -29,23 +29,25 @@ const createBanners = async (req, res) => {
 const createBannersPost = async (req, res) => {
     try {
         const {
-            bannerName,
             bannerText1,
             bannerText2,
             bannerText3,
+            bannerText4,
             bannerExpiryDate,
             isBannerActive,
-            bannerShape
+            bannerShape,
+            bannerDisplayPlace
         } = req.body;
 
         const banner = new Banner({
-            bannerName,
             bannerText1,
             bannerText2,
             bannerText3,
+            bannerText4,
             bannerExpiryDate,
             isBannerActive,
-            bannerShape
+            bannerShape,
+            bannerDisplayPlace
         });
 
         if (req.file) {
@@ -54,10 +56,24 @@ const createBannersPost = async (req, res) => {
 
             let imageProcessing = sharp(imagePath);
 
-            if (bannerShape === 'landscape') {
-                imageProcessing = imageProcessing.resize({ width: 800, height: 400, fit: 'cover' });
-            } else if (bannerShape === 'portrait') {
-                imageProcessing = imageProcessing.resize({ width: 400, height: 800, fit: 'cover' });
+            if (bannerDisplayPlace === 'B1') {
+                if (bannerShape === 'Landscape') {
+                    imageProcessing = imageProcessing.resize({ width: 800, height: 400, fit: 'cover' });
+                } else if (bannerShape === 'Portrait') {
+                    imageProcessing = imageProcessing.resize({ width: 400, height: 800, fit: 'cover' });
+                }
+            } else if (bannerDisplayPlace === 'B2') {
+                // b2 will be the repair services logo and content
+                imageProcessing = imageProcessing.resize({ width: 2000, height: 510, fit: 'cover' });
+            } else if (bannerDisplayPlace === 'B3') {
+                // counter timer box 1
+                imageProcessing = imageProcessing.resize({ width: 570, height: 430, fit: 'cover' });
+            } else if (bannerDisplayPlace === 'B4') {
+                // counter timer box 2
+                imageProcessing = imageProcessing.resize({ width: 570, height: 430, fit: 'cover' });
+            } else if (bannerDisplayPlace === 'B5') {
+                // todays deal
+                imageProcessing = imageProcessing.resize({ width: 1116, height: 168, fit: 'cover' });
             }
 
             await imageProcessing.toFile(processedImagePath);
@@ -84,32 +100,55 @@ const createBannersPost = async (req, res) => {
 // const createBannersPost = async (req, res) => {
 //     try {
 //         const {
-//             bannerName,
 //             bannerText1,
 //             bannerText2,
 //             bannerText3,
+//             bannerText4,
 //             bannerExpiryDate,
 //             isBannerActive,
-//             bannerShape
+//             bannerShape,
+//             bannerDisplayPlace
 //         } = req.body;
 
-
 //         const banner = new Banner({
-//             bannerName,
 //             bannerText1,
 //             bannerText2,
 //             bannerText3,
+//             bannerText4,
 //             bannerExpiryDate,
 //             isBannerActive,
-//             bannerShape
+//             bannerShape,
+//             bannerDisplayPlace
 //         });
 
 //         if (req.file) {
 //             const imagePath = req.file.path;
 //             const processedImagePath = `bannerImages/${Date.now()}_cropped.jpg`;
 
-//             await sharp(imagePath)
-//                 .toFile(processedImagePath);
+//             let imageProcessing = sharp(imagePath);
+
+
+
+//             if (bannerDisplayPlace === 'B1') {
+//                 if (bannerShape === 'landscape') {
+//                     imageProcessing = imageProcessing.resize({ width: 800, height: 400, fit: 'cover' });
+//                 } else if (bannerShape === 'portrait') {
+//                     imageProcessing = imageProcessing.resize({ width: 400, height: 800, fit: 'cover' });
+//                 }
+//             } else if (bannerDisplayPlace === 'B2') { // b2 will be the repair services logo and content
+//                 imageProcessing = imageProcessing.resize({ width: 800, height: 200, fit: 'cover' });
+
+//             } else if (bannerDisplayPlace === 'B3') { // counter timer box 1
+//                 imageProcessing = imageProcessing.resize({ width: 570, height: 430, fit: 'cover' });
+
+//             } else if (bannerDisplayPlace === 'B4') { // counter timer box 2
+//                 imageProcessing = imageProcessing.resize({ width: 570, height: 430, fit: 'cover' });
+
+//             } else if (bannerDisplayPlace === 'B5') { // todays deal
+//                 imageProcessing = imageProcessing.resize({ width: 1116, height: 168, fit: 'cover' });
+//             }
+
+//             await imageProcessing.toFile(processedImagePath);
 
 //             banner.bannerImages = processedImagePath;
 
@@ -121,15 +160,14 @@ const createBannersPost = async (req, res) => {
 //         }
 
 //         await banner.save();
-//         // const bannerData = await Banner.find({})
-//         // res.render('./admin/createBanners', { message: 'New banner created successfully', bannerData });
 //         res.render('./admin/createBanners', { message: 'New banner created successfully' });
 
 //     } catch (error) {
 //         console.error("Error in bannerController-createBannersPost: ", error.message);
 //         res.status(500).send('Internal Server Error');
 //     }
-// }
+// };
+
 
 const blockBanner = async (req, res) => {
     try {
@@ -173,31 +211,14 @@ const deleteBanner = async (req, res) => {
     }
 }
 
-// const bannerTemplateSelections = async (req, res) => {
-//     try {
 
-//         const homeBanners = req.body.homeBanners;
-//         const portraitBanners = req.body.portraitBanners;
-
-//         console.log(" homeBanners: ", homeBanners)
-//         console.log("portraitBanners : ", portraitBanners)
-
-
-
-//         const bannerData = await Banner.find({})
-//         res.render('./admin/bannerManagement', { bannerData, message: "Banner selection successful" });
-//     } catch (error) {
-//         console.error("Error in  bannerController-bannerTemplateSelections: ", error.message);
-//         res.status(500).send('Internal Server Error');
-//     }
-// }
 
 const bannersExpiryChecking = async () => {
     try {
         const currentDate = new Date();
 
         const expiredBanners = await Banner.find({ bannerExpiryDate: { $lte: currentDate } });
- 
+
         // Expired banners
         if (expiredBanners.length > 0) {
             const expiredBannersIds = expiredBanners.map(banner => banner._id);
@@ -217,7 +238,7 @@ cron.schedule('* * * * * *', async () => {
     await bannersExpiryChecking();
 });
 
- 
+
 
 
 module.exports = {
@@ -227,5 +248,5 @@ module.exports = {
     blockBanner,
     unblockBanner,
     deleteBanner,
-    // bannerTemplateSelections
+
 };

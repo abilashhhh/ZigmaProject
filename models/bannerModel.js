@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const bannersSchema = new mongoose.Schema({
-   bannerName: {
-    type: String,
-    required: true
-  },
    bannerText1: {
     type: String,
     required: true
@@ -15,12 +11,16 @@ const bannersSchema = new mongoose.Schema({
   bannerText3: {
     type: String,
   },
+  bannerText4: {
+    type: String,
+  },
   bannerImages: {
     type: String,
     required : true
   },
   bannerExpiryDate :{
-    type : Date
+    type : Date,
+    required : true
   },
   isBannerActive: {
     type: Boolean, 
@@ -29,6 +29,10 @@ const bannersSchema = new mongoose.Schema({
   bannerShape: {
     type: String,
     enum: ["Portrait", "Landscape"],
+  },
+  bannerDisplayPlace: {
+    type : String,
+    enum : [ "B1" , "B2" , "B3", "B4" ,"B5"],
     required : true
   }
   

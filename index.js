@@ -20,6 +20,9 @@ mongoose.connect(process.env.MONGODB_URL).then(() => {
     process.exit(1); // Exit the application if MongoDB connection fails
   });
 
+ 
+
+
 // Express middleware
 app.use(nocache());
 app.use(express.urlencoded({ extended: true }));

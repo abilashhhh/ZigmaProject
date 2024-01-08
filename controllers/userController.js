@@ -95,10 +95,25 @@
 
       const categoriesOffersData = await Category.find({ isCategoryOfferActive: true });
       const productsOffersData = await Products.find({ isProductOfferActive: true });
-      const bannerPortraitData = await Banner.find({ isBannerActive: true , bannerShape : "Portrait"});
-      const bannerLandscapeData = await Banner.find({ isBannerActive: true , bannerShape : "Landscape"});
+      const b1Portrait = await Banner.find({ isBannerActive: true , bannerDisplayPlace: 'B1' , bannerShape : "Portrait"});
+      const b1Landscape = await Banner.find({ isBannerActive: true ,bannerDisplayPlace: 'B1' ,  bannerShape : "Landscape"});
+      const b2 = await Banner.find({ isBannerActive: true ,bannerDisplayPlace: 'B2' });
+      const b3 = await Banner.find({ isBannerActive: true ,bannerDisplayPlace: 'B3' });
+      const b4 = await Banner.find({ isBannerActive: true ,bannerDisplayPlace: 'B4' });
+      const b5 = await Banner.find({ isBannerActive: true ,bannerDisplayPlace: 'B5' });
     
-      res.render('./users/home', { productsData, categoriesData, categoriesOffersData, productsOffersData,bannerPortraitData ,bannerLandscapeData });
+      res.render('./users/home', 
+      { productsData,
+         categoriesData, 
+         categoriesOffersData, 
+         productsOffersData,
+         b1Portrait ,
+         b1Landscape ,
+         b5,
+         b4,
+         b3,
+         b2
+        });
 
     } catch (error) {
       console.error("Error in userController-loadHome", error.message);
@@ -189,9 +204,13 @@
       const productsOffersData = await Products.find({ isProductOfferActive: true });
       // console.log("productsOffersData:" , productsOffersData.productName)
  
-      const bannerPortraitData = await Banner.find({ isBannerActive: true , bannerShape : "Portrait"});
-      const bannerLandscapeData = await Banner.find({ isBannerActive: true , bannerShape : "Landscape"});
-  
+      const b1Portrait = await Banner.find({ isBannerActive: true , bannerDisplayPlace: 'B1' , bannerShape : "Portrait"});
+      const b1Landscape = await Banner.find({ isBannerActive: true ,bannerDisplayPlace: 'B1' ,  bannerShape : "Landscape"});
+      const b2 = await Banner.find({ isBannerActive: true ,bannerDisplayPlace: 'B2' });
+      const b3 = await Banner.find({ isBannerActive: true ,bannerDisplayPlace: 'B3' });
+      const b4 = await Banner.find({ isBannerActive: true ,bannerDisplayPlace: 'B4' });
+      const b5 = await Banner.find({ isBannerActive: true ,bannerDisplayPlace: 'B5' });
+
       res.render('./users/loginHome', {
         username: username,
         userData: userData,
@@ -200,9 +219,10 @@
         numberOfProductsInCart: numberOfProductsInCart,
         categoriesOffersData,
         productsOffersData,
-        bannerPortraitData,
-        bannerLandscapeData,
-        userData
+        b1Landscape,
+        b1Portrait,
+        userData,
+        b2,b3,b4,b5
       });
 
 
@@ -433,8 +453,12 @@
         }
         const categoriesOffersData = await Category.find({ isCategoryOfferActive: true });
         const productsOffersData = await Products.find({ isProductOfferActive: true });
-        const bannerPortraitData = await Banner.find({ isBannerActive: true , bannerShape : "Portrait"});
-        const bannerLandscapeData = await Banner.find({ isBannerActive: true , bannerShape : "Landscape"});
+        const b1Portrait = await Banner.find({ isBannerActive: true , bannerDisplayPlace: 'B1' , bannerShape : "Portrait"});
+        const b1Landscape = await Banner.find({ isBannerActive: true ,bannerDisplayPlace: 'B1' ,  bannerShape : "Landscape"});
+        const b2 = await Banner.find({ isBannerActive: true ,bannerDisplayPlace: 'B2' });
+        const b3 = await Banner.find({ isBannerActive: true ,bannerDisplayPlace: 'B3' });
+        const b4 = await Banner.find({ isBannerActive: true ,bannerDisplayPlace: 'B4' });
+        const b5 = await Banner.find({ isBannerActive: true ,bannerDisplayPlace: 'B5' });
       
         res.render('./users/loginHome', {
           message: { type: 'success', title: 'Welcome', text: 'Logged in successfully..' },
@@ -445,9 +469,13 @@
           numberOfProductsInCart: numberOfProductsInCart,
           categoriesOffersData,
           productsOffersData,
-          bannerPortraitData,
-          bannerLandscapeData,
-          userData
+          b1Portrait,
+          b1Landscape,
+          userData,
+          b2,
+          b3,
+          b4,
+          b5
 
         });
 

@@ -36,10 +36,36 @@
                                     <main>
                                         <form id="bannerForm" method="post" action="/admin/createBanners"
                                             enctype="multipart/form-data">
-                                            <label for="bannerName">*Banner Name:</label>
-                                            <input type="text" id="bannerName" name="bannerName"
-                                                placeholder="Banner Name" required>
+
+                                            <label for="bannerDisplayPlace">Banner Display Place:</label>
+
+                                            <label for="bannerDisplayPlaceB1">B1</label>
+                                            <input type="radio" name="bannerDisplayPlace" id="bannerDisplayPlaceB1"
+                                                value="B1" required>
+
+                                            <label for="bannerDisplayPlaceB2">B2</label>
+                                            <input type="radio" name="bannerDisplayPlace" id="bannerDisplayPlaceB2"
+                                                value="B2" required>
+
+                                            <label for="bannerDisplayPlaceB3">B3</label>
+                                            <input type="radio" name="bannerDisplayPlace" id="bannerDisplayPlaceB3"
+                                                value="B3" required>
+
+                                            <label for="bannerDisplayPlaceB4">B4</label>
+                                            <input type="radio" name="bannerDisplayPlace" id="bannerDisplayPlaceB4"
+                                                value="B4" required>
+
+                                            <label for="bannerDisplayPlaceB5">B5</label>
+                                            <input type="radio" name="bannerDisplayPlace" id="bannerDisplayPlaceB5"
+                                                value="B5" required>
+
                                             <br><br>
+
+                                            <img id="selectedBannerImage" src="" alt="Selected Banner Image"
+                                                style="max-width: 100%; max-height: 500px; margin-top: 10px;">
+
+                                            <br> <br>
+
                                             <label for="bannerText1">*Banner Text 1:</label>
                                             <input type="text" id="bannerText1" name="bannerText1"
                                                 placeholder="Banner Text 1" required>
@@ -51,6 +77,10 @@
                                             <label for="bannerText3">Banner Text 3:</label>
                                             <input type="text" id="bannerText3" name="bannerText3"
                                                 placeholder="Banner Text 3">
+                                            <br><br>
+                                            <label for="bannerText4">Banner Text 4:</label>
+                                            <input type="text" id="bannerText4" name="bannerText4"
+                                                placeholder="Banner Text 4">
                                             <br><br>
                                             <label for="bannerShape">Banner Shape:</label>
                                             <label for="isBannerActivePortrait">Portrait</label>
@@ -67,7 +97,7 @@
                                                 style="max-width: 100%; max-height: 200px; margin-top: 10px; display: none;">
                                             <br><br>
                                             <label for="bannerExpiryDate">Banner Expiry Date:</label>
-                                            <input type="date" id="bannerExpiryDate" name="bannerExpiryDate">
+                                            <input type="date" id="bannerExpiryDate" name="bannerExpiryDate" required>
                                             <br><br>
                                             <label for="isBannerActive">Is Banner Active:</label>
                                             <label for="isBannerActiveYes">Yes</label>
@@ -77,10 +107,58 @@
                                             <input type="radio" name="isBannerActive" id="isBannerActiveNo" value="no"
                                                 required>
                                             <br><br>
+
+
+
+                                            <style>
+                                                label {
+                                                    margin-left: 20px;
+                                                }
+                                            </style>
+
                                             <button type="submit" class="btn"
                                                 style="background-color: green; color: white;">Submit</button>
                                         </form>
                                 </div>
+
+
+
+
+                                <script>
+                                    const bannerDisplayPlaceInputs = document.querySelectorAll('input[name="bannerDisplayPlace"]');
+                                    const selectedBannerImage = document.getElementById('selectedBannerImage');
+
+                                    const imageMapping = {
+                                        'B1': 'b1.png',
+                                        'B2': 'b2.png',
+                                        'B3': 'b3.png',
+                                        'B4': 'b4.png',
+                                        'B5': 'b5.png',
+
+                                    };
+
+
+                                    function updateSelectedBannerImage() {
+                                        const selectedBannerDisplayPlace = document.querySelector('input[name="bannerDisplayPlace"]:checked').value;
+                                        const imageName = imageMapping[selectedBannerDisplayPlace];
+
+                                        if (imageName) {
+                                            const imageUrl = `/bannerDummy/${imageName}`;
+                                            selectedBannerImage.src = imageUrl;
+                                        } else {
+                                            selectedBannerImage.src = '';
+                                        }
+                                    }
+
+
+                                    bannerDisplayPlaceInputs.forEach(function (input) {
+                                        input.addEventListener('change', updateSelectedBannerImage);
+                                    });
+
+                                    updateSelectedBannerImage();
+                                </script>
+
+
 
                             </div>
                             <script>
@@ -99,6 +177,9 @@
                                     }
                                 });
                             </script>
+
+
+
                         </div>
             </div>
         </section>

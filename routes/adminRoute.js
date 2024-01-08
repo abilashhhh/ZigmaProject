@@ -8,7 +8,7 @@ const productsController = require('../controllers/productsController');
 const orderController = require('../controllers/orderController');
 const couponController = require('../controllers/couponController');
 const bannerController = require('../controllers/bannerController');
-
+ 
 // Middleware
 const auth = require('../middleware/adminAuth');
 
@@ -108,6 +108,6 @@ router.post('/createBanners',bannerImages.single('bannerImages'), auth.isLogin, 
 router.get('/blockBanner', auth.isLogin, bannerController.blockBanner);
 router.get('/unblockBanner', auth.isLogin, bannerController.unblockBanner);
 router.get('/deleteBanner', auth.isLogin, bannerController.deleteBanner);
-
+ 
  
 module.exports = router;
