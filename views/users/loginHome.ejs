@@ -335,7 +335,7 @@
                                         </h5>
                                         <br>
                                         <a class="animated btn btn-brush btn-brush-3"
-                                            style="font-weight: 900; color: rgb(0, 0, 0)" href="/login"> Shop Now </a>
+                                            style="font-weight: 900;  color: rgb(255, 255, 255)" href="/shop?categoryName=All Brands"> Shop Now </a>
                                     </div>
                                 </div>
                             </div>
@@ -367,7 +367,7 @@
                                         </h5>
                                         <br>
                                         <a class="animated btn btn-brush btn-brush-3"
-                                            style="font-weight: 900; color: rgb(0, 0, 0)" href="/login"> Shop Now </a>
+                                            style="font-weight: 900;  color: rgb(255, 255, 255)" href="/shop?categoryName=All Brands"> Shop Now </a>
                                     </div>
                                 </div>
                             </div>
@@ -818,27 +818,7 @@
                     
 
            
-                    <% if (b4 && b4.length > 0) { %>
-                        <% for (let i = 0; i < b4.length; i++) { %>
-                            <div class="col-lg-6 deal-co">
-                                <div class="deal wow fadeIn animated mb-md-4 mb-sm-4 mb-lg-0" style="background-image: url('<%= b4[i].bannerImages %>');">
-                                    <div class="deal-top">
-                                        <h2 class="text" style="color: black;"><%= b4[i].bannerText1 %></h2>
-                                    </div>
-                                    <div class="deal-content">
-                                        <h5 style="font-weight: 700;"><%= b4[i].bannerText2 %></h5>
-                                        <h6 class="product-title" style="font-weight: 700;"><%= b4[i].bannerText3 %></h6>
-                                        <div class="product-price" style="font-weight: 700;"> <%= b4[i].bannerText4 %></div>
-                                    </div>
-                                    <div class="deal-bottom">
-                                        <p style="font-weight: 700;">Hurry Up! Offer End In:</p>
-                                        <div class="deals-countdown" data-countdown="<%= b4[i].bannerExpiryDate.toLocaleString() %>"></div>
-                                        <a href="/login" class="btn hover-up">Shop Now <i class="fi-rs-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        <% } %>
-                    <% } %>
+                     
                 </div>
             </div>
         </section>
@@ -984,13 +964,13 @@
                             <div class="container" style="margin-top: 100px;">
                                 <div class="slider-1-height-2 slider-animated-1">
                                     <div class="hero-slider-content-2" style="background-image: url('/<%=b5[i].bannerImages %>'); background-size: cover; border-radius: 20px">
-                                        <h5 class="animated text-grey-4 mb-15">
+                                        <h5 class="animated" style="color: red;">
                                             <%=b5[i].bannerText1 %>
                                         </h5>
-                                        <h2 class="animated fw-600">
-                                            <%=b5[i].bannerText2 %> <span class="text-brand">
+                                        <h2 >
+                                            <%=b5[i].bannerText2 %> <span  style="color: red;">
                                                     <%= b5[i].bannerText3 %>
-                                                </span>.
+                                                </span>
                                                 <%=b5[i].bannerText4 %>
                                         </h2>
                                     </div>
@@ -1153,6 +1133,35 @@
                 </div>
             </div>
         </section>
+
+        <section class="banner-2 section-padding pb-0">
+            <% if(b4 && b4.length>0 ){ %>
+                <% for(let i=0 ; i < b4.length; i++) { %>
+                    <div class="container">
+                        <div class="banner-img banner-big wow fadeIn animated f-none">
+                            <img src="/<%= b4[i].bannerImages %>" style="border-radius: 10px;" alt>
+                            <div class="banner-text d-md-block d-none">
+                                <h4 class="mb-15 mt-40 text-brand">
+                                    <%= b4[i].bannerText1 %>
+                                </h4>
+                                <h1 class="fw-600 mb-20" style="color: white;">
+                                    <%= b4[i].bannerText2 %>
+                                </h1>
+                                <h4 class="mb-15 mt-40 text-brand">
+                                    <%= b4[i].bannerText3 %>
+                                </h4>
+                                <h3 class="fw-600 mb-20" style="color: white;">
+                                    <%= b4[i].bannerText4 %>
+                                </h3>
+
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                        <% } %>
+        </section>
+
+
         <div class="container pb-20 wow fadeIn animated">
             <div class="row">
                 <div class="col-12 mb-20">

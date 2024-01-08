@@ -69,8 +69,7 @@ const createBannersPost = async (req, res) => {
                 // counter timer box 1
                 imageProcessing = imageProcessing.resize({ width: 570, height: 430, fit: 'cover' });
             } else if (bannerDisplayPlace === 'B4') {
-                // counter timer box 2
-                imageProcessing = imageProcessing.resize({ width: 570, height: 430, fit: 'cover' });
+                imageProcessing = imageProcessing.resize({ width: 2000, height: 510, fit: 'cover' });
             } else if (bannerDisplayPlace === 'B5') {
                 // todays deal
                 imageProcessing = imageProcessing.resize({ width: 1116, height: 168, fit: 'cover' });
