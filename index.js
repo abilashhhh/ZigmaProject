@@ -21,8 +21,6 @@ mongoose.connect(process.env.MONGODB_URL).then(() => {
   });
 
  
-
-
 // Express middleware
 app.use(nocache());
 app.use(express.urlencoded({ extended: true }));

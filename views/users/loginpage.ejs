@@ -34,23 +34,44 @@
                     </div>
                     <form method="post">
                       <div class="form-group">
-                        <input type="text" required name="data" placeholder="User name">
+                          <input type="text" required name="data" placeholder="User name">
                       </div>
                       <div class="form-group">
-                        <input required type="password" name="password" placeholder="Password">
+                          <input required type="password" id="password" name="password" placeholder="Password">
+                          <div>
+                          <label for="checkbox" style="float: right;"><small >View Password</small></label>
+                          <input type="checkbox" id="checkbox" style="width: 0px; float: right;" >
+                          </div>
                       </div>
                       <div class="login_footer form-group">
-                        <a class="text-muted" href="/forget">Forgot password?</a>
+                          <a class="text-muted" href="/forget">Forgot password?</a>
                       </div>
                       <div class="login_footer form-group">
-                        <a class="text-muted" href="/register">Sign up</a>
-
+                          <a class="text-muted" href="/register">Sign up</a>
                       </div>
-
+                  
+                      <script>
+                          var checkbox = document.getElementById("checkbox");
+                          var password = document.getElementById("password");
+                  
+                          checkbox.onclick = function() {
+                              togglePassword(password);
+                          };
+                  
+                          function togglePassword(passwordInput) {
+                              if (checkbox.checked) {
+                                  passwordInput.type = "text";
+                              } else {
+                                  passwordInput.type = "password";
+                              }
+                          }
+                      </script>
+                  
                       <div class="form-group">
-                        <button type="submit" class="btn btn-fill-out btn-block hover-up" name="login">Log in</button>
+                          <button type="submit" class="btn btn-fill-out btn-block hover-up" name="login">Log in</button>
                       </div>
-                    </form>
+                  </form>
+                  
                   </div>
                 </div>
               </div>

@@ -44,7 +44,33 @@
                         <div class="mb-3">
                             <input class="form-control" placeholder="Password" id="password" name="password"
                                 type="password">
+
+                               <div>
+                                <label for="checkbox" style="float: right;"> <small>View password</small> </label>
+                                <input type="checkbox" style="width: 0px;" name="checkbox" id="checkbox">
+                               </div>
                         </div>
+
+                        <script>
+                            var checkbox = document.getElementById("checkbox")
+                            var password = document.getElementById("password")
+
+                        
+
+                            checkbox.onclick = function(){
+                                togglePassword(password)
+                            }
+
+                            function togglePassword(passwordInput){
+                                if(checkbox.checked){
+                                    passwordInput.type = "text"
+                                }else{
+                                    passwordInput.type = "password"
+                                }
+
+                            }
+
+                        </script>
 
                         <div style="margin: 10px;">
                             <p style="color: red;">
