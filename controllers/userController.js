@@ -926,7 +926,7 @@ const userData = req.session.userData
       );
 
       const ordersData = await Order.find({ userId: userData._id });
-      res.render('./users/account', { message: "Address updated successfully", username: userData.username, userData: updatedUserData, ordersData: ordersData });
+      res.render('./users/account', { message: "Address updated successfully", username: userData.username, userData: updatedUserData, ordersData: ordersData, message:"Your address is updated successfully" });
     } catch (error) {
       console.error('Error in usercontroller-updateEditUserAddress:', error);
       res.status(500).send('Internal Server Error');
@@ -1086,6 +1086,7 @@ const userData = req.session.userData
 
  const addProfileImage = async (req, res) => {
   try {
+
     const userId = req.session.userData._id;
  
     const user = await User.findOneAndUpdate(
@@ -1110,11 +1111,19 @@ const userData = req.session.userData
         }
       });
 
-      
       await user.save();
     }
+    const userData = await User.findById(userId);
 
-  res.redirect('/accountPage')
+      let username = userData.username
+      const categoriesData = await Category.find({})
+      const productsData = await Products.find({});
+      // const ordersData = await Order.findById( userData._id);
+      const ordersData = await Order.find({ userId: userData._id });
+
+      // console.log("userdata : ", userData)
+
+      res.render('./users/account', { username: username,  productsData: productsData, categoriesData: categoriesData, message: "Profile image is  updated successfully", userData: userData, ordersData: ordersData });
   } catch (error) {
     console.error('Error in userController-addProfileImage:', error);
     res.status(500).send('Internal Server Error');

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/productsModel');
 const Cart = require('../models/cartModel');
+const Category = require('../models/categoriesModel');
 const Order = require('../models/orderModel');
 const User = require('../models/userModel');
 const Coupon = require('../models/couponsModel');
@@ -155,7 +156,8 @@ const userData = req.session.userData
 
 const cancelOrderProcess = async (req, res) => {
   try {
-
+    const userData = req.session.userData
+    const username = userData.username
 
     const reason = req.body.reason;
     const productId = req.body.productId;
@@ -163,7 +165,7 @@ const cancelOrderProcess = async (req, res) => {
     const updatedOrder = await Order.findOneAndUpdate(
       {
         orderid: cancelOrderId,
-        'products._id': productId //using positional opertr
+        'products._id': productId 
       },
       {
         $set: {
@@ -244,7 +246,7 @@ const cancelOrderProcess = async (req, res) => {
       const updatedOrder = await Order.findOneAndUpdate(
         {
           orderid: cancelOrderId,
-          'products._id': productId //using positional opertr
+          'products._id': productId  
         },
         {
           $set: {
@@ -306,7 +308,12 @@ const cancelOrderProcess = async (req, res) => {
       { new: true }
     );
 
-    res.redirect('/accountPage');
+    const categoriesData = await Category.find({});
+    const productsData = await Product.find({});
+    const ordersData = await Order.find({ userId: userData._id });
+  
+    res.render('./users/account' , {message : "Order cancelled successfully" , userData, categoriesData, productsData, ordersData, username})
+    // res.redirect('/accountPage');
   } catch (error) {
     console.error('Error in orderController - cancelOrderProcess:', error.message);
   }
@@ -315,9 +322,11 @@ const cancelOrderProcess = async (req, res) => {
 // return order
 const returnOrder = async (req, res) => {
   try {
+    const userData = req.session.userData
+    const username = userData.username
     const returnOrderId = req.query.orderId;
     const productId = req.query.productId
-    res.render('./users/returnOrder', { returnOrderId: returnOrderId, productId: productId });
+    res.render('./users/returnOrder', { returnOrderId: returnOrderId, productId: productId , userData ,username});
   } catch (error) {
     console.error('Error in orderController - returnOrder:', error.message);
   }
@@ -325,6 +334,8 @@ const returnOrder = async (req, res) => {
 
 const returnOrderProcess = async (req, res) => {
   try {
+    const userData = req.session.userData
+    const username = userData.username
     const reason = req.body.reason;
     const productId = req.body.productId;
     const returnOrderId = req.body.returnOrderId;
@@ -474,7 +485,13 @@ const returnOrderProcess = async (req, res) => {
       { new: true }
     );
 
-    res.redirect('/accountPage');
+
+    const categoriesData = await Category.find({});
+    const productsData = await Product.find({});
+    const ordersData = await Order.find({ userId: userData._id });
+  
+    res.render('./users/account' , {message : "Order returned successfully" , userData, categoriesData, productsData, ordersData, username})
+    // res.redirect('/accountPage');
 
   } catch (error) {
     console.error('Error in orderController - returnOrderProcess:', error.message);

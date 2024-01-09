@@ -97,22 +97,20 @@
 
           document.getElementById('ratingInput').value = selectedRating;
         }
-
         function validateForm() {
-          // Remove the check for missing rating when it's equal to 1
-          Swal.fire({
-            icon: 'success',
-            title: 'Thanks for your feedback!',
-            showConfirmButton: false,
-            timer: 3000, // 3 seconds
-          });
+  Swal.fire({
+    icon: 'success',
+    title: 'Thanks for your feedback!',
+    showConfirmButton: false,
+    timer: 3000,
+  });
 
-          setTimeout(() => {
-            document.forms[0].submit();
-          }, 3000);
+  setTimeout(() => {
+    window.location.href = '/accountPage';  
+  }, 3000);
 
-          return false;
-        }
+  return false;
+}
 
         updateStars();
       </script>
