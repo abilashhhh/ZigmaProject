@@ -98,6 +98,8 @@
                                                             purchase of
                                                             Rs. <%= couponsData[i].minimumAmount %> (Maximum : Rs<%=
                                                                     couponsData[i].maximumAmount %>)
+                                                                    <br>
+                                                                    Expiry:  <%= couponsData[i].couponExpiry.toLocaleString() %>
                                                 </li>
 
                                                 <% } %>
@@ -122,7 +124,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-25">
-                                    <h4>Select Address</h4>
+                                    <h4>Select from saved addresses</h4>
                                 </div>
 
 
@@ -218,11 +220,11 @@
                                                     <h3>
                                                         No addresses found. <br>
                                                         Please add a new address to place the order<br><br>
-                                                        <a href="/addAddress" class="btn"> Add address </a>
+                                                         
                                                     </h3>
                                                     <% } %>
                                 </div>
-                                <a href="/addAddress" class="btn" style="margin: 20px;">Add new address</a>
+                               
 
 
 

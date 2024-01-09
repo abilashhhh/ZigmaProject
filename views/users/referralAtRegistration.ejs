@@ -21,6 +21,12 @@
               <div
                 class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5  border-4">
 
+
+ 
+
+
+
+
     <div class="heading_s1">
       <h3 class="mb-30">Do you have a referral code</h3>
     </div>
@@ -80,7 +86,22 @@
 </div>
 </section>
 
-
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if ("<%= message %>" === "Valid referral code, Continue to complete your signup. Redirecting now") {
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: "Valid referral code. Continue to complete your signup.",
+        timer: 3000,  
+        showConfirmButton: false,  
+        willClose: () => {
+          window.location.href = "/register";
+        },
+      });
+    }
+  });
+</script>
          
 <%- include('../partials/userAboveFooterPanel.ejs') %>
 <%- include('../partials/userFooter.ejs') %>

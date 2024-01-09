@@ -788,7 +788,7 @@ const userData = req.session.userData
 
       const existingMobileUser = await User.findOne({ mobile: mobileUpdate, _id: { $ne: userid } });
       if (existingMobileUser) {
-        return res.render('./users/account', { username, userData, productsData, categoriesData, message: "Mobile number already in use, Can't be changed", ordersData });
+        return res.render('./users/account', { username, userData, productsData, categoriesData, message: "Mobile number already in use, Cannot be changed", ordersData });
       }
 
       const existingEmailUser = await User.findOne({ email: emailUpdate, _id: { $ne: userid } });

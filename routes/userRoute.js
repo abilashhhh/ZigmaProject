@@ -48,7 +48,7 @@ router.post('/forget-password', auth.isLogout, userController.resetPassword);
 
 // Account
 router.get('/accountPage', auth.isLogin, userController.loadAccount);
-router.post('/accountPage', auth.isLogin, userController.updateloadAccount);
+router.post('/editUserDetails', auth.isLogin, userController.updateloadAccount);
 router.post('/addProfileImage', profileImages.single('profileImages'), auth.isLogin, userController.addProfileImage);
 router.post('/referralCodeClaim', auth.isLogin, userController.referralCodeClaim);
 
