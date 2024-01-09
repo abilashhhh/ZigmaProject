@@ -197,6 +197,9 @@
                   <h3 class="mb-30">Verify OTP to create your account</h3>
                 </div>
 
+ 
+ 
+
                 <form method="post" action="/verifyotp">
                   <div class="form-group">
                     <input required="" type="number" name="verifyotp" placeholder="Enter the OTP" />
@@ -205,6 +208,11 @@
                       generate new otp
 
                     </p>
+                
+                  
+                    <p  class="deals-countdown" data-countdown="<%= time %>"></p>
+ 
+                  
                     <div class="form-group" style="float: right">
 
                     </div>
@@ -236,14 +244,24 @@
   </main>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      Swal.fire({
-        icon: '<%= message.type || "info" %>',
-        title: '<%= message.title || "Alert" %>',
-        text: "<%= message.text %>",
-        timer: 5000,
-      });
+        Swal.fire({
+            icon: '<%= message.type || "info" %>',
+            title: '<%= message.title || "Alert" %>',
+            text: "<%= message.text %>",
+            timer: 5000,
+        });
+
+         if ("<%= message.text %>" === 'Your registration is successful, Please login now') {
+          setTimeout(() => {
+                window.location.href = '/login';
+            }, 3000);
+        }
     });
-  </script>
+</script>
+
+ 
+
+
   <header class="header-area header-style-5">
     <div class="header-top header-top-ptb-1 d-none d-lg-block">
       <div class="container">

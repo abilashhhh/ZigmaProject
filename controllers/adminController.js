@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt')
 const Product = require('../models/productsModel');
 const Order = require('../models/orderModel');
 const Rating = require('../models/ratingModel');
+const Feedback = require('../models/feedbackModel');
  
 
 const adminLoginLoad = async (req, res) => {
@@ -214,6 +215,16 @@ const adminSettings = async (req, res) => {
     }
   };
 
+  const showFeedback = async(req,res) => {
+    try {
+        const feedbackData = await Feedback.find({})
+        // console.log("feedbackData:" ,feedbackData)
+        res.render('./admin/feedback', {feedbackData}); 
+    } catch (error) {
+        console.log("Error in adminController-showFeedback", error.message);
+    }
+  }
+
 module.exports = {
     adminLoginLoad,
     adminVerifyLogin,
@@ -225,6 +236,7 @@ module.exports = {
     transactionsLoad,
     reviewsLoad,
     loadAdminSettings,
-    adminSettings
+    adminSettings,
+    showFeedback
 }
 

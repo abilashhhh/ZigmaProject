@@ -301,8 +301,15 @@
           console.log("Otp for user verification:", generatedOtp);
 
           mailTransporter(email, generatedOtp);
-          res.render('./users/verifyotp', { message: { type: 'success', title: ' OTP Sent', text: `Hello ${username}, Please enter the OTP sent to  ${email} within 60 seconds ` } });
-
+          res.render('./users/verifyotp', {
+            message: {
+              type: 'success',
+              title: ' OTP Sent',
+              text: `Hello ${username}, Please enter the OTP sent to  ${email} within 60 seconds`
+            },
+            time: new Date(new Date().getTime() + 60000).toLocaleString()
+          });
+          
         }
       }
     } catch (error) {
@@ -324,20 +331,17 @@
       if (isOtpValid && !isExpired) {
         await User.create(user);
         console.log("User successfully created:", user);
-
-
-
-        res.render('./users/verifyotp', { message: { type: 'success', title: 'User registered', text: 'Your registration is successful, Please login now' } });
+        res.render('./users/verifyotp', { message: { type: 'success', title: 'User registered', text: 'Your registration is successful, Please login now' }, time: new Date(Date.now()).toLocaleString() });
       } else {
 
         if (isExpired) {
-          return res.render('./users/verifyotp', { message: { type: 'error', title: 'OTP Expired', text: 'Please regenerate OTP and try again.' } });
+          return res.render('./users/verifyotp', { message: { type: 'error', title: 'OTP Expired', text: 'Please regenerate OTP and try again.' } , time: new Date(Date.now()).toLocaleString() });
         }
-        res.render('./users/verifyotp', { message: { type: 'error', title: 'Invalid OTP', text: 'The otp you entered is incorrect, Please try again.' } });
+        res.render('./users/verifyotp', { message: { type: 'error', title: 'Invalid OTP', text: 'The otp you entered is incorrect, Please try again.' }, time: new Date(Date.now()).toLocaleString() });
       }
     } catch (error) {
       console.log("Error in verifyOtp: " + error.message);
-      res.render('./users/verifyotp', { message: { type: 'error', title: 'An error occurred', text: ' Please try again later' } });
+      res.render('./users/verifyotp', { message: { type: 'error', title: 'An error occurred', text: ' Please try again later' }, time: new Date(Date.now()).toLocaleString() });
     }
   };
 
@@ -379,15 +383,15 @@
         console.log("New otp :", generatedOtp);
 
         mailTransporter(email, generatedOtp);
-        res.render('./users/verifyotp', { message: { type: 'info', title: 'OTP sent', text: 'Please enter the new OTP sent to your mail id.' } });
+        res.render('./users/verifyotp', { message: { type: 'info', title: 'OTP sent', text: 'Please enter the new OTP sent to your mail id.' },   time: new Date(new Date().getTime() + 60000).toLocaleString() });
 
       } else {
-        res.render('./users/verifyotp', { message: { type: 'error', title: 'Resent attempts exceeded', text: 'Please complete registration and try again' } });
+        res.render('./users/verifyotp', { message: { type: 'error', title: 'Resent attempts exceeded', text: 'Please complete registration and try again' }, time: new Date(Date.now()).toLocaleString() });
 
       }
     } catch (error) {
       console.log("Error in resendOtp: " + error.message);
-      res.render('./users/verifyotp', { message: { type: 'error', title: 'Error', text: 'Please try again later' } });
+      res.render('./users/verifyotp', { message: { type: 'error', title: 'Error', text: 'Please try again later' } , time: new Date(Date.now()).toLocaleString()});
     }
   };
 

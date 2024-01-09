@@ -1,0 +1,61 @@
+<%- include('../partials/adminHeader.ejs') %>
+
+<%- include('../partials/adminAside.ejs') %>
+
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Feedbacks and suggestions</h2>
+            <p>The feedbacks and suggestions made by customers are here</p>
+        </div>
+    </div>
+    <div class="card mb-4">
+ 
+        <!-- card-header end// -->
+        <div class="card-body" >
+            <div class="table-responsive" >
+                <% if(feedbackData && feedbackData.length > 0) { %>
+                    <table class="table table-hover" id="feedbackTable" >
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Sl.No</th>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>Telephone</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i=0 ; i < feedbackData.length ; i ++) { %>
+                                <tr>
+                                    <td><%= i + 1 %></td>
+                                    <td><%= feedbackData[i].name %></td>
+                                    <td><%= feedbackData[i].date.toLocaleString() %></td>
+                                    <td><%= feedbackData[i].telephone %></td>
+                                    <td><%= feedbackData[i].email %></td>
+                                    <td><%= feedbackData[i].subject %></td>
+                                    <td><%= feedbackData[i].message %></td>
+                                   
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    $(document).ready(function () {
+        new DataTable('#feedbackTable');
+
+})
+</script>
+<%- include('../partials/adminFooter.ejs') %>

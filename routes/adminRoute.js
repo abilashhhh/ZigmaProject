@@ -97,6 +97,9 @@ router.get('/transactions', auth.isLogin, adminController.transactionsLoad);
 //reviews
 router.get('/reviews', auth.isLogin, adminController.reviewsLoad);
 
+//feedback
+router.get('/feedback', auth.isLogin, adminController.showFeedback);
+
 //settings
 router.get('/settings', auth.isLogin, adminController.loadAdminSettings);
 router.post('/settings', auth.isLogin, adminController.adminSettings);
