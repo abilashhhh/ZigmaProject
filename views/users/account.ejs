@@ -130,19 +130,29 @@
                                                             <div class="profile-pic-container">
                                                                 <img src="/<%= userData.profileImages %>"
                                                                     alt="<%= userData.profileImages %>">
-                                                            </div>
+                                                                           
+                                                                </div>
+                                                        <small> Username:</small>  <h6>  <%= userData.username %></h6> <br>
+                                                        <small>Email: </small>   <h6>  <%= userData.email %></h6> <br> 
+                                                        <small> Mobile: </small><h6>  <%= userData.mobile %></h6> <br>
+                                                                     
+                                                        <br>
+                                                        <ul>
+                                                            <li>From your account dashboard, you can easily check
+                                                                & view Your recent orders.</li>
+                                                            <li>Manage your shipping and billing addresses.</li>
+                                                        </ul>
+
+                                                        
                                                             <% } else { %>
                                                                 <div class="profile-pic-container">
                                                                     <img src="/user3.png" alt="">
                                                                 </div>
-                                                                <% } %>
-                                                 
-                                                      <small> Username:</small>  <h3>  <%= userData.username %></h3> <br>
-                                                      <small>Email: </small>   <h3>  <%= userData.email %></h3> <br> 
-                                                       <small> Mobile: </small><h3>  <%= userData.mobile %></h3> <br>
-                                                          
-                                                          
-                                                             
+                                                                       
+                                                        <small> Username:</small>  <h6>  <%= userData.username %></h6> <br>
+                                                        <small>Email: </small>   <h6>  <%= userData.email %></h6> <br> 
+                                                        <small> Mobile: </small><h6>  <%= userData.mobile %></h6> <br>
+                                                                     
                                                         <br>
                                                         <ul>
                                                             <li>From your account dashboard, you can easily check & view
@@ -151,6 +161,11 @@
                                                         </ul>
 
                                                         
+                                                                <% } %>
+                                                 
+                                               
+                                                          
+                                                
                                                     </div>
                                                    
                                                 </div>
