@@ -439,7 +439,7 @@
         const productsData = await Products.find({});
         const categoriesData = await Category.find({})
         
-        return res.render('./users/loginpage', { message: { type: 'error', title: 'Login Failed', text: 'You are blocked by the admin, Cant login' }, productsData: productsData, categoriesData: categoriesData ,userData :userData2});
+        return res.render('./users/loginpage', { message: { type: 'error', title: 'Login Failed', text: 'You are blocked by the admin, Cannot login' }, productsData: productsData, categoriesData: categoriesData ,userData :userData2});
       }
 
       const passwordMatch = await bcrypt.compare(password, userData.password)
@@ -969,7 +969,6 @@ const userData = req.session.userData
     }
   }
  
-  
   const referralCodeClaim = async (req, res) => {
     try {
       const userData = req.session.userData;
@@ -978,20 +977,28 @@ const userData = req.session.userData
       const numberOfReferrals = 1;
       
       let messageSuccess;
-
-      if(referralEntered === userData.referralCode){
-       return messageSuccess = "Cant use your own referral id, try again";
+  
+      if (referralEntered === userData.referralCode) {
+        const categoriesData = await Category.find({});
+        const productsData = await Products.find({});
+        const ordersData = await Order.find({ userId: userData._id });
+    
+        return res.render('./users/account', {
+          username: userData.username,
+          userData: userData,
+          productsData,
+          categoriesData,
+          ordersData,
+          message: "Cannot use your own referral id, try again",
+        });
       }
-      
+  
       if (referralEntered) {
-        // console.log("reached here 1");
         const existingUserOfReferral = await User.findOneAndUpdate(
           { referralCode: referralEntered },
           { $inc: { wallet: walletIncrement, numberOfReferralsDone: numberOfReferrals } },
           { new: true }
         );
-      
-      
   
         if (existingUserOfReferral) {
           const currentUser = await User.findOneAndUpdate(
@@ -999,19 +1006,18 @@ const userData = req.session.userData
             { $inc: { wallet: walletIncrement }, $set: { isReferralRewardClaimed: true } },
             { new: true }
           );
-          
-          
+  
           if (currentUser) {
             messageSuccess = "Referral claimed successfully";
           } else {
             messageSuccess = "Referral cannot be claimed, try again";
           }
-        
-      }else{
-        messageSuccess = "Invalid referral code, Try again with a valid code";
+        } else {
+          messageSuccess = "Invalid referral code, try again with a valid code";
+        }
       }
-    }
-    
+      
+      const userDataToDisplay = await User.findById(userData._id);
       const username = userData.username;
       const categoriesData = await Category.find({});
       const productsData = await Products.find({});
@@ -1019,13 +1025,12 @@ const userData = req.session.userData
   
       res.render('./users/account', {
         username,
-        userData,
+        userData: userDataToDisplay,
         productsData,
         categoriesData,
         ordersData,
-        message: messageSuccess || '', // Ensuring it's not undefined
+        message: messageSuccess || '', 
       });
-      
     } catch (error) {
       console.error('Error in userController-referralCodeClaim:', error);
       res.status(500).send('Internal Server Error');
