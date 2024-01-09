@@ -5,10 +5,10 @@ const session = require('express-session');
 const userController = require('../controllers/userController');
 const cartController = require('../controllers/cartController');
 const orderController = require('../controllers/orderController');
-const auth = require('../middleware/auth');
 const additionalPagesController = require('../controllers/additionalPagesController');
 const wishlistController = require('../controllers/wishlistController');
 
+const auth = require('../middleware/auth');
 
 // Session handling
 router.use(

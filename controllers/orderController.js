@@ -140,7 +140,7 @@ const cancelOrder = async (req, res) => {
   try {
     const cancelOrderId = req.query.orderId;
     const productId = req.query.productId
-const userData = req.session.userData
+    const userData = req.session.userData
     // console.log("productId:" ,productId)
     // const orderDetails = await Order.findOne({ orderid: cancelOrderId , productId :productId});
 
@@ -156,8 +156,9 @@ const userData = req.session.userData
 
 const cancelOrderProcess = async (req, res) => {
   try {
-    const userData = req.session.userData
-    const username = userData.username
+    const userDatas = req.session.userData
+    const userId = userDatas._id
+    const username = userDatas.username
 
     const reason = req.body.reason;
     const productId = req.body.productId;
@@ -165,7 +166,7 @@ const cancelOrderProcess = async (req, res) => {
     const updatedOrder = await Order.findOneAndUpdate(
       {
         orderid: cancelOrderId,
-        'products._id': productId 
+        'products._id': productId
       },
       {
         $set: {
@@ -190,7 +191,7 @@ const cancelOrderProcess = async (req, res) => {
       "products._id": productId
     });
 
-
+    let paymentMethodMessage = '';
 
     if (cancelledOrdersData[0]?.paymentMethod === 'RazorPay' || cancelledOrdersData[0]?.paymentMethod === 'Wallet') {
       const cancelledOrderDetailsForRefund = await Order.findOne(
@@ -236,17 +237,16 @@ const cancelOrderProcess = async (req, res) => {
 
 
 
-      const userData = req.session.userData
-      const walletAmount_afterRefund = userData.wallet + ProductAmountToReturn
+      const walletAmount_afterRefund = userDatas.wallet + ProductAmountToReturn
 
-      const updatingWallet = await User.findByIdAndUpdate(userData._id, { $set: { wallet: walletAmount_afterRefund } }, { new: true });
+      const updatingWallet = await User.findByIdAndUpdate(userDatas._id, { $set: { wallet: walletAmount_afterRefund } }, { new: true });
 
       //should display message , amount refunded to wallet
 
       const updatedOrder = await Order.findOneAndUpdate(
         {
           orderid: cancelOrderId,
-          'products._id': productId  
+          'products._id': productId
         },
         {
           $set: {
@@ -284,7 +284,7 @@ const cancelOrderProcess = async (req, res) => {
         );
       }
 
-
+      paymentMethodMessage = `Payment credited to your wallet`;
 
     }
 
@@ -308,11 +308,19 @@ const cancelOrderProcess = async (req, res) => {
       { new: true }
     );
 
+    const userDataToSent = await User.findById(userId)
     const categoriesData = await Category.find({});
     const productsData = await Product.find({});
-    const ordersData = await Order.find({ userId: userData._id });
-  
-    res.render('./users/account' , {message : "Order cancelled successfully" , userData, categoriesData, productsData, ordersData, username})
+    const ordersData = await Order.find({ userId: userDataToSent._id });
+
+    res.render('./users/account', {
+      message: `Order cancelled successfully. ${paymentMethodMessage}`,
+      userData: userDataToSent,
+      categoriesData,
+      productsData,
+      ordersData,
+      username
+    });
     // res.redirect('/accountPage');
   } catch (error) {
     console.error('Error in orderController - cancelOrderProcess:', error.message);
@@ -326,7 +334,7 @@ const returnOrder = async (req, res) => {
     const username = userData.username
     const returnOrderId = req.query.orderId;
     const productId = req.query.productId
-    res.render('./users/returnOrder', { returnOrderId: returnOrderId, productId: productId , userData ,username});
+    res.render('./users/returnOrder', { returnOrderId: returnOrderId, productId: productId, userData, username });
   } catch (error) {
     console.error('Error in orderController - returnOrder:', error.message);
   }
@@ -334,8 +342,9 @@ const returnOrder = async (req, res) => {
 
 const returnOrderProcess = async (req, res) => {
   try {
-    const userData = req.session.userData
-    const username = userData.username
+    const userDatas = req.session.userData
+    const userId = userDatas._id
+    const username = userDatas.username
     const reason = req.body.reason;
     const productId = req.body.productId;
     const returnOrderId = req.body.returnOrderId;
@@ -368,8 +377,12 @@ const returnOrderProcess = async (req, res) => {
     });
 
 
+    console.log("returnedOrdersData: ", returnedOrdersData)
 
-    if (returnedOrdersData[0]?.paymentMethod === 'RazorPay' || returnedOrdersData[0]?.paymentMethod === 'Wallet' || returnedOrdersData[0]?.paymentMethod === 'Pay On Delivery') {
+
+    let paymentMethodMessage = '';
+
+    if ((returnedOrdersData[0]?.paymentMethod === 'RazorPay' || returnedOrdersData[0]?.paymentMethod === 'Wallet' || returnedOrdersData[0]?.paymentMethod === 'Pay On Delivery') &&  returnedOrdersData[0]?.paymentStatus === 'Completed') {
       const returnedOrderDetailsForRefund = await Order.findOne(
         {
           orderid: returnOrderId,
@@ -413,10 +426,11 @@ const returnOrderProcess = async (req, res) => {
 
 
 
-      const userData = req.session.userData
-      const walletAmount_afterRefund = userData.wallet + ProductAmountToReturn
+      // const userData = req.session.userData
+      const walletAmount_afterRefund = userDatas.wallet + ProductAmountToReturn
+      console.log("walletAmount_afterRefund: ", walletAmount_afterRefund)
 
-      const updatingWallet = await User.findByIdAndUpdate(userData._id, { $set: { wallet: walletAmount_afterRefund } }, { new: true });
+      const updatingWallet = await User.findByIdAndUpdate(userDatas._id, { $set: { wallet: walletAmount_afterRefund } }, { new: true });
 
       //should display message , amount refunded to wallet
 
@@ -461,7 +475,7 @@ const returnOrderProcess = async (req, res) => {
         );
       }
 
-
+      paymentMethodMessage = `Payment credited to your wallet`;
 
     }
 
@@ -485,13 +499,19 @@ const returnOrderProcess = async (req, res) => {
       { new: true }
     );
 
-
+    const userDataToSent = await User.findById(userId)
     const categoriesData = await Category.find({});
     const productsData = await Product.find({});
-    const ordersData = await Order.find({ userId: userData._id });
-  
-    res.render('./users/account' , {message : "Order returned successfully" , userData, categoriesData, productsData, ordersData, username})
-    // res.redirect('/accountPage');
+    const ordersData = await Order.find({ userId: userDatas._id });
+
+    res.render('./users/account', {
+      message: `Order returned successfully. ${paymentMethodMessage}`,
+      userData: userDataToSent,
+      categoriesData,
+      productsData,
+      ordersData,
+      username
+    });
 
   } catch (error) {
     console.error('Error in orderController - returnOrderProcess:', error.message);
@@ -501,40 +521,40 @@ const returnOrderProcess = async (req, res) => {
 
 const loadAddRating = async (req, res) => {
   try {
-      userData = req.session.userData
-      res.render('./users/addRating', { userData: userData ,  productId: req.query.productId ,  orderId: req.query.orderId });
+    userData = req.session.userData
+    res.render('./users/addRating', { userData: userData, productId: req.query.productId, orderId: req.query.orderId });
   } catch (error) {
-      console.error('Error in orderController - loadAddRating:', error.message);
-      res.status(500).send('Internal Server Error');
+    console.error('Error in orderController - loadAddRating:', error.message);
+    res.status(500).send('Internal Server Error');
   }
 };
 const addRating = async (req, res) => {
   try {
-      const { productId, orderId, rating, review } = req.body;
-      const userId = req.session.userData._id;
+    const { productId, orderId, rating, review } = req.body;
+    const userId = req.session.userData._id;
 
-      const product = await Product.findById(productId);
-      const name = await User.findById(userId);
- 
-      // Save the rating and review to the database
-      const newRating = new Rating({
-          userId: userId,
-          username: name.username,
-          orderId: orderId,
-          product: {
-              productId: productId,
-              productName: product.productName, 
-              rating: rating,
-              review: review 
-          }
-      });
+    const product = await Product.findById(productId);
+    const name = await User.findById(userId);
 
-      await newRating.save();
+    // Save the rating and review to the database
+    const newRating = new Rating({
+      userId: userId,
+      username: name.username,
+      orderId: orderId,
+      product: {
+        productId: productId,
+        productName: product.productName,
+        rating: rating,
+        review: review
+      }
+    });
 
-      res.redirect('/accountPage');  
+    await newRating.save();
+
+    res.redirect('/accountPage');
   } catch (error) {
-      console.error('Error in addRating controller:', error.message);
-      res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error in addRating controller:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 }
 
@@ -659,11 +679,17 @@ const changeOrderStatus = async (req, res) => {
 
     if (newStatus == "Delivered") {
       const orderData2 = await Order.findOneAndUpdate(
-        { _id: orderId, 'products._id': productId },
-        { $set: { 'products.$.canceledOrderPaymentStatus': "Completed" } },
-        { new: true }
+          { _id: orderId, 'products._id': productId },
+          { 
+              $set: { 
+                paymentStatus: 'Completed',
+                  'products.$.canceledOrderPaymentStatus': "Completed"
+              }
+          },
+          { new: true }
       );
-    }
+  }
+  
 
 
     // console.log("Updated orderData: ", orderData);
