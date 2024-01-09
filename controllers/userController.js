@@ -421,7 +421,7 @@
       const userData2 = req.session.userData;
 
       const userData = await User.findOne({ username: data });
-      req.session.userData = userData;
+      
 
       if (!userData) {
         const productsData = await Products.find({});
@@ -445,7 +445,7 @@
       const passwordMatch = await bcrypt.compare(password, userData.password)
 
       if (passwordMatch) {
-        req.session.user_id = userData._id;
+        req.session.userData = userData;
         const productsData = await Products.find({});
         const categoriesData = await Category.find({})
         const cartData = await Carts.find({ userId: userData._id });

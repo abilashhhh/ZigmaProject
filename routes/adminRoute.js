@@ -26,7 +26,7 @@ const { upload, productOfferImage, categoryImage, categoryOfferImages, bannerIma
 
 // Login page
 router.get('/', auth.isLogout, adminController.adminLoginLoad);
-router.post('/', auth.isLogout, adminController.adminVerifyLogin);
+router.post('/',auth.isLogout,  adminController.adminVerifyLogin);
 
 // Admin home page
 router.get('/adminHome', auth.isLogin, adminDashboardController.adminHomeLoad);
