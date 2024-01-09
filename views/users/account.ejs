@@ -393,7 +393,7 @@
                                                                             <td>₹<%= ordersData[i].totalPrice %>
                                                                             </td>
                                                                             <td><a href="/displayOrder?orderId=<%= ordersData[i].orderid %>"
-                                                                                    class="btn-small d-block">View</a>
+                                                                                    class="btn-small d-block btn">View</a>
                                                                             </td>
                                                                         </tr>
                                                                         <% } %>
@@ -465,12 +465,12 @@
                                                                         <%= userData.address[i].deliveryemail %>
                                                                     </p>
 
-                                                                    <a href="/editAddress?addressid=<%= userData.address[i]._id %>"
-                                                                        style="font-weight: bold; padding: 5px; color: rgb(0, 0, 0); margin: 10px;   cursor: pointer;  background-color: #dededf;">Edit</a>
+                                                                    <a href="/editAddress?addressid=<%= userData.address[i]._id %>"  class="btn"
+                                                                        style="font-weight: bold; padding: 5px;   margin: 10px;   cursor: pointer;   ">Edit</a>
 
 
-                                                                    <a href="/deleteAddress?addressid=<%= userData.address[i]._id %>"
-                                                                        style="font-weight: bold; padding: 5px; color: rgb(0, 0, 0); margin: 10px;   cursor: pointer;  background-color: #dededf;">Delete</a>
+                                                                    <a href="/deleteAddress?addressid=<%= userData.address[i]._id %>" class="btn"
+                                                                        style="font-weight: bold; padding: 5px;  margin: 10px;   cursor: pointer;    ">Delete</a>
 
                                                                 </div>
                                                             </div>

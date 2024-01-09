@@ -139,13 +139,13 @@ const cancelOrder = async (req, res) => {
   try {
     const cancelOrderId = req.query.orderId;
     const productId = req.query.productId
-
+const userData = req.session.userData
     // console.log("productId:" ,productId)
     // const orderDetails = await Order.findOne({ orderid: cancelOrderId , productId :productId});
 
     // console.log("orderDetails: ", orderDetails )
 
-    res.render('./users/cancelOrder', { cancelOrderId: cancelOrderId, productId: productId });
+    res.render('./users/cancelOrder', { cancelOrderId: cancelOrderId, productId: productId, userData });
   } catch (error) {
     console.error('Error in orderController - cancelOrder:', error.message);
   }

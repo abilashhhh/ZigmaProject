@@ -34,12 +34,22 @@
                                             <th scope="col">Remove</th>
                                         </tr>
                                     </thead>
-
+                                    <style>
+                                        .even-row {
+                                            background-color: #f1e8e8; 
+                                             
+                                        }
+                                    
+                                        .odd-row {
+                                            background-color: #fff8f8;     
+                                          
+                                        }
+                                    </style>
                                     <tbody>
-
-                                        <% productData.forEach(product=> { %>
-                                            <tr id="<%= `product-${product.productId._id}` %>">
-
+                                        <% productData.forEach((product, index) => { %>
+                                           
+                                            <tr class="<%= index % 2 === 0 ? 'even-row' : 'odd-row' %>" id="<%= `product-${product.productId._id}` %>">
+                                             
                                                 <td class="image product-thumbnail">
                                                     <div class="image-container" style="height: 100px;">
                                                         <% if (product.productId.image &&
@@ -100,9 +110,7 @@
 
 
                                             </tr>
-
-
-
+ 
 
 
                                             <% }); %>
@@ -251,10 +259,10 @@
                             <% if (productData.length> 0) { %>
 
 
-                                <a class="btn" onclick="clearCart()"><i class="fi-rs-shopping-bag mr-10"></i>Clear
+                                <a class="btn" onclick="clearCart()" style="margin-bottom: 10px;"><i class="fi-rs-shopping-bag mr-10"></i>Clear
                                     Cart</a>
                                 <% } %>
-                                    <a class="btn" href="/loginHome"><i class="fi-rs-shopping-bag mr-10"></i>Add more
+                                    <a class="btn" href="/loginHome" style="margin-bottom: 10px;"><i class="fi-rs-shopping-bag mr-10"></i>Add more
                                         products</a>
                         </div>
                         <div class="divider center_icon mt-50 mb-50"><i class="fi-rs-fingerprint"></i></div>
