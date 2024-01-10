@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/productsModel');
 const Cart = require('../models/cartModel');
+const User = require('../models/userModel');
 const Coupon = require('../models/couponsModel');
 
 const loadCart = async (req, res) => {
@@ -193,7 +194,9 @@ const loadCheckoutPage = async (req, res) => {
 
     const couponsData = await Coupon.find();
 
-    res.render('./users/checkout', { productData: updatedCart.products, username: userData.username, userData: userData, couponsData: couponsData, message: '' })
+    const usersNewData = await User.findById(userId)
+
+    res.render('./users/checkout', { productData: updatedCart.products, username: userData.username, userData: usersNewData, couponsData: couponsData, message: '' })
   } catch (error) {
     console.error('Error in cartController-loadCheckoutPage:', error);
     res.status(500).json({
