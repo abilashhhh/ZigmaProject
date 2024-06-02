@@ -1,6 +1,6 @@
   const express = require('express');
   const router = express.Router();
-  const User = require('../models/userModel');
+  const User = require('../models/userModel');3
   const nodemailer = require("nodemailer");
   const sharp = require("sharp");
   const fs = require("fs");
@@ -345,6 +345,7 @@
     }
   };
 
+  
   const mailTransporter = (email, otp) => {
     let mailTransporter = nodemailer.createTransport({
       service: "gmail",
